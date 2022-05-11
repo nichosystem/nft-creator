@@ -10,6 +10,7 @@ import {
   XIcon,
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const sidebarNavigation = [
   { name: "Manager", href: "/", icon: HomeIcon },
@@ -35,6 +36,7 @@ export default function Layout({ children }: any) {
           <div className="w-full py-6 flex flex-col items-center">
             <div className="flex-shrink-0 flex items-center"></div>
             <div className="flex-1 mt-6 w-full px-2 space-y-1">
+              <ConnectButton />
               {sidebarNavigation.map((item) => (
                 <a
                   key={item.name}
