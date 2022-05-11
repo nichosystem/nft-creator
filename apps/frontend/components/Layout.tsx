@@ -9,13 +9,14 @@ import {
   CodeIcon,
   XIcon,
 } from "@heroicons/react/outline";
+import { useRouter } from "next/router";
 
 const sidebarNavigation = [
-  { name: "Manager", href: "/", icon: HomeIcon, current: false },
-  { name: "Deployer", href: "/deployer", icon: CodeIcon, current: false },
-  { name: "Snapshot", href: "/snapshot", icon: CameraIcon, current: false },
-  { name: "Generator", href: "/generator", icon: BeakerIcon, current: false },
-  { name: "Airdropper", href: "/airdrop", icon: GiftIcon, current: false },
+  { name: "Manager", href: "/", icon: HomeIcon },
+  { name: "Generator", href: "/generator", icon: BeakerIcon },
+  { name: "Deployer", href: "/deployer", icon: CodeIcon },
+  { name: "Snapshot", href: "/snapshot", icon: CameraIcon },
+  { name: "Airdrop", href: "/airdrop", icon: GiftIcon },
 ];
 
 function classNames(...classes: any) {
@@ -24,6 +25,7 @@ function classNames(...classes: any) {
 
 export default function Layout({ children }: any) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <>
@@ -38,16 +40,18 @@ export default function Layout({ children }: any) {
                   key={item.name}
                   href={item.href}
                   className={classNames(
-                    item.current
+                    item.href === router.pathname
                       ? "bg-indigo-800 text-white"
                       : "text-indigo-100 hover:bg-indigo-800 hover:text-white",
                     "group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
                   )}
-                  aria-current={item.current ? "page" : undefined}
+                  aria-current={
+                    item.href === router.pathname ? "page" : undefined
+                  }
                 >
                   <item.icon
                     className={classNames(
-                      item.current
+                      item.href === router.pathname
                         ? "text-white"
                         : "text-indigo-300 group-hover:text-white",
                       "h-6 w-6"
@@ -122,16 +126,18 @@ export default function Layout({ children }: any) {
                             key={item.name}
                             href={item.href}
                             className={classNames(
-                              item.current
+                              item.href === router.pathname
                                 ? "bg-indigo-800 text-white"
                                 : "text-indigo-100 hover:bg-indigo-800 hover:text-white",
                               "group py-2 px-3 rounded-md flex items-center text-sm font-medium"
                             )}
-                            aria-current={item.current ? "page" : undefined}
+                            aria-current={
+                              item.href === router.pathname ? "page" : undefined
+                            }
                           >
                             <item.icon
                               className={classNames(
-                                item.current
+                                item.href === router.pathname
                                   ? "text-white"
                                   : "text-indigo-300 group-hover:text-white",
                                 "mr-3 h-6 w-6"
