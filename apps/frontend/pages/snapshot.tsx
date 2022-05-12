@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import NetworkAddressInput from "../components/input/Input";
 import { useState } from "react";
-import { erc721ABI, useProvider, useContractRead } from "wagmi";
+import { erc721ABI, useProvider } from "wagmi";
 import { ethers } from "ethers";
 
 function Prompt({ collection, setCollection, onSubmit }: any) {
@@ -55,35 +55,41 @@ function Prompt({ collection, setCollection, onSubmit }: any) {
 
 function Results({
   collection,
-  error,
-  loading,
   name,
   totalSupply,
   tokens,
-}: any) {
-  if (error) return <p>{error}</p>;
-
-  if (loading !== "Complete") {
-    return (
-      <p>
-        Loaded {loading} / {totalSupply}
-      </p>
-    );
-  }
+}: {
+  collection: string;
+  name: string;
+  totalSupply: number;
+  tokens: any;
+}) {
+  const download = () => {
+    const blob = new Blob([JSON.stringify(tokens)], { type: "text/csv" });
+    const a = document.createElement("a");
+    a.download = "snapshot.csv";
+    a.href = window.URL.createObjectURL(blob);
+    const clickEvt = new MouseEvent("click", {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+    });
+    a.dispatchEvent(clickEvt);
+    a.remove();
+  };
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h1 className="text-xl font-semibold text-gray-900">
-            {name && name}
-          </h1>
+          <h1 className="text-xl font-semibold text-gray-900">{name}</h1>
           <p className="mt-2 text-sm text-gray-700">
-            {totalSupply && totalSupply.toString()} total supply
+            {totalSupply.toString()} total supply
           </p>
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
           <button
+            onClick={() => download()}
             type="button"
             className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
           >
@@ -113,17 +119,16 @@ function Results({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {tokens &&
-                    tokens.map((owner: string, id: any) => (
-                      <tr key={id}>
-                        <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-6">
-                          {id}
-                        </td>
-                        <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
-                          {owner}
-                        </td>
-                      </tr>
-                    ))}
+                  {tokens.map((owner: string, id: any) => (
+                    <tr key={id}>
+                      <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-6">
+                        {id}
+                      </td>
+                      <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
+                        {owner}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -140,11 +145,18 @@ const Snapshot: NextPage = () => {
   const [error, setError] = useState("");
   const [name, setName] = useState("");
   const [totalSupply, setTotalSupply] = useState(0);
-  const [loading, setLoading]: [any, any] = useState(0);
+  const [loading, setLoading]: [any, any] = useState("Complete");
   const [tokens, setTokens]: [any, any] = useState([]);
 
   const getCollectionInfo = async () => {
+    if (collection.length !== 42) {
+      setError("Invalid contract address");
+      return;
+    }
     const contract = new ethers.Contract(collection, erc721ABI, provider);
+    setError("");
+    setName("");
+    setLoading(0);
     try {
       setName(await contract.name());
       setTotalSupply(Number(await contract.totalSupply()));
@@ -158,8 +170,8 @@ const Snapshot: NextPage = () => {
 
   const getTokens = async (contract: ethers.Contract) => {
     const owners = [];
-    // We don't know if they zero-indexed or not, try it anyways
-    for (let i = 0; i <= totalSupply; i++) {
+    // Start with 0 in case token IDs are zero-indexed
+    for (let i = 0; i <= 10; i++) {
       try {
         owners[i] = await contract.ownerOf(i);
         setLoading(i);
@@ -185,16 +197,29 @@ const Snapshot: NextPage = () => {
           getCollectionInfo();
         }}
       />
-      {(error || loading !== 0) && (
-        <Results
-          collection={collection}
-          error={error}
-          name={name}
-          totalSupply={totalSupply}
-          loading={loading}
-          tokens={tokens}
-        />
-      )}
+      <div className="mt-8">
+        {error ? (
+          <p className="mx-auto text-center">{error}</p>
+        ) : loading !== "Complete" ? (
+          <div className="w-72 bg-gray-300 rounded-full mx-auto">
+            <div
+              className="bg-indigo-600 text-xs font-medium text-indigo-100 text-center p-1 leading-none rounded-l-full"
+              style={{ width: `${(loading / totalSupply) * 100}%` }}
+            >
+              {((loading / totalSupply) * 100).toFixed(2)}%
+            </div>
+          </div>
+        ) : name ? (
+          <Results
+            collection={collection}
+            name={name}
+            totalSupply={totalSupply}
+            tokens={tokens}
+          />
+        ) : (
+          ""
+        )}
+      </div>
     </>
   );
 };
@@ -202,8 +227,7 @@ const Snapshot: NextPage = () => {
 export default Snapshot;
 
 /* TODO
-1. Loading bar
-2. Pagination
-3. Export to CSV
-4. Sort by top token holders
+1. Pagination
+2. Transform exported JSON to CSV
+3. Sort by top token holders: owners.map((val) => (data[val] ? data[val]++ : (data[val] = 1)))
 */

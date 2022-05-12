@@ -32,7 +32,7 @@ export default function Layout({ children }: any) {
     <>
       <div className="h-full flex">
         {/* Narrow sidebar */}
-        <div className="hidden w-28 bg-indigo-700 overflow-y-auto md:block h-screen">
+        <div className="hidden md:block w-28 bg-indigo-700 overflow-y-auto fixed h-screen">
           <div className="w-full py-6 flex flex-col items-center">
             <div className="flex-shrink-0 flex items-center"></div>
             <div className="flex-1 mt-6 w-full px-2 space-y-1">
@@ -161,7 +161,7 @@ export default function Layout({ children }: any) {
         </Transition.Root>
 
         {/* Content area */}
-        <div className="flex-1 flex flex-col pt-20">
+        <div className="flex-1 flex flex-col pt-20 md:ml-28">
           <button
             type="button"
             className="absolute top-5 left-0 border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
