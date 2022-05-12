@@ -36,7 +36,6 @@ export default function Layout({ children }: any) {
           <div className="w-full py-6 flex flex-col items-center">
             <div className="flex-shrink-0 flex items-center"></div>
             <div className="flex-1 mt-6 w-full px-2 space-y-1">
-              <ConnectButton />
               {sidebarNavigation.map((item) => (
                 <a
                   key={item.name}
@@ -171,6 +170,9 @@ export default function Layout({ children }: any) {
             <span className="sr-only">Open sidebar</span>
             <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
           </button>
+          <div className="absolute top-5 right-5">
+            <ConnectButton />
+          </div>
 
           {/* Main content */}
           <div className="flex-1 flex items-stretch">

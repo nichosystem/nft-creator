@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import NetworkAddressInput from "../components/input/AddressWithNetwork";
+import NetworkAddressInput from "../components/input/Input";
 import { useState } from "react";
+import { erc721ABI, useProvider, useContractRead } from "wagmi";
+import { ethers } from "ethers";
 
-function Prompt() {
-  const [collection, setCollection] = useState("");
-
+function Prompt({ collection, setCollection, onSubmit }: any) {
   return (
     <div className="max-w-lg mx-auto">
       <div>
@@ -32,13 +32,13 @@ function Prompt() {
             token holder and which tokens they own.
           </p>
         </div>
-        <form action="#" className="mt-6 flex">
+        <form className="mt-6 flex" onSubmit={onSubmit}>
           <label htmlFor="email" className="sr-only">
             Email address
           </label>
           <NetworkAddressInput
             value={collection}
-            onChange={(e: any) => setCollection(e.value)}
+            onChange={(e: any) => setCollection(e.target.value)}
             fullWidth={true}
           />
           <button
@@ -53,28 +53,33 @@ function Prompt() {
   );
 }
 
-const transactions = [
-  {
-    id: "AAPS0L",
-    company: "Chase & Co.",
-    share: "CAC",
-    commission: "+$4.37",
-    price: "$3,509.00",
-    quantity: "12.00",
-    netAmount: "$4,397.00",
-  },
-  // More transactions...
-];
+function Results({
+  collection,
+  error,
+  loading,
+  name,
+  totalSupply,
+  tokens,
+}: any) {
+  if (error) return <p>{error}</p>;
 
-function Results() {
+  if (loading !== "Complete") {
+    return (
+      <p>
+        Loaded {loading} / {totalSupply}
+      </p>
+    );
+  }
+
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
-          <h1 className="text-xl font-semibold text-gray-900">Transactions</h1>
+          <h1 className="text-xl font-semibold text-gray-900">
+            {name && name}
+          </h1>
           <p className="mt-2 text-sm text-gray-700">
-            A table of placeholder stock market data that does not make any
-            sense.
+            {totalSupply && totalSupply.toString()} total supply
           </p>
         </div>
         <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
@@ -97,87 +102,28 @@ function Results() {
                       scope="col"
                       className="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                     >
-                      Transaction ID
+                      Token ID
                     </th>
                     <th
                       scope="col"
                       className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      Company
-                    </th>
-                    <th
-                      scope="col"
-                      className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Share
-                    </th>
-                    <th
-                      scope="col"
-                      className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Commision
-                    </th>
-                    <th
-                      scope="col"
-                      className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Price
-                    </th>
-                    <th
-                      scope="col"
-                      className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Quantity
-                    </th>
-                    <th
-                      scope="col"
-                      className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Net amount
-                    </th>
-                    <th
-                      scope="col"
-                      className="relative whitespace-nowrap py-3.5 pl-3 pr-4 sm:pr-6"
-                    >
-                      <span className="sr-only">Edit</span>
+                      Owner
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {transactions.map((transaction) => (
-                    <tr key={transaction.id}>
-                      <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-6">
-                        {transaction.id}
-                      </td>
-                      <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
-                        {transaction.company}
-                      </td>
-                      <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
-                        {transaction.share}
-                      </td>
-                      <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                        {transaction.commission}
-                      </td>
-                      <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                        {transaction.price}
-                      </td>
-                      <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                        {transaction.quantity}
-                      </td>
-                      <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
-                        {transaction.netAmount}
-                      </td>
-                      <td className="relative whitespace-nowrap py-2 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <a
-                          href="#"
-                          className="text-indigo-600 hover:text-indigo-900"
-                        >
-                          Edit
-                          <span className="sr-only">, {transaction.id}</span>
-                        </a>
-                      </td>
-                    </tr>
-                  ))}
+                  {tokens &&
+                    tokens.map((owner: string, id: any) => (
+                      <tr key={id}>
+                        <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-6">
+                          {id}
+                        </td>
+                        <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
+                          {owner}
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>
@@ -189,16 +135,75 @@ function Results() {
 }
 
 const Snapshot: NextPage = () => {
+  const provider = useProvider();
+  const [collection, setCollection] = useState("");
+  const [error, setError] = useState("");
+  const [name, setName] = useState("");
+  const [totalSupply, setTotalSupply] = useState(0);
+  const [loading, setLoading]: [any, any] = useState(0);
+  const [tokens, setTokens]: [any, any] = useState([]);
+
+  const getCollectionInfo = async () => {
+    const contract = new ethers.Contract(collection, erc721ABI, provider);
+    try {
+      setName(await contract.name());
+      setTotalSupply(Number(await contract.totalSupply()));
+    } catch (e: any) {
+      console.log(e);
+      setError("Could not get contract info");
+      return;
+    }
+    getTokens(contract);
+  };
+
+  const getTokens = async (contract: ethers.Contract) => {
+    const owners = [];
+    // We don't know if they zero-indexed or not, try it anyways
+    for (let i = 0; i <= totalSupply; i++) {
+      try {
+        owners[i] = await contract.ownerOf(i);
+        setLoading(i);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    setTokens(owners);
+    setLoading("Complete");
+  };
+
   return (
     <>
       <Head>
         <title>Snapshot - NFT Tools</title>
         <meta name="description" content="" />
       </Head>
-      <Prompt />
-      <Results />
+      <Prompt
+        collection={collection}
+        setCollection={setCollection}
+        onSubmit={(e: any) => {
+          e.preventDefault();
+          getCollectionInfo();
+        }}
+      />
+      {(error || loading !== 0) && (
+        <Results
+          collection={collection}
+          error={error}
+          name={name}
+          totalSupply={totalSupply}
+          loading={loading}
+          tokens={tokens}
+        />
+      )}
     </>
   );
 };
 
 export default Snapshot;
+
+/* TODO
+1. Loading bar
+2. Pagination
+3. Export to CSV
+4. Sort by top token holders
+*/
