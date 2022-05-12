@@ -96,7 +96,10 @@ function Results({
   };
 
   const download = () => {
-    const blob = new Blob([JSON.stringify(tokens)], { type: "text/csv" });
+    const csv = tokens
+      .map((owner: string, id: string) => `${id},${owner}`)
+      .join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
     const a = document.createElement("a");
     a.download = "snapshot.csv";
     a.href = window.URL.createObjectURL(blob);
@@ -297,8 +300,3 @@ const Snapshot: NextPage = () => {
 };
 
 export default Snapshot;
-
-/* TODO
-1. Transform exported JSON to CSV
-2. Sort by top token holders: owners.map((val) => (data[val] ? data[val]++ : (data[val] = 1)))
-*/
