@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
-  GiftIcon,
+  TemplateIcon,
   BeakerIcon,
   HomeIcon,
   MenuAlt2Icon,
@@ -17,7 +17,7 @@ const sidebarNavigation = [
   { name: "Generator", href: "/generator", icon: BeakerIcon },
   { name: "Deployer", href: "/deployer", icon: CodeIcon },
   { name: "Snapshot", href: "/snapshot", icon: CameraIcon },
-  { name: "Airdrop", href: "/airdrop", icon: GiftIcon },
+  { name: "Minting App", href: "/minter", icon: TemplateIcon },
 ];
 
 function classNames(...classes: any) {

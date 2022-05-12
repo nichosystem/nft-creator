@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import NetworkAddressInput from "../components/input/Input";
-import { useState } from "react";
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
+import { useEffect, useState } from "react";
 import { erc721ABI, useProvider } from "wagmi";
 import { ethers } from "ethers";
 
@@ -64,6 +65,36 @@ function Results({
   totalSupply: number;
   tokens: any;
 }) {
+  const pageLength = 25;
+  const [curPage, setCurPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
+  const [displayTokens, setDisplayTokens]: [{ [key: number]: string }, any] =
+    useState({});
+
+  useEffect(
+    () => setMaxPage(Math.ceil(totalSupply / pageLength)),
+    [totalSupply]
+  );
+
+  useEffect(() => {
+    const start = (curPage - 1) * pageLength + 1;
+    const end =
+      curPage * pageLength < totalSupply ? curPage * pageLength : totalSupply;
+    const tokenObj: { [key: number]: string } = {};
+    tokens.slice(start, end + 1).map((owner: string, i: number) => {
+      tokenObj[start + i] = owner;
+    });
+    setDisplayTokens(tokenObj);
+  }, [curPage, tokens, totalSupply]);
+
+  const nextPage = () => {
+    if (curPage < maxPage) setCurPage(curPage + 1);
+  };
+
+  const prevPage = () => {
+    if (curPage > 1) setCurPage(curPage - 1);
+  };
+
   const download = () => {
     const blob = new Blob([JSON.stringify(tokens)], { type: "text/csv" });
     const a = document.createElement("a");
@@ -79,7 +110,7 @@ function Results({
   };
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div className="px-4 sm:px-6 lg:px-8 pb-10">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           <h1 className="text-xl font-semibold text-gray-900">{name}</h1>
@@ -93,7 +124,7 @@ function Results({
             type="button"
             className="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto"
           >
-            Export
+            Export as CSV
           </button>
         </div>
       </div>
@@ -119,18 +150,56 @@ function Results({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {tokens.map((owner: string, id: any) => (
-                    <tr key={id}>
-                      <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-6">
-                        {id}
-                      </td>
-                      <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
-                        {owner}
-                      </td>
-                    </tr>
-                  ))}
+                  {displayTokens &&
+                    Object.keys(displayTokens).map((tokenID: string) => (
+                      <tr key={tokenID}>
+                        <td className="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-6">
+                          {tokenID}
+                        </td>
+                        <td className="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
+                          {displayTokens[Number(tokenID)]}
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
+
+              {/* Pagination */}
+              <nav
+                className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
+                aria-label="Pagination"
+              >
+                <div className="hidden sm:block">
+                  <p className="text-sm text-gray-700">
+                    Showing{" "}
+                    <span className="font-medium">
+                      {(curPage - 1) * pageLength + 1}
+                    </span>{" "}
+                    to{" "}
+                    <span className="font-medium">
+                      {curPage * pageLength < totalSupply
+                        ? curPage * pageLength
+                        : totalSupply}
+                    </span>{" "}
+                    of <span className="font-medium">{totalSupply}</span>{" "}
+                    results
+                  </p>
+                </div>
+                <div className="flex-1 flex justify-between sm:justify-end">
+                  <button
+                    onClick={() => prevPage()}
+                    className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                  >
+                    Previous
+                  </button>
+                  <button
+                    onClick={() => nextPage()}
+                    className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                  >
+                    Next
+                  </button>
+                </div>
+              </nav>
             </div>
           </div>
         </div>
@@ -159,19 +228,20 @@ const Snapshot: NextPage = () => {
     setLoading(0);
     try {
       setName(await contract.name());
-      setTotalSupply(Number(await contract.totalSupply()));
+      const supply = Number(await contract.totalSupply());
+      setTotalSupply(supply);
+      getTokens(contract, supply);
     } catch (e: any) {
       console.log(e);
       setError("Could not get contract info");
       return;
     }
-    getTokens(contract);
   };
 
-  const getTokens = async (contract: ethers.Contract) => {
+  const getTokens = async (contract: ethers.Contract, supply: number) => {
     const owners = [];
     // Start with 0 in case token IDs are zero-indexed
-    for (let i = 0; i <= 10; i++) {
+    for (let i = 0; i <= supply; i++) {
       try {
         owners[i] = await contract.ownerOf(i);
         setLoading(i);
@@ -201,14 +271,16 @@ const Snapshot: NextPage = () => {
         {error ? (
           <p className="mx-auto text-center">{error}</p>
         ) : loading !== "Complete" ? (
-          <div className="w-72 bg-gray-300 rounded-full mx-auto">
-            <div
-              className="bg-indigo-600 text-xs font-medium text-indigo-100 text-center p-1 leading-none rounded-l-full"
-              style={{ width: `${(loading / totalSupply) * 100}%` }}
-            >
-              {((loading / totalSupply) * 100).toFixed(2)}%
+          totalSupply != 0 && (
+            <div className="w-72 bg-gray-300 rounded-full mx-auto">
+              <div
+                className="bg-indigo-600 text-xs font-medium text-indigo-100 text-center p-1 leading-none rounded-l-full"
+                style={{ width: `${(loading / totalSupply) * 100}%` }}
+              >
+                {((loading / totalSupply) * 100).toFixed(2)}%
+              </div>
             </div>
-          </div>
+          )
         ) : name ? (
           <Results
             collection={collection}
@@ -227,7 +299,6 @@ const Snapshot: NextPage = () => {
 export default Snapshot;
 
 /* TODO
-1. Pagination
-2. Transform exported JSON to CSV
-3. Sort by top token holders: owners.map((val) => (data[val] ? data[val]++ : (data[val] = 1)))
+1. Transform exported JSON to CSV
+2. Sort by top token holders: owners.map((val) => (data[val] ? data[val]++ : (data[val] = 1)))
 */
