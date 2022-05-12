@@ -17,7 +17,7 @@ const sidebarNavigation = [
   { name: "Generator", href: "/generator", icon: BeakerIcon },
   { name: "Deployer", href: "/deployer", icon: CodeIcon },
   { name: "Snapshot", href: "/snapshot", icon: CameraIcon },
-  { name: "Minting App", href: "/minter", icon: TemplateIcon },
+  { name: "Minting App", href: "/dapp", icon: TemplateIcon },
 ];
 
 function classNames(...classes: any) {

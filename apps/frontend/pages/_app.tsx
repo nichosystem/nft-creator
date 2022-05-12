@@ -1,4 +1,3 @@
-import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import Layout from "../components/Layout";
 import Head from "next/head";
@@ -7,11 +6,11 @@ import {
   apiProvider,
   configureChains,
   RainbowKitProvider,
-  getDefaultWallets,
   connectorsForWallets,
   wallet,
 } from "@rainbow-me/rainbowkit";
 import { createClient, chain, WagmiProvider } from "wagmi";
+import "../styles/globals.css";
 
 const { provider, chains } = configureChains(
   [chain.mainnet, chain.rinkeby, chain.polygon, chain.polygonMumbai],
