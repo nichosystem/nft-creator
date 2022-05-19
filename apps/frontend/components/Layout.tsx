@@ -32,7 +32,7 @@ export default function Layout({ children }: any) {
     <>
       <div className="h-full flex">
         {/* Narrow sidebar */}
-        <div className="hidden md:block w-28 bg-indigo-700 overflow-y-auto fixed h-screen">
+        <div className="hidden md:block w-28 bg-indigo-700 dark:bg-slate-900 overflow-y-auto fixed h-screen">
           <div className="w-full py-6 flex flex-col items-center">
             <div className="flex-shrink-0 flex items-center"></div>
             <div className="flex-1 mt-6 w-full px-2 space-y-1">
@@ -42,8 +42,8 @@ export default function Layout({ children }: any) {
                   href={item.href}
                   className={classNames(
                     item.href === router.pathname
-                      ? "bg-indigo-800 text-white"
-                      : "text-indigo-100 hover:bg-indigo-800 hover:text-white",
+                      ? "bg-sky-500 text-white"
+                      : "text-indigo-100 hover:bg-sky-500 hover:text-white",
                     "group w-full p-3 rounded-md flex flex-col items-center text-xs font-medium"
                   )}
                   aria-current={
