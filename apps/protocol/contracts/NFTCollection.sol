@@ -1,31 +1,31 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.3;
 
+import "./NFTFactory.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract NFT is ERC721Enumerable, Ownable, ReentrancyGuard {
+contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
     using Strings for uint256;
     using ECDSA for bytes32;
 
-    event Mint(address indexed _to, uint256 indexed _id);
+    event OwnershipTransferred(
+        address indexed previousOwner,
+        address indexed newOwner
+    );
     event ToggleSale(bool saleLive, bool presaleLive);
 
+    address payable public immutable factory;
     uint256 public immutable maxSupply;
     uint256 public immutable txLimit;
 
-    address public signer;
-    uint256 public supply;
-    uint256 public price;
-    uint256 public batchSupply;
-    uint256 public giftedAmount;
     bool public saleLive;
     bool public protectedSaleLive;
+    uint256 public batchSupply;
+    uint256 public giftedAmount;
+    uint256 public price;
     string public baseURI;
-
-    address private openSeaProxyRegistryAddress;
 
     mapping(address => uint256) public protectedMints;
     mapping(address => mapping(uint256 => bool)) public usedNonces;
@@ -33,8 +33,9 @@ contract NFT is ERC721Enumerable, Ownable, ReentrancyGuard {
     // ============ MODIFIERS ============
 
     modifier canMint(uint256 tokenQuantity) {
-        require(tokenQuantity <= txLimit, "Exceeds transaction limit");
         require(tokenQuantity > 0, "No tokens issued");
+        require(tokenQuantity <= txLimit, "Exceeds transaction limit");
+        uint256 supply = totalSupply();
         require(
             supply + tokenQuantity <= batchSupply &&
                 supply + tokenQuantity <= maxSupply,
@@ -45,6 +46,14 @@ contract NFT is ERC721Enumerable, Ownable, ReentrancyGuard {
 
     modifier isCorrectPayment(uint256 tokenQuantity) {
         require(price * tokenQuantity == msg.value, "Incorrect ETH value sent");
+        _;
+    }
+
+    modifier onlyOwner() {
+        require(
+            NFTFactory(factory).ownerOf(address(this)) == msg.sender,
+            "caller is not the owner"
+        );
         _;
     }
 
@@ -75,9 +84,11 @@ contract NFT is ERC721Enumerable, Ownable, ReentrancyGuard {
     constructor(
         string memory name,
         string memory symbol,
+        address payable _factory,
         uint256 _maxSupply,
         uint256 _txLimit
     ) ERC721(name, symbol) {
+        factory = _factory;
         maxSupply = _maxSupply;
         txLimit = _txLimit;
     }
@@ -92,10 +103,9 @@ contract NFT is ERC721Enumerable, Ownable, ReentrancyGuard {
         saleOpen(false)
         nonReentrant
     {
-        uint256 _supply = supply;
-        supply += tokenQuantity;
+        uint256 _supply = totalSupply();
         for (uint256 i = 1; i <= tokenQuantity; i++) {
-            _safeMint(msg.sender, _supply + 1);
+            _safeMint(msg.sender, _supply + i);
         }
     }
 
@@ -115,11 +125,16 @@ contract NFT is ERC721Enumerable, Ownable, ReentrancyGuard {
     {
         protectedMints[msg.sender] += tokenQuantity;
         usedNonces[msg.sender][nonce] = true;
-        uint256 _supply = supply;
-        supply += tokenQuantity;
+        uint256 _supply = totalSupply();
         for (uint256 i = 1; i <= tokenQuantity; i++) {
-            _safeMint(msg.sender, _supply + 1);
+            _safeMint(msg.sender, _supply + i);
         }
+    }
+
+    // ============ VIEW FUNCTIONS ============
+
+    function owner() public view virtual returns (address) {
+        return NFTFactory(factory).ownerOf(address(this));
     }
 
     function tokenURI(uint256 tokenId)
@@ -134,13 +149,18 @@ contract NFT is ERC721Enumerable, Ownable, ReentrancyGuard {
 
     // ============ OWNER-ONLY FUNCTIONS ============
 
-    function toggleSale(bool _saleLive, bool _protectedSaleLive)
-        external
-        onlyOwner
-    {
-        saleLive = _saleLive;
-        protectedSaleLive = _protectedSaleLive;
-        emit ToggleSale(_saleLive, _protectedSaleLive);
+    function gift(address[] calldata recipients) external onlyOwner {
+        uint256 _supply = totalSupply();
+        require(_supply + recipients.length <= maxSupply, "Exceeds max supply");
+        giftedAmount += recipients.length;
+        // zero-index i for recipients array
+        for (uint256 i = 0; i < recipients.length; i++) {
+            _safeMint(recipients[i], _supply + i + 1); // increment by 1 for token IDs
+        }
+    }
+
+    function setBaseURI(string calldata URI) external onlyOwner {
+        baseURI = URI;
     }
 
     function setupBatch(uint256 _price, uint256 _batchSupply)
@@ -151,23 +171,36 @@ contract NFT is ERC721Enumerable, Ownable, ReentrancyGuard {
         batchSupply = _batchSupply;
     }
 
-    function gift(address[] calldata recipients) external onlyOwner {
-        require(supply + recipients.length <= maxSupply, "Exceeds max supply");
-        uint256 _supply = supply;
-        giftedAmount += recipients.length;
-        supply += recipients.length;
-        // zero-index i for recipients array
-        for (uint256 i = 0; i < recipients.length; i++) {
-            emit Mint(recipients[i], _supply + i + 1); // increment by 1 for token IDs
-        }
+    function toggleSale(bool _saleLive, bool _protectedSaleLive)
+        external
+        onlyOwner
+    {
+        saleLive = _saleLive;
+        protectedSaleLive = _protectedSaleLive;
+        emit ToggleSale(_saleLive, _protectedSaleLive);
     }
 
-    function withdraw() external onlyOwner {
-        payable(msg.sender).transfer(address(this).balance);
+    function renounceOwnership() public onlyOwner {
+        _transferOwnership(address(0));
     }
 
-    function setBaseURI(string calldata URI) external onlyOwner {
-        baseURI = URI;
+    function transferOwnership(address newOwner) public onlyOwner {
+        require(newOwner != address(0), "new owner is the zero address");
+        _transferOwnership(newOwner);
+    }
+
+    function withdraw() external onlyOwner nonReentrant {
+        // Send royalty to NFTFactory
+        uint256 royalty = NFTFactory(factory).royaltyOf(address(this));
+        (bool success1, ) = payable(factory).call{
+            value: address(this).balance * royalty
+        }("");
+        require(success1);
+        // Withdraw all remaining funds to owner
+        (bool success2, ) = payable(msg.sender).call{
+            value: address(this).balance
+        }("");
+        require(success2);
     }
 
     // ============ INTERNAL FUNCTIONS ============
@@ -187,6 +220,14 @@ contract NFT is ERC721Enumerable, Ownable, ReentrancyGuard {
         view
         returns (bool)
     {
-        return signer == hash.recover(signature);
+        return
+            NFTFactory(factory).signerOf(address(this)) ==
+            hash.recover(signature);
+    }
+
+    function _transferOwnership(address newOwner) internal {
+        address oldOwner = NFTFactory(factory).ownerOf(address(this));
+        NFTFactory(factory).transferOwner(address(this), newOwner);
+        emit OwnershipTransferred(oldOwner, newOwner);
     }
 }
