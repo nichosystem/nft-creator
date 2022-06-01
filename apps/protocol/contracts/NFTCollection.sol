@@ -6,6 +6,15 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
+error ExceedsSupply();
+error HashFail();
+error HashUsed();
+error InsufficientETH();
+error InvalidQuantity();
+error InvalidSignature();
+error SaleClosed();
+error Unauthorized();
+
 contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
     using Strings for uint256;
     using ECDSA for bytes32;
@@ -16,16 +25,16 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
     );
     event ToggleSale(bool saleLive, bool presaleLive);
 
-    address payable public immutable factory;
-    uint256 public immutable maxSupply;
-    uint256 public immutable txLimit;
+    address payable public immutable FACTORY;
+    uint256 public immutable MAX_SUPPLY;
+    uint256 public immutable TX_LIMIT;
 
     bool public saleLive;
     bool public protectedSaleLive;
+    string public baseURI;
     uint256 public batchSupply;
     uint256 public giftedAmount;
     uint256 public price;
-    string public baseURI;
 
     mapping(address => uint256) public protectedMints;
     mapping(address => mapping(uint256 => bool)) public usedNonces;
@@ -33,36 +42,30 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
     // ============ MODIFIERS ============
 
     modifier canMint(uint256 tokenQuantity) {
-        require(tokenQuantity > 0, "No tokens issued");
-        require(tokenQuantity <= txLimit, "Exceeds transaction limit");
+        if (tokenQuantity == 0 || tokenQuantity > TX_LIMIT)
+            revert InvalidQuantity();
         uint256 supply = totalSupply();
-        require(
-            supply + tokenQuantity <= batchSupply &&
-                supply + tokenQuantity <= maxSupply,
-            "Exceeds max supply"
-        );
+        if (
+            supply + tokenQuantity > batchSupply ||
+            supply + tokenQuantity > MAX_SUPPLY
+        ) revert ExceedsSupply();
         _;
     }
 
     modifier isCorrectPayment(uint256 tokenQuantity) {
-        require(price * tokenQuantity == msg.value, "Incorrect ETH value sent");
+        if (msg.value != price * tokenQuantity) revert InsufficientETH();
         _;
     }
 
     modifier onlyOwner() {
-        require(
-            NFTFactory(factory).ownerOf(address(this)) == msg.sender,
-            "caller is not the owner"
-        );
+        if (msg.sender != NFTFactory(FACTORY).ownerOf(address(this)))
+            revert Unauthorized();
         _;
     }
 
     modifier saleOpen(bool isProtected) {
-        if (isProtected) {
-            require(protectedSaleLive, "Sale closed");
-        } else {
-            require(saleLive, "Sale closed");
-        }
+        if ((isProtected && !protectedSaleLive) || (!isProtected && !saleLive))
+            revert SaleClosed();
         _;
     }
 
@@ -72,12 +75,10 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
         uint256 nonce,
         uint256 tokenQuantity
     ) {
-        require(_matchSigner(hash, signature), "No direct mint");
-        require(!usedNonces[msg.sender][nonce], "Hash used");
-        require(
-            _hashTransaction(msg.sender, tokenQuantity, nonce) == hash,
-            "Hash fail"
-        );
+        if (!_matchSigner(hash, signature)) revert InvalidSignature();
+        if (usedNonces[msg.sender][nonce]) revert HashUsed();
+        if (hash != _hashTransaction(msg.sender, tokenQuantity, nonce))
+            revert HashFail();
         _;
     }
 
@@ -85,15 +86,15 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
         string memory name,
         string memory symbol,
         address payable _factory,
-        uint256 _maxSupply,
-        uint256 _txLimit
+        uint256 maxSupply,
+        uint256 txLimit
     ) ERC721(name, symbol) {
-        factory = _factory;
-        maxSupply = _maxSupply;
-        txLimit = _txLimit;
+        FACTORY = _factory;
+        MAX_SUPPLY = maxSupply;
+        TX_LIMIT = txLimit;
     }
 
-    // ============ PUBLIC FUNCTIONS ============
+    // ============ EXTERNAL FUNCTIONS ============
 
     function mint(uint256 tokenQuantity)
         external
@@ -103,9 +104,9 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
         saleOpen(false)
         nonReentrant
     {
-        uint256 _supply = totalSupply();
+        uint256 supply = totalSupply();
         for (uint256 i = 1; i <= tokenQuantity; i++) {
-            _safeMint(msg.sender, _supply + i);
+            _safeMint(msg.sender, supply + i);
         }
     }
 
@@ -125,16 +126,16 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
     {
         protectedMints[msg.sender] += tokenQuantity;
         usedNonces[msg.sender][nonce] = true;
-        uint256 _supply = totalSupply();
+        uint256 supply = totalSupply();
         for (uint256 i = 1; i <= tokenQuantity; i++) {
-            _safeMint(msg.sender, _supply + i);
+            _safeMint(msg.sender, supply + i);
         }
     }
 
     // ============ VIEW FUNCTIONS ============
 
     function owner() public view virtual returns (address) {
-        return NFTFactory(factory).ownerOf(address(this));
+        return NFTFactory(FACTORY).ownerOf(address(this));
     }
 
     function tokenURI(uint256 tokenId)
@@ -151,7 +152,7 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
 
     function gift(address[] calldata recipients) external onlyOwner {
         uint256 _supply = totalSupply();
-        require(_supply + recipients.length <= maxSupply, "Exceeds max supply");
+        if (_supply + recipients.length > MAX_SUPPLY) revert ExceedsSupply();
         giftedAmount += recipients.length;
         // zero-index i for recipients array
         for (uint256 i = 0; i < recipients.length; i++) {
@@ -185,25 +186,23 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
     }
 
     function transferOwnership(address newOwner) public onlyOwner {
-        require(newOwner != address(0), "new owner is the zero address");
+        if (newOwner == address(0)) revert Unauthorized();
         _transferOwnership(newOwner);
     }
 
     function withdraw() external onlyOwner nonReentrant {
-        // Send royalty to NFTFactory
-        uint256 royalty = NFTFactory(factory).royalty();
-        (bool success1, ) = payable(factory).call{
-            value: address(this).balance * royalty
+        uint256 royalty = NFTFactory(FACTORY).royalty();
+        (bool success1, ) = payable(FACTORY).call{
+            value: (address(this).balance * royalty) / 100
         }("");
         require(success1);
-        // Withdraw all remaining funds to owner
         (bool success2, ) = payable(msg.sender).call{
             value: address(this).balance
         }("");
         require(success2);
     }
 
-    // ============ INTERNAL FUNCTIONS ============
+    // ============ PRIVATE FUNCTIONS ============
 
     function _hashTransaction(
         address sender,
@@ -220,12 +219,12 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
         view
         returns (bool)
     {
-        return NFTFactory(factory).signer() == hash.recover(signature);
+        return NFTFactory(FACTORY).signer() == hash.recover(signature);
     }
 
-    function _transferOwnership(address newOwner) internal {
-        address oldOwner = NFTFactory(factory).ownerOf(address(this));
-        NFTFactory(factory).transferOwner(address(this), newOwner);
+    function _transferOwnership(address newOwner) private {
+        address oldOwner = NFTFactory(FACTORY).ownerOf(address(this));
+        NFTFactory(FACTORY).transferOwner(address(this), newOwner);
         emit OwnershipTransferred(oldOwner, newOwner);
     }
 }

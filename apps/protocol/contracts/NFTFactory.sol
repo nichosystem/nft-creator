@@ -25,7 +25,7 @@ contract NFTFactory is Ownable {
 
     fallback() external payable {}
 
-    // ============ PUBLIC FUNCTIONS ============
+    // ============ EXTERNAL FUNCTIONS ============
 
     function deploy(
         address _owner,
@@ -34,12 +34,12 @@ contract NFTFactory is Ownable {
         uint256 maxSupply,
         uint256 txLimit
     ) external payable {
-        require(price == msg.value, "Incorrect ETH sent");
+        if (msg.value <= price) revert InsufficientETH();
         newCollection(name, symbol, _owner, maxSupply, txLimit);
     }
 
     function transferOwner(address addr, address newOwner) external {
-        require(collections[addr].owner == msg.sender, "Caller is not owner");
+        if (msg.sender != collections[addr].owner) revert Unauthorized();
         collections[addr].owner = newOwner;
         return;
     }
@@ -95,7 +95,7 @@ contract NFTFactory is Ownable {
         require(success);
     }
 
-    // ============ INTERNAL FUNCTIONS ============
+    // ============ PRIVATE FUNCTIONS ============
 
     function newCollection(
         string calldata name,
@@ -103,7 +103,7 @@ contract NFTFactory is Ownable {
         address _owner,
         uint256 maxSupply,
         uint256 txLimit
-    ) internal {
+    ) private {
         address addr = address(
             new NFTCollection(name, symbol, payable(this), maxSupply, txLimit)
         );
