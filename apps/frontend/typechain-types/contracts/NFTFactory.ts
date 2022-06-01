@@ -143,11 +143,21 @@ export interface NFTFactoryInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
   events: {
+    "Deployed(address,address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "Deployed"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
+
+export interface DeployedEventObject {
+  addr: string;
+  owner: string;
+}
+export type DeployedEvent = TypedEvent<[string, string], DeployedEventObject>;
+
+export type DeployedEventFilter = TypedEventFilter<DeployedEvent>;
 
 export interface OwnershipTransferredEventObject {
   previousOwner: string;
@@ -384,6 +394,12 @@ export interface NFTFactory extends BaseContract {
   };
 
   filters: {
+    "Deployed(address,address)"(
+      addr?: string | null,
+      owner?: string | null
+    ): DeployedEventFilter;
+    Deployed(addr?: string | null, owner?: string | null): DeployedEventFilter;
+
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null

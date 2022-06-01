@@ -29,16 +29,17 @@ import type {
 
 export interface NFTCollectionInterface extends utils.Interface {
   functions: {
+    "FACTORY()": FunctionFragment;
+    "MAX_SUPPLY()": FunctionFragment;
+    "TX_LIMIT()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "baseURI()": FunctionFragment;
     "batchSupply()": FunctionFragment;
-    "factory()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "gift(address[])": FunctionFragment;
     "giftedAmount()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "maxSupply()": FunctionFragment;
     "mint(uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
@@ -63,23 +64,23 @@ export interface NFTCollectionInterface extends utils.Interface {
     "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "txLimit()": FunctionFragment;
     "usedNonces(address,uint256)": FunctionFragment;
     "withdraw()": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "FACTORY"
+      | "MAX_SUPPLY"
+      | "TX_LIMIT"
       | "approve"
       | "balanceOf"
       | "baseURI"
       | "batchSupply"
-      | "factory"
       | "getApproved"
       | "gift"
       | "giftedAmount"
       | "isApprovedForAll"
-      | "maxSupply"
       | "mint"
       | "name"
       | "owner"
@@ -104,11 +105,16 @@ export interface NFTCollectionInterface extends utils.Interface {
       | "totalSupply"
       | "transferFrom"
       | "transferOwnership"
-      | "txLimit"
       | "usedNonces"
       | "withdraw"
   ): FunctionFragment;
 
+  encodeFunctionData(functionFragment: "FACTORY", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "MAX_SUPPLY",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "TX_LIMIT", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "approve",
     values: [string, BigNumberish]
@@ -119,7 +125,6 @@ export interface NFTCollectionInterface extends utils.Interface {
     functionFragment: "batchSupply",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "factory", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
@@ -133,7 +138,6 @@ export interface NFTCollectionInterface extends utils.Interface {
     functionFragment: "isApprovedForAll",
     values: [string, string]
   ): string;
-  encodeFunctionData(functionFragment: "maxSupply", values?: undefined): string;
   encodeFunctionData(functionFragment: "mint", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
@@ -209,13 +213,15 @@ export interface NFTCollectionInterface extends utils.Interface {
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: "txLimit", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "usedNonces",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "withdraw", values?: undefined): string;
 
+  decodeFunctionResult(functionFragment: "FACTORY", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "MAX_SUPPLY", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "TX_LIMIT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "baseURI", data: BytesLike): Result;
@@ -223,7 +229,6 @@ export interface NFTCollectionInterface extends utils.Interface {
     functionFragment: "batchSupply",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "factory", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
@@ -237,7 +242,6 @@ export interface NFTCollectionInterface extends utils.Interface {
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "maxSupply", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
@@ -301,7 +305,6 @@ export interface NFTCollectionInterface extends utils.Interface {
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "txLimit", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "usedNonces", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
@@ -406,6 +409,12 @@ export interface NFTCollection extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    FACTORY(overrides?: CallOverrides): Promise<[string]>;
+
+    MAX_SUPPLY(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    TX_LIMIT(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -417,8 +426,6 @@ export interface NFTCollection extends BaseContract {
     baseURI(overrides?: CallOverrides): Promise<[string]>;
 
     batchSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    factory(overrides?: CallOverrides): Promise<[string]>;
 
     getApproved(
       tokenId: BigNumberish,
@@ -437,8 +444,6 @@ export interface NFTCollection extends BaseContract {
       operator: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
-
-    maxSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     mint(
       tokenQuantity: BigNumberish,
@@ -552,8 +557,6 @@ export interface NFTCollection extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    txLimit(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     usedNonces(
       arg0: string,
       arg1: BigNumberish,
@@ -564,6 +567,12 @@ export interface NFTCollection extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
+
+  FACTORY(overrides?: CallOverrides): Promise<string>;
+
+  MAX_SUPPLY(overrides?: CallOverrides): Promise<BigNumber>;
+
+  TX_LIMIT(overrides?: CallOverrides): Promise<BigNumber>;
 
   approve(
     to: string,
@@ -576,8 +585,6 @@ export interface NFTCollection extends BaseContract {
   baseURI(overrides?: CallOverrides): Promise<string>;
 
   batchSupply(overrides?: CallOverrides): Promise<BigNumber>;
-
-  factory(overrides?: CallOverrides): Promise<string>;
 
   getApproved(
     tokenId: BigNumberish,
@@ -596,8 +603,6 @@ export interface NFTCollection extends BaseContract {
     operator: string,
     overrides?: CallOverrides
   ): Promise<boolean>;
-
-  maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
   mint(
     tokenQuantity: BigNumberish,
@@ -702,8 +707,6 @@ export interface NFTCollection extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  txLimit(overrides?: CallOverrides): Promise<BigNumber>;
-
   usedNonces(
     arg0: string,
     arg1: BigNumberish,
@@ -715,6 +718,12 @@ export interface NFTCollection extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    FACTORY(overrides?: CallOverrides): Promise<string>;
+
+    MAX_SUPPLY(overrides?: CallOverrides): Promise<BigNumber>;
+
+    TX_LIMIT(overrides?: CallOverrides): Promise<BigNumber>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -726,8 +735,6 @@ export interface NFTCollection extends BaseContract {
     baseURI(overrides?: CallOverrides): Promise<string>;
 
     batchSupply(overrides?: CallOverrides): Promise<BigNumber>;
-
-    factory(overrides?: CallOverrides): Promise<string>;
 
     getApproved(
       tokenId: BigNumberish,
@@ -743,8 +750,6 @@ export interface NFTCollection extends BaseContract {
       operator: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     mint(tokenQuantity: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
@@ -841,8 +846,6 @@ export interface NFTCollection extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    txLimit(overrides?: CallOverrides): Promise<BigNumber>;
-
     usedNonces(
       arg0: string,
       arg1: BigNumberish,
@@ -903,6 +906,12 @@ export interface NFTCollection extends BaseContract {
   };
 
   estimateGas: {
+    FACTORY(overrides?: CallOverrides): Promise<BigNumber>;
+
+    MAX_SUPPLY(overrides?: CallOverrides): Promise<BigNumber>;
+
+    TX_LIMIT(overrides?: CallOverrides): Promise<BigNumber>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -914,8 +923,6 @@ export interface NFTCollection extends BaseContract {
     baseURI(overrides?: CallOverrides): Promise<BigNumber>;
 
     batchSupply(overrides?: CallOverrides): Promise<BigNumber>;
-
-    factory(overrides?: CallOverrides): Promise<BigNumber>;
 
     getApproved(
       tokenId: BigNumberish,
@@ -934,8 +941,6 @@ export interface NFTCollection extends BaseContract {
       operator: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     mint(
       tokenQuantity: BigNumberish,
@@ -1046,8 +1051,6 @@ export interface NFTCollection extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    txLimit(overrides?: CallOverrides): Promise<BigNumber>;
-
     usedNonces(
       arg0: string,
       arg1: BigNumberish,
@@ -1060,6 +1063,12 @@ export interface NFTCollection extends BaseContract {
   };
 
   populateTransaction: {
+    FACTORY(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    MAX_SUPPLY(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    TX_LIMIT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -1074,8 +1083,6 @@ export interface NFTCollection extends BaseContract {
     baseURI(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     batchSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    factory(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getApproved(
       tokenId: BigNumberish,
@@ -1094,8 +1101,6 @@ export interface NFTCollection extends BaseContract {
       operator: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    maxSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     mint(
       tokenQuantity: BigNumberish,
@@ -1208,8 +1213,6 @@ export interface NFTCollection extends BaseContract {
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
-
-    txLimit(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     usedNonces(
       arg0: string,
