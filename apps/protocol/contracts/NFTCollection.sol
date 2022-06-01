@@ -191,7 +191,7 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
 
     function withdraw() external onlyOwner nonReentrant {
         // Send royalty to NFTFactory
-        uint256 royalty = NFTFactory(factory).royaltyOf(address(this));
+        uint256 royalty = NFTFactory(factory).royalty();
         (bool success1, ) = payable(factory).call{
             value: address(this).balance * royalty
         }("");
@@ -220,9 +220,7 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
         view
         returns (bool)
     {
-        return
-            NFTFactory(factory).signerOf(address(this)) ==
-            hash.recover(signature);
+        return NFTFactory(factory).signer() == hash.recover(signature);
     }
 
     function _transferOwnership(address newOwner) internal {

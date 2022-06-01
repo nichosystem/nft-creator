@@ -8,13 +8,13 @@ contract NFTFactory is Ownable {
     struct Collection {
         address addr;
         address owner;
-        address signer;
-        uint256 royalty;
     }
 
+    event Deployed(address indexed addr, address indexed owner);
+
     address[] public addresses;
-    address public defaultSigner;
-    uint256 public defaultRoyalty;
+    address public signer;
+    uint256 public royalty;
     uint256 public price;
 
     mapping(address => Collection) public collections;
@@ -38,35 +38,32 @@ contract NFTFactory is Ownable {
         newCollection(name, symbol, _owner, maxSupply, txLimit);
     }
 
+    function transferOwner(address addr, address newOwner) external {
+        require(collections[addr].owner == msg.sender, "Caller is not owner");
+        collections[addr].owner = newOwner;
+        return;
+    }
+
+    // ============ VIEW FUNCTIONS ============
+
     function getOwnedCollections(address user)
         external
         view
         returns (address[] memory)
     {
-        address[] storage ownedCollections;
+        uint256 j;
+        address[] memory ownedCollections;
         for (uint256 i = 0; i < addresses.length; i++) {
-            if (collections[addresses[i]].owner == user)
-                ownedCollections.push(addresses[i]);
+            if (collections[addresses[i]].owner == user) {
+                ownedCollections[j] = addresses[i];
+                j++;
+            }
         }
         return ownedCollections;
     }
 
     function ownerOf(address addr) external view returns (address) {
         return collections[addr].owner;
-    }
-
-    function royaltyOf(address addr) external view returns (uint256) {
-        return collections[addr].royalty;
-    }
-
-    function signerOf(address addr) external view returns (address) {
-        return collections[addr].signer;
-    }
-
-    function transferOwner(address addr, address newOwner) external {
-        require(collections[addr].owner == msg.sender, "Caller is not owner");
-        collections[addr].owner = newOwner;
-        return;
     }
 
     // ============ OWNER-ONLY FUNCTIONS ============
@@ -81,23 +78,14 @@ contract NFTFactory is Ownable {
         newCollection(name, symbol, _owner, maxSupply, txLimit);
     }
 
-    function setFactoryDefaults(
+    function updateFactory(
         uint256 _price,
         uint256 _royalty,
         address _signer
     ) external onlyOwner {
         price = _price;
-        defaultRoyalty = _royalty;
-        defaultSigner = _signer;
-    }
-
-    function setCollection(
-        address addr,
-        uint256 _royalty,
-        address _signer
-    ) external onlyOwner {
-        collections[addr].royalty = _royalty;
-        collections[addr].signer = _signer;
+        royalty = _royalty;
+        signer = _signer;
     }
 
     function withdraw() external onlyOwner {
@@ -120,11 +108,7 @@ contract NFTFactory is Ownable {
             new NFTCollection(name, symbol, payable(this), maxSupply, txLimit)
         );
         addresses.push(addr);
-        collections[addr] = Collection(
-            addr,
-            _owner,
-            defaultSigner,
-            defaultRoyalty
-        );
+        collections[addr] = Collection(addr, _owner);
+        emit Deployed(addr, _owner);
     }
 }
