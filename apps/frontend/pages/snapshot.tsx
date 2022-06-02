@@ -275,6 +275,7 @@ const Snapshot: NextPage = () => {
           <p className="mx-auto text-center">{error}</p>
         ) : loading !== "Complete" ? (
           totalSupply != 0 && (
+            // Loading bar
             <div className="w-72 bg-gray-300 rounded-full mx-auto">
               <div
                 className="bg-indigo-600 text-xs font-medium text-indigo-100 text-center p-1 leading-none rounded-l-full"

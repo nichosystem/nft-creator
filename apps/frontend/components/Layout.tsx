@@ -30,7 +30,7 @@ export default function Layout({ children }: any) {
 
   return (
     <>
-      <div className="h-full flex">
+      <div className="h-full min-h-screen flex">
         {/* Narrow sidebar */}
         <div className="hidden md:block w-28 bg-indigo-700 dark:bg-slate-900 overflow-y-auto fixed h-screen">
           <div className="w-full py-6 flex flex-col items-center">
