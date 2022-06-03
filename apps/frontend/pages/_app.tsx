@@ -21,9 +21,10 @@ const selectChains = [
   chain.polygon,
   chain.polygonMumbai,
 ];
-if (process.env.ENV === "development") selectChains.push(chain.localhost);
+if (process.env.NEXT_PUBLIC_ENV === "development")
+  selectChains.push(chain.localhost);
 const { provider, chains } = configureChains(selectChains, [
-  apiProvider.alchemy(process.env.ALCHEMY_ID),
+  apiProvider.alchemy(process.env.NEXT_PUBLIC_ALCHEMY_API_KEY),
   apiProvider.fallback(),
 ]);
 
