@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
-import { useAccount, useSigner } from "wagmi";
+import { useSigner } from "wagmi";
 import Code from "../components/Code";
 import CONTRACT_CODE from "../data/contract-code";
 import { deploy } from "../provider/factory";
 
-const Home: NextPage = () => {
+const Deployer: NextPage = () => {
   const [name, setName] = useState("");
   const [symbol, setSymbol] = useState("");
   const [maxSupply, setMaxSupply] = useState(0);
@@ -76,4 +76,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default Deployer;

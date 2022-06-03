@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 
-const Home: NextPage = () => {
+const Generator: NextPage = () => {
   <Head>
     <title>Generator - NFT Tools</title>
     <meta name="description" content="" />
@@ -9,4 +9,4 @@ const Home: NextPage = () => {
   return <>Generator</>;
 };
 
-export default Home;
+export default Generator;

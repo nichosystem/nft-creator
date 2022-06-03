@@ -1,4 +1,4 @@
-import { Signer } from "ethers";
+import { ethers, Signer } from "ethers";
 import { CONTRACTS } from "./contracts";
 
 export const deploy = async (
@@ -18,11 +18,18 @@ export const deploy = async (
       maxSupply,
       txLimit
     );
-    console.log(tx);
-    const receipt = await tx.wait();
-    console.log(receipt);
+    return await tx.wait();
   } catch (e) {
     console.log("Factory deploy failed");
     console.error(e);
   }
+};
+
+export const getOwnedCollections = async (
+  signerOrProvider: Signer | ethers.providers.Provider,
+  address: string
+) => {
+  const factory = await CONTRACTS.nftFactory.connect(signerOrProvider);
+  if (!factory) return;
+  return await factory.getOwnedCollections(address);
 };
