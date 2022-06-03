@@ -15,10 +15,17 @@ import { createClient, chain, WagmiProvider } from "wagmi";
 import "../styles/globals.css";
 import { useEffect } from "react";
 
-const { provider, chains } = configureChains(
-  [chain.mainnet, chain.rinkeby, chain.polygon, chain.polygonMumbai],
-  [apiProvider.alchemy(process.env.ALCHEMY_ID), apiProvider.fallback()]
-);
+const selectChains = [
+  chain.mainnet,
+  chain.goerli,
+  chain.polygon,
+  chain.polygonMumbai,
+];
+if (process.env.ENV === "development") selectChains.push(chain.localhost);
+const { provider, chains } = configureChains(selectChains, [
+  apiProvider.alchemy(process.env.ALCHEMY_ID),
+  apiProvider.fallback(),
+]);
 
 const needsInjectedWalletFallback =
   typeof window !== "undefined" &&
@@ -32,7 +39,7 @@ const connectors = connectorsForWallets([
     wallets: [
       wallet.metaMask({ chains }),
       wallet.walletConnect({ chains }),
-      wallet.coinbase({ appName: "My RainbowKit App", chains }),
+      wallet.coinbase({ appName: "NFT Tools dApp", chains }),
       wallet.rainbow({ chains }),
       ...(needsInjectedWalletFallback ? [wallet.injected({ chains })] : []),
     ],
