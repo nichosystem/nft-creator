@@ -34,7 +34,7 @@ contract NFTFactory is Ownable {
         uint256 maxSupply,
         uint256 txLimit
     ) external payable {
-        if (msg.value <= price) revert InsufficientETH();
+        if (msg.value < price) revert InsufficientETH();
         newCollection(name, symbol, _owner, maxSupply, txLimit);
     }
 
