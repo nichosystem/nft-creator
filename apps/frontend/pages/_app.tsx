@@ -9,7 +9,6 @@ import {
   connectorsForWallets,
   wallet,
   darkTheme,
-  midnightTheme,
   lightTheme,
 } from "@rainbow-me/rainbowkit";
 import { createClient, chain, WagmiProvider } from "wagmi";

@@ -1,17 +1,22 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
+import { useAccount, useSigner } from "wagmi";
 import Code from "../components/Code";
 import CONTRACT_CODE from "../data/contract-code";
+import { deploy } from "../provider/factory";
 
 const Home: NextPage = () => {
   const [name, setName] = useState("");
   const [symbol, setSymbol] = useState("");
-  const [maxSupply, setMaxSupply] = useState("");
-  const [txLimit, setTxLimit] = useState("");
+  const [maxSupply, setMaxSupply] = useState(0);
+  const [txLimit, setTxLimit] = useState(0);
+  const { data: signer } = useSigner();
 
-  const deploy = () => {
-    console.log("deployed");
+  const sendDeployTx = () => {
+    if (!signer) return;
+    console.log("Prompting deploy tx");
+    deploy(signer, name, symbol, maxSupply, txLimit);
   };
 
   return (
@@ -44,7 +49,7 @@ const Home: NextPage = () => {
               name="supply"
               className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-2 sm:text-sm border-gray-300 rounded-md"
               placeholder="Max Supply"
-              onChange={(e) => setMaxSupply(e.target.value)}
+              onChange={(e) => setMaxSupply(Number(e.target.value))}
               value={maxSupply}
             />
             <input
@@ -52,13 +57,13 @@ const Home: NextPage = () => {
               name="txLimit"
               className="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-2 sm:text-sm border-gray-300 rounded-md"
               placeholder="Transaction Limit"
-              onChange={(e) => setTxLimit(e.target.value)}
+              onChange={(e) => setTxLimit(Number(e.target.value))}
               value={txLimit}
             />
           </div>
           <button
             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            onClick={() => deploy()}
+            onClick={() => sendDeployTx()}
           >
             Deploy
           </button>
