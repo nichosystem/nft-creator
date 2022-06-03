@@ -1,1 +1,1 @@
-cp -r apps/protocol/typechain-types apps/frontend
+cp -r apps/protocol/typechain-types/contracts apps/frontend/src/types
