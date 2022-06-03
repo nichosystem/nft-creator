@@ -2,9 +2,9 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
 import { useSigner } from "wagmi";
-import Code from "../components/Code";
-import CONTRACT_CODE from "../data/contract-code";
-import { deploy } from "../provider/factory";
+import Code from "../../components/Code";
+import CONTRACT_CODE from "../../data/contract-code";
+import { deploy } from "../../provider/factory";
 
 const Deployer: NextPage = () => {
   const [name, setName] = useState("");

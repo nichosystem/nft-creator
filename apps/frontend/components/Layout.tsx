@@ -13,11 +13,11 @@ import { useRouter } from "next/router";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const sidebarNavigation = [
-  { name: "Manager", href: "/", icon: HomeIcon },
-  { name: "Generator", href: "/generator", icon: BeakerIcon },
-  { name: "Deployer", href: "/deployer", icon: CodeIcon },
-  { name: "Snapshot", href: "/snapshot", icon: CameraIcon },
-  { name: "Minting App", href: "/dapp", icon: TemplateIcon },
+  { name: "Manager", href: "/dapp", icon: HomeIcon },
+  { name: "Generator", href: "/dapp/generator", icon: BeakerIcon },
+  { name: "Deployer", href: "/dapp/deployer", icon: CodeIcon },
+  { name: "Snapshot", href: "/dapp/snapshot", icon: CameraIcon },
+  { name: "Minting App", href: "/dapp/minting", icon: TemplateIcon },
 ];
 
 function classNames(...classes: (string | boolean)[]) {

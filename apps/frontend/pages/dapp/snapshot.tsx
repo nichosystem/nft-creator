@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import NetworkAddressInput from "../components/input/Input";
+import NetworkAddressInput from "../../components/input/Input";
 import {
   ChangeEvent,
   Dispatch,
