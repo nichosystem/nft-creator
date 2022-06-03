@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   TemplateIcon,
@@ -20,11 +20,11 @@ const sidebarNavigation = [
   { name: "Minting App", href: "/dapp", icon: TemplateIcon },
 ];
 
-function classNames(...classes: any) {
+function classNames(...classes: (string | boolean)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Layout({ children }: any) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
 

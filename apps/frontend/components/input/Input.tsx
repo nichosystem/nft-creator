@@ -1,4 +1,14 @@
-export default function Input({ value, onChange, fullWidth }: any) {
+import { ChangeEventHandler } from "react";
+
+export default function Input({
+  value,
+  onChange,
+  fullWidth,
+}: {
+  value: string;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  fullWidth: boolean;
+}) {
   return (
     <div
       className={`relative rounded-md shadow-sm ${fullWidth ? "w-full" : ""}`}

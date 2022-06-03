@@ -1,12 +1,27 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import NetworkAddressInput from "../components/input/Input";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
-import { useEffect, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  FormEventHandler,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { erc721ABI, useProvider } from "wagmi";
 import { ethers } from "ethers";
 
-function Prompt({ collection, setCollection, onSubmit }: any) {
+function Prompt({
+  collection,
+  setCollection,
+  onSubmit,
+}: {
+  collection: string;
+  setCollection: Dispatch<SetStateAction<string>>;
+  onSubmit: FormEventHandler;
+}) {
   return (
     <div className="max-w-lg mx-auto">
       <div>
@@ -39,7 +54,9 @@ function Prompt({ collection, setCollection, onSubmit }: any) {
           </label>
           <NetworkAddressInput
             value={collection}
-            onChange={(e: any) => setCollection(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setCollection(e.target.value)
+            }
             fullWidth={true}
           />
           <button
@@ -63,13 +80,14 @@ function Results({
   collection: string;
   name: string;
   totalSupply: number;
-  tokens: any;
+  tokens: string[];
 }) {
   const pageLength = 25;
   const [curPage, setCurPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
-  const [displayTokens, setDisplayTokens]: [{ [key: number]: string }, any] =
-    useState({});
+  const [displayTokens, setDisplayTokens] = useState<{ [key: number]: string }>(
+    {}
+  );
 
   useEffect(
     () => setMaxPage(Math.ceil(totalSupply / pageLength)),
@@ -97,7 +115,7 @@ function Results({
 
   const download = () => {
     const csv = tokens
-      .map((owner: string, id: string) => `${id},${owner}`)
+      .map((owner: string, id: number) => `${id},${owner}`)
       .join("\n");
     const blob = new Blob([csv], { type: "text/csv" });
     const a = document.createElement("a");
@@ -217,8 +235,8 @@ const Snapshot: NextPage = () => {
   const [error, setError] = useState("");
   const [name, setName] = useState("");
   const [totalSupply, setTotalSupply] = useState(0);
-  const [loading, setLoading]: [any, any] = useState("Complete");
-  const [tokens, setTokens]: [any, any] = useState([]);
+  const [loading, setLoading] = useState(-1); // -1 is complete state
+  const [tokens, setTokens] = useState<string[]>([]);
 
   const getCollectionInfo = async () => {
     if (collection.length !== 42) {
@@ -234,7 +252,7 @@ const Snapshot: NextPage = () => {
       const supply = Number(await contract.totalSupply());
       setTotalSupply(supply);
       getTokens(contract, supply);
-    } catch (e: any) {
+    } catch (e) {
       console.log(e);
       setError("Could not get contract info");
       return;
@@ -253,7 +271,7 @@ const Snapshot: NextPage = () => {
       }
     }
     setTokens(owners);
-    setLoading("Complete");
+    setLoading(-1);
   };
 
   return (
@@ -265,7 +283,7 @@ const Snapshot: NextPage = () => {
       <Prompt
         collection={collection}
         setCollection={setCollection}
-        onSubmit={(e: any) => {
+        onSubmit={(e: FormEvent) => {
           e.preventDefault();
           getCollectionInfo();
         }}
@@ -273,7 +291,7 @@ const Snapshot: NextPage = () => {
       <div className="mt-8">
         {error ? (
           <p className="mx-auto text-center">{error}</p>
-        ) : loading !== "Complete" ? (
+        ) : loading !== -1 ? (
           totalSupply != 0 && (
             // Loading bar
             <div className="w-72 bg-gray-300 rounded-full mx-auto">
