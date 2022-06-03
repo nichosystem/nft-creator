@@ -1,6 +1,6 @@
-import { ethers, Signer } from "ethers";
+import { Signer } from "ethers";
 import type { Provider } from "@ethersproject/providers";
-import { NFTFactory__factory } from "../types/contracts/NFTFactory";
+import { NFTFactory__factory } from "../types/contracts";
 
 // INTERFACES
 interface Factory<T> {

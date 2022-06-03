@@ -12,7 +12,7 @@ import {
   lightTheme,
 } from "@rainbow-me/rainbowkit";
 import { createClient, chain, WagmiProvider } from "wagmi";
-import "../styles/globals";
+import "../styles/globals.css";
 import { useEffect } from "react";
 
 const selectChains = [
