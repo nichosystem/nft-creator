@@ -25,24 +25,28 @@ enum Contracts {
 }
 enum Networks {
   mainnet = "mainnet",
-  rinkeby = "rinkeby",
+  goerli = "goerli",
   polygon = "polygon",
   mumbai = "mumbai",
+  localhost = "localhost",
 }
 
 // Constant of all contract addresses for each network
 const CONTRACT_ADDRS: ContractAddrs = {
   mainnet: {
-    nftFactory: "0x4C70a0A813c94F5598a8A646F287996E7aB987C8",
+    nftFactory: "",
   },
-  rinkeby: {
-    nftFactory: "0x4C70a0A813c94F5598a8A646F287996E7aB987C8",
+  goerli: {
+    nftFactory: "",
   },
   polygon: {
-    nftFactory: "0x4C70a0A813c94F5598a8A646F287996E7aB987C8",
+    nftFactory: "",
   },
   mumbai: {
-    nftFactory: "0x4C70a0A813c94F5598a8A646F287996E7aB987C8",
+    nftFactory: "",
+  },
+  localhost: {
+    nftFactory: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
   },
 };
 
@@ -60,12 +64,14 @@ export const getNetwork = async (signerOrProvider: Signer | Provider) => {
   switch (network.chainId) {
     case 1:
       return Networks.mainnet;
-    case 4:
-      return Networks.rinkeby;
+    case 5:
+      return Networks.goerli;
     case 137:
       return Networks.polygon;
     case 80001:
       return Networks.mumbai;
+    case 1337:
+      return Networks.localhost;
   }
 };
 
