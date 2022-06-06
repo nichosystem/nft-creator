@@ -3,15 +3,15 @@ import Layout from "../components/Layout";
 import Head from "next/head";
 import "@rainbow-me/rainbowkit/styles.css";
 import {
-  apiProvider,
-  configureChains,
   RainbowKitProvider,
   connectorsForWallets,
   wallet,
   darkTheme,
   lightTheme,
 } from "@rainbow-me/rainbowkit";
-import { createClient, chain, WagmiProvider } from "wagmi";
+import { createClient, chain, configureChains, WagmiConfig } from "wagmi";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { publicProvider } from "wagmi/providers/public";
 import "../styles/globals.css";
 import { useEffect } from "react";
 
@@ -24,8 +24,8 @@ const selectChains = [
 if (process.env.NEXT_PUBLIC_ENV === "development")
   selectChains.push(chain.localhost);
 const { provider, chains } = configureChains(selectChains, [
-  apiProvider.alchemy(process.env.NEXT_PUBLIC_ALCHEMY_API_KEY),
-  apiProvider.fallback(),
+  alchemyProvider({ alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY }),
+  publicProvider(),
 ]);
 
 const needsInjectedWalletFallback =
@@ -65,7 +65,7 @@ function App({ Component, pageProps }: AppProps) {
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <WagmiProvider client={wagmiClient}>
+      <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider
           chains={chains}
           coolMode
@@ -78,7 +78,7 @@ function App({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
           </Layout>
         </RainbowKitProvider>
-      </WagmiProvider>
+      </WagmiConfig>
     </>
   );
 }

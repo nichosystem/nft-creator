@@ -14,10 +14,10 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 const sidebarNavigation = [
   { name: "Manager", href: "/dapp", icon: HomeIcon },
-  { name: "Generator", href: "/dapp/generator", icon: BeakerIcon },
   { name: "Deployer", href: "/dapp/deployer", icon: CodeIcon },
   { name: "Snapshot", href: "/dapp/snapshot", icon: CameraIcon },
   { name: "Minting App", href: "/dapp/minting", icon: TemplateIcon },
+  { name: "Generator", href: "/dapp/generator", icon: BeakerIcon },
 ];
 
 function classNames(...classes: (string | boolean)[]) {
