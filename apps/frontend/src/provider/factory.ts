@@ -20,8 +20,8 @@ export const deploy = async (
     );
     return await tx.wait();
   } catch (e) {
-    console.log("Factory deploy failed");
-    console.error(e);
+    console.log("ERROR: Factory deploy failed");
+    console.log(e);
   }
 };
 
@@ -29,7 +29,17 @@ export const getOwnedCollections = async (
   signerOrProvider: Signer | ethers.providers.Provider,
   address: string
 ) => {
-  const factory = await CONTRACTS.nftFactory.connect(signerOrProvider);
-  if (!factory) return;
-  return await factory.getOwnedCollections(address);
+  try {
+    const factory = await CONTRACTS.nftFactory.connect(signerOrProvider);
+    if (!factory) return;
+    console.log("getting cols");
+
+    const c = await factory.getOwnedCollections(address);
+    console.log("got");
+
+    return c;
+  } catch (e) {
+    console.log("ERROR: getOwnedCollections");
+    console.log(e);
+  }
 };

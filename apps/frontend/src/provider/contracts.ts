@@ -81,12 +81,17 @@ function createContractDetails<T>(
 ): ContractDetails<T> {
   return {
     connect: async (signerOrProvider, network?) => {
-      if (!network) network = await getNetwork(signerOrProvider);
-      if (!network) return;
-      return factory.connect(
-        CONTRACT_ADDRS[network][contract],
-        signerOrProvider
-      );
+      try {
+        if (!network) network = await getNetwork(signerOrProvider);
+        if (!network) return;
+        return factory.connect(
+          CONTRACT_ADDRS[network][contract],
+          signerOrProvider
+        );
+      } catch (e) {
+        console.log("ERROR: connect");
+        console.log(e);
+      }
     },
     getAddress: (network) => CONTRACT_ADDRS[network][contract],
   };

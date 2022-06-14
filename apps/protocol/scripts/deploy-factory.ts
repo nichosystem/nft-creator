@@ -3,7 +3,13 @@ import { ethers } from "hardhat";
 async function main() {
   // Get signer
   const [deployer] = await ethers.getSigners();
-  console.log("Deploying with account: ", deployer.address);
+  const network = await ethers.provider.getNetwork();
+  console.log(
+    "Deploying with account",
+    deployer.address,
+    "on network",
+    network.chainId
+  );
 
   // Deploy
   const NFTFactory_factory = await ethers.getContractFactory("NFTFactory");
