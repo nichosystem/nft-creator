@@ -17,11 +17,11 @@ async function main() {
   console.log("NFTFactory deployed to:", deployedContract.address);
 
   // Initialize contract starting params
+  const price = 0;
+  const royalty = 0;
+  const signer = await deployer.getAddress();
+  const nftFactory = NFTFactory_factory.attach(deployedContract.address);
   try {
-    const price = 0;
-    const royalty = 0;
-    const signer = await deployer.getAddress();
-    const nftFactory = NFTFactory_factory.attach(deployedContract.address);
     const tx = await nftFactory.updateFactory(price, royalty, signer);
     await tx.wait();
     console.log(
@@ -29,6 +29,16 @@ async function main() {
     );
   } catch (e) {
     console.log("Failed to update NFTFactory");
+    console.log(e);
+  }
+
+  // Deploy a collection
+  try {
+    const tx = await nftFactory.ownerDeploy("MetaMask", "MM", signer, 200, 20);
+    await tx.wait();
+    console.log(`Deployed new NFT collection`);
+  } catch (e) {
+    console.log("Failed to deploy a collection");
     console.log(e);
   }
 }

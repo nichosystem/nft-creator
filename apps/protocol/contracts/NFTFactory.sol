@@ -5,19 +5,16 @@ import "./NFTCollection.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract NFTFactory is Ownable {
-    struct Collection {
-        address addr;
-        address owner;
-    }
-
     event Deployed(address indexed addr, address indexed owner);
 
-    address[] public addresses;
+    // List of all deployed collections
+    address[] public collections;
     address public signer;
     uint256 public royalty;
     uint256 public price;
 
-    mapping(address => Collection) public collections;
+    // Mapping from collection address to owner address
+    mapping(address => address) public ownerOf;
 
     constructor() {}
 
@@ -39,8 +36,8 @@ contract NFTFactory is Ownable {
     }
 
     function transferOwner(address addr, address newOwner) external {
-        if (msg.sender != collections[addr].owner) revert Unauthorized();
-        collections[addr].owner = newOwner;
+        if (msg.sender != ownerOf[addr]) revert Unauthorized();
+        ownerOf[addr] = newOwner;
         return;
     }
 
@@ -51,19 +48,19 @@ contract NFTFactory is Ownable {
         view
         returns (address[] memory)
     {
+        uint256 count;
+        for (uint256 i = 0; i < collections.length; i++) {
+            if (ownerOf[collections[i]] == user) count++;
+        }
+        address[] memory ownedCollections = new address[](count);
         uint256 j;
-        address[] memory ownedCollections;
-        for (uint256 i = 0; i < addresses.length; i++) {
-            if (collections[addresses[i]].owner == user) {
-                ownedCollections[j] = addresses[i];
+        for (uint256 i = 0; i < collections.length; i++) {
+            if (ownerOf[collections[i]] == user) {
+                ownedCollections[j] = collections[i];
                 j++;
             }
         }
         return ownedCollections;
-    }
-
-    function ownerOf(address addr) external view returns (address) {
-        return collections[addr].owner;
     }
 
     // ============ OWNER-ONLY FUNCTIONS ============
@@ -107,8 +104,8 @@ contract NFTFactory is Ownable {
         address addr = address(
             new NFTCollection(name, symbol, payable(this), maxSupply, txLimit)
         );
-        addresses.push(addr);
-        collections[addr] = Collection(addr, _owner);
+        collections.push(addr);
+        ownerOf[addr] = _owner;
         emit Deployed(addr, _owner);
     }
 }
