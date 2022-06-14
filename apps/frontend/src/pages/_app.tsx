@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import Layout from "../components/Layout";
+import AppLayout from "../components/AppLayout";
 import Head from "next/head";
 import "@rainbow-me/rainbowkit/styles.css";
 import {
@@ -14,7 +14,9 @@ import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import "../styles/globals.css";
 import { useEffect } from "react";
+import { NextPageWithLayout } from "../types/types";
 
+// wagmi
 const selectChains = [
   chain.mainnet,
   chain.goerli,
@@ -27,13 +29,11 @@ const { provider, chains } = configureChains(selectChains, [
   alchemyProvider({ alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY }),
   publicProvider(),
 ]);
-
 const needsInjectedWalletFallback =
   typeof window !== "undefined" &&
   window.ethereum &&
   !window.ethereum.isMetaMask &&
   !window.ethereum.isCoinbaseWallet;
-
 const connectors = connectorsForWallets([
   {
     groupName: "Recommended",
@@ -46,18 +46,23 @@ const connectors = connectorsForWallets([
     ],
   },
 ]);
-
 const wagmiClient = createClient({
   autoConnect: true,
   connectors,
   provider,
 });
 
-function App({ Component, pageProps }: AppProps) {
+function App({
+  Component,
+  pageProps,
+}: AppProps & {
+  Component: NextPageWithLayout;
+}) {
   useEffect(() => {
     document.querySelector("body")?.classList.add("dark:bg-slate-900");
   });
 
+  const PageLayout = Component.Layout ?? AppLayout;
   return (
     <>
       <Head>
@@ -74,9 +79,9 @@ function App({ Component, pageProps }: AppProps) {
             darkMode: darkTheme(),
           }}
         >
-          <Layout>
+          <PageLayout>
             <Component {...pageProps} />
-          </Layout>
+          </PageLayout>
         </RainbowKitProvider>
       </WagmiConfig>
     </>
