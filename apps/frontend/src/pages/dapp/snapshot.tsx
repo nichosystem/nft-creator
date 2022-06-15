@@ -12,6 +12,7 @@ import {
 } from "react";
 import { erc721ABI, useProvider } from "wagmi";
 import { ethers } from "ethers";
+import Button from "../../components/button/Button";
 
 function Prompt({
   collection,
@@ -57,14 +58,11 @@ function Prompt({
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setCollection(e.target.value)
             }
+            name="address"
+            placeholder="0x12345567890"
             fullWidth={true}
           />
-          <button
-            type="submit"
-            className="ml-4 flex-shrink-0 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-sky-500 hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
-          >
-            Take snapshot
-          </button>
+          <Button value="Take snapshot" onClick={onSubmit} />
         </form>
       </div>
     </div>
