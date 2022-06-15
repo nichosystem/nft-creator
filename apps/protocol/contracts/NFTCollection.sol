@@ -164,12 +164,12 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
         baseURI = URI;
     }
 
-    function setupBatch(uint256 _price, uint256 _batchSupply)
-        external
-        onlyOwner
-    {
-        price = _price;
+    function setBatchSupply(uint256 _batchSupply) external onlyOwner {
         batchSupply = _batchSupply;
+    }
+
+    function setPrice(uint256 _price) external onlyOwner {
+        price = _price;
     }
 
     function toggleSale(bool _saleLive, bool _protectedSaleLive)
