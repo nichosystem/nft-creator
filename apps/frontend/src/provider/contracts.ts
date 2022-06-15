@@ -70,7 +70,7 @@ export const getNetwork = async (signerOrProvider: Signer | Provider) => {
       return Networks.polygon;
     case 80001:
       return Networks.mumbai;
-    case 1337:
+    default:
       return Networks.localhost;
   }
 };

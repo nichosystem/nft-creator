@@ -32,12 +32,7 @@ export const getOwnedCollections = async (
   try {
     const factory = await CONTRACTS.nftFactory.connect(signerOrProvider);
     if (!factory) return;
-    console.log("getting cols");
-
-    const c = await factory.getOwnedCollections(address);
-    console.log("got");
-
-    return c;
+    return await factory.getOwnedCollections(address);
   } catch (e) {
     console.log("ERROR: getOwnedCollections");
     console.log(e);
