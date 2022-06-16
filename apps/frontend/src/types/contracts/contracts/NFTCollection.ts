@@ -47,18 +47,17 @@ export interface NFTCollectionInterface extends utils.Interface {
     "price()": FunctionFragment;
     "protectedMint(bytes32,bytes,uint256,uint256)": FunctionFragment;
     "protectedMints(address)": FunctionFragment;
-    "protectedSaleLive()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
-    "saleLive()": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setBaseURI(string)": FunctionFragment;
     "setBatchSupply(uint256)": FunctionFragment;
     "setPrice(uint256)": FunctionFragment;
+    "setStatus(uint8)": FunctionFragment;
+    "status()": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
-    "toggleSale(bool,bool)": FunctionFragment;
     "tokenByIndex(uint256)": FunctionFragment;
     "tokenOfOwnerByIndex(address,uint256)": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
@@ -89,18 +88,17 @@ export interface NFTCollectionInterface extends utils.Interface {
       | "price"
       | "protectedMint"
       | "protectedMints"
-      | "protectedSaleLive"
       | "renounceOwnership"
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
-      | "saleLive"
       | "setApprovalForAll"
       | "setBaseURI"
       | "setBatchSupply"
       | "setPrice"
+      | "setStatus"
+      | "status"
       | "supportsInterface"
       | "symbol"
-      | "toggleSale"
       | "tokenByIndex"
       | "tokenOfOwnerByIndex"
       | "tokenURI"
@@ -157,10 +155,6 @@ export interface NFTCollectionInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "protectedSaleLive",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
@@ -172,7 +166,6 @@ export interface NFTCollectionInterface extends utils.Interface {
     functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
     values: [string, string, BigNumberish, BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: "saleLive", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "setApprovalForAll",
     values: [string, boolean]
@@ -187,14 +180,15 @@ export interface NFTCollectionInterface extends utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "setStatus",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(functionFragment: "status", values?: undefined): string;
+  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "toggleSale",
-    values: [boolean, boolean]
-  ): string;
   encodeFunctionData(
     functionFragment: "tokenByIndex",
     values: [BigNumberish]
@@ -262,10 +256,6 @@ export interface NFTCollectionInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "protectedSaleLive",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
@@ -277,7 +267,6 @@ export interface NFTCollectionInterface extends utils.Interface {
     functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "saleLive", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setApprovalForAll",
     data: BytesLike
@@ -288,12 +277,13 @@ export interface NFTCollectionInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setPrice", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setStatus", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "status", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "toggleSale", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "tokenByIndex",
     data: BytesLike
@@ -322,15 +312,15 @@ export interface NFTCollectionInterface extends utils.Interface {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
-    "ToggleSale(bool,bool)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
+    "UpdateStatus(uint8)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "ToggleSale"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "UpdateStatus"): EventFragment;
 }
 
 export interface ApprovalEventObject {
@@ -369,17 +359,6 @@ export type OwnershipTransferredEvent = TypedEvent<
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
-export interface ToggleSaleEventObject {
-  saleLive: boolean;
-  presaleLive: boolean;
-}
-export type ToggleSaleEvent = TypedEvent<
-  [boolean, boolean],
-  ToggleSaleEventObject
->;
-
-export type ToggleSaleEventFilter = TypedEventFilter<ToggleSaleEvent>;
-
 export interface TransferEventObject {
   from: string;
   to: string;
@@ -391,6 +370,13 @@ export type TransferEvent = TypedEvent<
 >;
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
+
+export interface UpdateStatusEventObject {
+  status: number;
+}
+export type UpdateStatusEvent = TypedEvent<[number], UpdateStatusEventObject>;
+
+export type UpdateStatusEventFilter = TypedEventFilter<UpdateStatusEvent>;
 
 export interface NFTCollection extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -484,8 +470,6 @@ export interface NFTCollection extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    protectedSaleLive(overrides?: CallOverrides): Promise<[boolean]>;
-
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -504,8 +488,6 @@ export interface NFTCollection extends BaseContract {
       _data: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    saleLive(overrides?: CallOverrides): Promise<[boolean]>;
 
     setApprovalForAll(
       operator: string,
@@ -528,18 +510,19 @@ export interface NFTCollection extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setStatus(
+      _status: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    status(overrides?: CallOverrides): Promise<[number]>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
     symbol(overrides?: CallOverrides): Promise<[string]>;
-
-    toggleSale(
-      _saleLive: boolean,
-      _protectedSaleLive: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
 
     tokenByIndex(
       index: BigNumberish,
@@ -641,8 +624,6 @@ export interface NFTCollection extends BaseContract {
 
   protectedMints(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-  protectedSaleLive(overrides?: CallOverrides): Promise<boolean>;
-
   renounceOwnership(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -661,8 +642,6 @@ export interface NFTCollection extends BaseContract {
     _data: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
-
-  saleLive(overrides?: CallOverrides): Promise<boolean>;
 
   setApprovalForAll(
     operator: string,
@@ -685,18 +664,19 @@ export interface NFTCollection extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setStatus(
+    _status: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  status(overrides?: CallOverrides): Promise<number>;
+
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
   symbol(overrides?: CallOverrides): Promise<string>;
-
-  toggleSale(
-    _saleLive: boolean,
-    _protectedSaleLive: boolean,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   tokenByIndex(
     index: BigNumberish,
@@ -789,8 +769,6 @@ export interface NFTCollection extends BaseContract {
 
     protectedMints(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    protectedSaleLive(overrides?: CallOverrides): Promise<boolean>;
-
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     "safeTransferFrom(address,address,uint256)"(
@@ -808,8 +786,6 @@ export interface NFTCollection extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    saleLive(overrides?: CallOverrides): Promise<boolean>;
-
     setApprovalForAll(
       operator: string,
       approved: boolean,
@@ -825,18 +801,16 @@ export interface NFTCollection extends BaseContract {
 
     setPrice(_price: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
+    setStatus(_status: BigNumberish, overrides?: CallOverrides): Promise<void>;
+
+    status(overrides?: CallOverrides): Promise<number>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
     symbol(overrides?: CallOverrides): Promise<string>;
-
-    toggleSale(
-      _saleLive: boolean,
-      _protectedSaleLive: boolean,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     tokenByIndex(
       index: BigNumberish,
@@ -906,12 +880,6 @@ export interface NFTCollection extends BaseContract {
       newOwner?: string | null
     ): OwnershipTransferredEventFilter;
 
-    "ToggleSale(bool,bool)"(
-      saleLive?: null,
-      presaleLive?: null
-    ): ToggleSaleEventFilter;
-    ToggleSale(saleLive?: null, presaleLive?: null): ToggleSaleEventFilter;
-
     "Transfer(address,address,uint256)"(
       from?: string | null,
       to?: string | null,
@@ -922,6 +890,9 @@ export interface NFTCollection extends BaseContract {
       to?: string | null,
       tokenId?: BigNumberish | null
     ): TransferEventFilter;
+
+    "UpdateStatus(uint8)"(status?: null): UpdateStatusEventFilter;
+    UpdateStatus(status?: null): UpdateStatusEventFilter;
   };
 
   estimateGas: {
@@ -987,8 +958,6 @@ export interface NFTCollection extends BaseContract {
 
     protectedMints(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    protectedSaleLive(overrides?: CallOverrides): Promise<BigNumber>;
-
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -1007,8 +976,6 @@ export interface NFTCollection extends BaseContract {
       _data: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
-
-    saleLive(overrides?: CallOverrides): Promise<BigNumber>;
 
     setApprovalForAll(
       operator: string,
@@ -1031,18 +998,19 @@ export interface NFTCollection extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setStatus(
+      _status: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    status(overrides?: CallOverrides): Promise<BigNumber>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
-
-    toggleSale(
-      _saleLive: boolean,
-      _protectedSaleLive: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
 
     tokenByIndex(
       index: BigNumberish,
@@ -1154,8 +1122,6 @@ export interface NFTCollection extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    protectedSaleLive(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -1174,8 +1140,6 @@ export interface NFTCollection extends BaseContract {
       _data: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
-
-    saleLive(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     setApprovalForAll(
       operator: string,
@@ -1198,18 +1162,19 @@ export interface NFTCollection extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    setStatus(
+      _status: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    status(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    toggleSale(
-      _saleLive: boolean,
-      _protectedSaleLive: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
 
     tokenByIndex(
       index: BigNumberish,

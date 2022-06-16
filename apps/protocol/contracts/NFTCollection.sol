@@ -23,14 +23,19 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
         address indexed previousOwner,
         address indexed newOwner
     );
-    event ToggleSale(bool saleLive, bool presaleLive);
+    event UpdateStatus(Status status);
+
+    enum Status {
+        Closed,
+        Protected,
+        Public
+    }
+    Status public status;
 
     address payable public immutable FACTORY;
     uint256 public immutable MAX_SUPPLY;
     uint256 public immutable TX_LIMIT;
 
-    bool public saleLive;
-    bool public protectedSaleLive;
     string public baseURI;
     uint256 public batchSupply;
     uint256 public giftedAmount;
@@ -63,9 +68,8 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
         _;
     }
 
-    modifier saleOpen(bool isProtected) {
-        if ((isProtected && !protectedSaleLive) || (!isProtected && !saleLive))
-            revert SaleClosed();
+    modifier saleOpen(Status _status) {
+        if (status != _status) revert SaleClosed();
         _;
     }
 
@@ -92,6 +96,7 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
         FACTORY = _factory;
         MAX_SUPPLY = maxSupply;
         TX_LIMIT = txLimit;
+        batchSupply = maxSupply;
     }
 
     // ============ EXTERNAL FUNCTIONS ============
@@ -101,7 +106,7 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
         payable
         canMint(tokenQuantity)
         isCorrectPayment(tokenQuantity)
-        saleOpen(false)
+        saleOpen(Status.Public)
         nonReentrant
     {
         uint256 supply = totalSupply();
@@ -120,7 +125,7 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
         payable
         canMint(tokenQuantity)
         isCorrectPayment(tokenQuantity)
-        saleOpen(true)
+        saleOpen(Status.Protected)
         validSignature(hash, signature, nonce, tokenQuantity)
         nonReentrant
     {
@@ -172,13 +177,9 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
         price = _price;
     }
 
-    function toggleSale(bool _saleLive, bool _protectedSaleLive)
-        external
-        onlyOwner
-    {
-        saleLive = _saleLive;
-        protectedSaleLive = _protectedSaleLive;
-        emit ToggleSale(_saleLive, _protectedSaleLive);
+    function setStatus(Status _status) external onlyOwner {
+        status = _status;
+        emit UpdateStatus(_status);
     }
 
     function renounceOwnership() public onlyOwner {
