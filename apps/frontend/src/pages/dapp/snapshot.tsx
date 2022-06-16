@@ -62,7 +62,7 @@ function Prompt({
             placeholder="0x12345567890"
             fullWidth={true}
           />
-          <Button value="Take snapshot" onClick={onSubmit} />
+          <Button value="Take snapshot" onClick={onSubmit} className="ml-4" />
         </form>
       </div>
     </div>

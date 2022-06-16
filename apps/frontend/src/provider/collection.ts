@@ -1,25 +1,14 @@
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
+import { CollectionDetails, Status } from "../types/collections";
 import { NFTCollection } from "../types/contracts";
 
-export type CollectionDetails = {
-  maxSupply: number;
-  txLimit: number;
-  baseURI: string;
-  batchSupply: number;
-  giftedAmount: number;
-  name: string;
-  price: BigNumber;
-  protectedSaleLive: boolean;
-  saleLive: boolean;
-  symbol: string;
-  totalSupply: number;
-};
-
-export const getCollectionDetails = async (
-  collection: NFTCollection
+const getCollectionDetails = async (
+  collection: NFTCollection,
+  provider: ethers.providers.Provider
 ): Promise<CollectionDetails | undefined> => {
   try {
     const [
+      balance,
       maxSupply,
       txLimit,
       baseURI,
@@ -27,11 +16,11 @@ export const getCollectionDetails = async (
       giftedAmount,
       name,
       price,
-      protectedSaleLive,
-      saleLive,
+      status,
       symbol,
       totalSupply,
     ] = await Promise.all([
+      provider.getBalance(collection.address),
       collection.MAX_SUPPLY(),
       collection.TX_LIMIT(),
       collection.baseURI(),
@@ -39,21 +28,20 @@ export const getCollectionDetails = async (
       collection.giftedAmount(),
       collection.name(),
       collection.price(),
-      collection.protectedSaleLive(),
-      collection.saleLive(),
+      collection.status(),
       collection.symbol(),
       collection.totalSupply(),
     ]);
     return {
+      balance: ethers.utils.formatEther(balance),
       maxSupply: maxSupply.toNumber(),
       txLimit: txLimit.toNumber(),
       baseURI,
       batchSupply: batchSupply.toNumber(),
       giftedAmount: giftedAmount.toNumber(),
       name,
-      price,
-      protectedSaleLive,
-      saleLive,
+      price: ethers.utils.formatEther(price),
+      status,
       symbol,
       totalSupply: totalSupply.toNumber(),
     };
@@ -63,50 +51,49 @@ export const getCollectionDetails = async (
   }
 };
 
-export const gift = async (collection: NFTCollection, gifts: string) => {
+const gift = async (collection: NFTCollection, gifts: string) => {
   return await collection.gift(gifts.split(","));
 };
 
-export const renounceOwner = async (collection: NFTCollection) => {
+const renounceOwner = async (collection: NFTCollection) => {
   return await collection.renounceOwnership();
 };
 
-export const setBaseURI = async (
-  collection: NFTCollection,
-  baseURI: string
-) => {
+const setBaseURI = async (collection: NFTCollection, baseURI: string) => {
   return await collection.setBaseURI(baseURI);
 };
 
-export const setBatchSupply = async (
+const setBatchSupply = async (
   collection: NFTCollection,
   batchSupply: string
 ) => {
   return await collection.setPrice(ethers.utils.parseEther(batchSupply));
 };
 
-export const setPrice = async (collection: NFTCollection, price: string) => {
+const setPrice = async (collection: NFTCollection, price: string) => {
   return await collection.setPrice(ethers.utils.parseEther(price));
 };
 
-export const toggleSale = async (
-  collection: NFTCollection,
-  saleLive: string,
-  protectedSaleLive: string
-) => {
-  return await collection.toggleSale(
-    saleLive === "true",
-    protectedSaleLive === "true"
-  );
+const setStatus = async (collection: NFTCollection, status: Status) => {
+  return await collection.setStatus(status);
 };
 
-export const transferOwner = async (
-  collection: NFTCollection,
-  newOwner: string
-) => {
+const transferOwner = async (collection: NFTCollection, newOwner: string) => {
   return await collection.transferOwnership(newOwner);
 };
 
-export const withdraw = async (collection: NFTCollection) => {
+const withdraw = async (collection: NFTCollection) => {
   return await collection.withdraw();
+};
+
+export {
+  getCollectionDetails,
+  gift,
+  renounceOwner,
+  setBaseURI,
+  setBatchSupply,
+  setPrice,
+  setStatus,
+  transferOwner,
+  withdraw,
 };
