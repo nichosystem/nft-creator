@@ -16,8 +16,8 @@ const sidebarNavigation = [
   { name: "Manager", href: "/dapp", icon: HomeIcon },
   { name: "Deployer", href: "/dapp/deployer", icon: CodeIcon },
   { name: "Snapshot", href: "/dapp/snapshot", icon: CameraIcon },
-  { name: "Minting App", href: "/dapp/minting", icon: TemplateIcon },
-  { name: "Generator", href: "/dapp/generator", icon: BeakerIcon },
+  // { name: "Minting App", href: "/dapp/minting", icon: TemplateIcon },
+  // { name: "Generator", href: "/dapp/generator", icon: BeakerIcon },
 ];
 
 function classNames(...classes: (string | boolean)[]) {
@@ -32,7 +32,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <>
       <div className="h-full min-h-screen flex">
         {/* Narrow sidebar */}
-        <div className="hidden md:block w-28 bg-indigo-700 dark:bg-slate-900 overflow-y-auto fixed h-screen">
+        <div className="hidden md:block w-28 bg-slate-900 overflow-y-auto fixed h-screen">
           <div className="w-full py-6 flex flex-col items-center">
             <div className="flex-shrink-0 flex items-center"></div>
             <div className="flex-1 mt-6 w-full px-2 space-y-1">
