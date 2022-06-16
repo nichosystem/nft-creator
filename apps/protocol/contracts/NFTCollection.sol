@@ -223,8 +223,7 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
     }
 
     function _transferOwnership(address newOwner) private {
-        address oldOwner = NFTFactory(FACTORY).ownerOf(address(this));
         NFTFactory(FACTORY).transferOwner(address(this), newOwner);
-        emit OwnershipTransferred(oldOwner, newOwner);
+        emit OwnershipTransferred(msg.sender, newOwner);
     }
 }

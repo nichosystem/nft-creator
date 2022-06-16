@@ -7,11 +7,12 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract NFTFactory is Ownable {
     event Deployed(address indexed addr, address indexed owner);
 
+    address public signer;
+    uint256 public price;
+    uint256 public royalty;
+
     // List of all deployed collections
     address[] public collections;
-    address public signer;
-    uint256 public royalty;
-    uint256 public price;
 
     // Mapping from collection address to owner address
     mapping(address => address) public ownerOf;
