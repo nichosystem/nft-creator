@@ -9,7 +9,7 @@ const Code = ({ content }: { content: string }) => {
   return (
     <pre>
       <code
-        className="hljs rounded-lg max-h-96"
+        className="hljs rounded-lg max-h-screen"
         dangerouslySetInnerHTML={{
           __html: hljs.highlight(content, { language: "solidity" }).value,
         }}

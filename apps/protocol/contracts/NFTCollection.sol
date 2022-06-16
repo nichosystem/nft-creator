@@ -87,9 +87,9 @@ contract NFTCollection is ERC721Enumerable, ReentrancyGuard {
     }
 
     constructor(
+        address payable _factory,
         string memory name,
         string memory symbol,
-        address payable _factory,
         uint256 maxSupply,
         uint256 txLimit
     ) ERC721(name, symbol) {

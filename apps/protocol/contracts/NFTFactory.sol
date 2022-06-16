@@ -103,7 +103,7 @@ contract NFTFactory is Ownable {
         uint256 txLimit
     ) private {
         address addr = address(
-            new NFTCollection(name, symbol, payable(this), maxSupply, txLimit)
+            new NFTCollection(payable(this), name, symbol, maxSupply, txLimit)
         );
         collections.push(addr);
         ownerOf[addr] = _owner;
