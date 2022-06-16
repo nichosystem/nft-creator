@@ -54,7 +54,8 @@ export interface NFTCollectionInterface extends utils.Interface {
     "saleLive()": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setBaseURI(string)": FunctionFragment;
-    "setupBatch(uint256,uint256)": FunctionFragment;
+    "setBatchSupply(uint256)": FunctionFragment;
+    "setPrice(uint256)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "toggleSale(bool,bool)": FunctionFragment;
@@ -95,7 +96,8 @@ export interface NFTCollectionInterface extends utils.Interface {
       | "saleLive"
       | "setApprovalForAll"
       | "setBaseURI"
-      | "setupBatch"
+      | "setBatchSupply"
+      | "setPrice"
       | "supportsInterface"
       | "symbol"
       | "toggleSale"
@@ -177,8 +179,12 @@ export interface NFTCollectionInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "setBaseURI", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "setupBatch",
-    values: [BigNumberish, BigNumberish]
+    functionFragment: "setBatchSupply",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setPrice",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
@@ -277,7 +283,11 @@ export interface NFTCollectionInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setBaseURI", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setupBatch", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setBatchSupply",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setPrice", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
@@ -508,9 +518,13 @@ export interface NFTCollection extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setupBatch(
-      _price: BigNumberish,
+    setBatchSupply(
       _batchSupply: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setPrice(
+      _price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -661,9 +675,13 @@ export interface NFTCollection extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setupBatch(
-    _price: BigNumberish,
+  setBatchSupply(
     _batchSupply: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setPrice(
+    _price: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -800,11 +818,12 @@ export interface NFTCollection extends BaseContract {
 
     setBaseURI(URI: string, overrides?: CallOverrides): Promise<void>;
 
-    setupBatch(
-      _price: BigNumberish,
+    setBatchSupply(
       _batchSupply: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    setPrice(_price: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     supportsInterface(
       interfaceId: BytesLike,
@@ -1002,9 +1021,13 @@ export interface NFTCollection extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setupBatch(
-      _price: BigNumberish,
+    setBatchSupply(
       _batchSupply: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setPrice(
+      _price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1165,9 +1188,13 @@ export interface NFTCollection extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setupBatch(
-      _price: BigNumberish,
+    setBatchSupply(
       _batchSupply: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setPrice(
+      _price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

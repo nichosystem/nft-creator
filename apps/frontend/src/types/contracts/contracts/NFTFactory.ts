@@ -29,8 +29,7 @@ import type {
 
 export interface NFTFactoryInterface extends utils.Interface {
   functions: {
-    "addresses(uint256)": FunctionFragment;
-    "collections(address)": FunctionFragment;
+    "collections(uint256)": FunctionFragment;
     "deploy(address,string,string,uint256,uint256)": FunctionFragment;
     "getOwnedCollections(address)": FunctionFragment;
     "owner()": FunctionFragment;
@@ -48,7 +47,6 @@ export interface NFTFactoryInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "addresses"
       | "collections"
       | "deploy"
       | "getOwnedCollections"
@@ -66,10 +64,9 @@ export interface NFTFactoryInterface extends utils.Interface {
   ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "addresses",
+    functionFragment: "collections",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "collections", values: [string]): string;
   encodeFunctionData(
     functionFragment: "deploy",
     values: [string, string, string, BigNumberish, BigNumberish]
@@ -105,7 +102,6 @@ export interface NFTFactoryInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "withdraw", values?: undefined): string;
 
-  decodeFunctionResult(functionFragment: "addresses", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "collections",
     data: BytesLike
@@ -198,12 +194,10 @@ export interface NFTFactory extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    addresses(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
-
     collections(
-      arg0: string,
+      arg0: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<[string, string] & { addr: string; owner: string }>;
+    ): Promise<[string]>;
 
     deploy(
       _owner: string,
@@ -230,7 +224,7 @@ export interface NFTFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    ownerOf(addr: string, overrides?: CallOverrides): Promise<[string]>;
+    ownerOf(arg0: string, overrides?: CallOverrides): Promise<[string]>;
 
     price(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -265,12 +259,7 @@ export interface NFTFactory extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
-  addresses(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  collections(
-    arg0: string,
-    overrides?: CallOverrides
-  ): Promise<[string, string] & { addr: string; owner: string }>;
+  collections(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   deploy(
     _owner: string,
@@ -297,7 +286,7 @@ export interface NFTFactory extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  ownerOf(addr: string, overrides?: CallOverrides): Promise<string>;
+  ownerOf(arg0: string, overrides?: CallOverrides): Promise<string>;
 
   price(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -330,12 +319,7 @@ export interface NFTFactory extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    addresses(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    collections(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<[string, string] & { addr: string; owner: string }>;
+    collections(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     deploy(
       _owner: string,
@@ -362,7 +346,7 @@ export interface NFTFactory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    ownerOf(addr: string, overrides?: CallOverrides): Promise<string>;
+    ownerOf(arg0: string, overrides?: CallOverrides): Promise<string>;
 
     price(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -411,12 +395,10 @@ export interface NFTFactory extends BaseContract {
   };
 
   estimateGas: {
-    addresses(
+    collections(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    collections(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     deploy(
       _owner: string,
@@ -443,7 +425,7 @@ export interface NFTFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    ownerOf(addr: string, overrides?: CallOverrides): Promise<BigNumber>;
+    ownerOf(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     price(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -479,13 +461,8 @@ export interface NFTFactory extends BaseContract {
   };
 
   populateTransaction: {
-    addresses(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     collections(
-      arg0: string,
+      arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -515,7 +492,7 @@ export interface NFTFactory extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     ownerOf(
-      addr: string,
+      arg0: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

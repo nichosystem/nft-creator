@@ -1,5 +1,5 @@
 import { BigNumber, ethers } from "ethers";
-import { NFTCollection__factory } from "../types/contracts";
+import { NFTCollection } from "../types/contracts";
 
 export type CollectionDetails = {
   maxSupply: number;
@@ -16,10 +16,8 @@ export type CollectionDetails = {
 };
 
 export const getCollectionDetails = async (
-  provider: ethers.providers.BaseProvider,
-  address: string
+  collection: NFTCollection
 ): Promise<CollectionDetails | undefined> => {
-  const collection = NFTCollection__factory.connect(address, provider);
   try {
     const [
       maxSupply,
@@ -65,34 +63,50 @@ export const getCollectionDetails = async (
   }
 };
 
-export const gift = () => {
-  console.log("gift");
+export const gift = async (collection: NFTCollection, gifts: string) => {
+  return await collection.gift(gifts.split(","));
 };
 
-export const renounceOwner = () => {
-  console.log("renounce");
+export const renounceOwner = async (collection: NFTCollection) => {
+  return await collection.renounceOwnership();
 };
 
-export const setBaseURI = () => {
-  console.log("setBaseURI");
+export const setBaseURI = async (
+  collection: NFTCollection,
+  baseURI: string
+) => {
+  return await collection.setBaseURI(baseURI);
 };
 
-export const setBatchSupply = () => {
-  console.log("setBatchSupply");
+export const setBatchSupply = async (
+  collection: NFTCollection,
+  batchSupply: string
+) => {
+  return await collection.setPrice(ethers.utils.parseEther(batchSupply));
 };
 
-export const setPrice = () => {
-  console.log("setPrice");
+export const setPrice = async (collection: NFTCollection, price: string) => {
+  return await collection.setPrice(ethers.utils.parseEther(price));
 };
 
-export const toggleSale = () => {
-  console.log("toggleSale");
+export const toggleSale = async (
+  collection: NFTCollection,
+  saleLive: string,
+  protectedSaleLive: string
+) => {
+  return await collection.toggleSale(
+    saleLive === "true",
+    protectedSaleLive === "true"
+  );
 };
 
-export const transferOwner = () => {
-  console.log("transferOwner");
+export const transferOwner = async (
+  collection: NFTCollection,
+  newOwner: string
+) => {
+  return await collection.transferOwnership(newOwner);
 };
 
-export const withdraw = () => {
-  console.log("withdraw");
+export const withdraw = async (collection: NFTCollection) => {
+  return await collection.withdraw();
 };

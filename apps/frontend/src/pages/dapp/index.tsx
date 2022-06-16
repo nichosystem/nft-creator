@@ -1,14 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import {
-  ChangeEvent,
-  ChangeEventHandler,
-  ReactEventHandler,
-  useEffect,
-  useState,
-} from "react";
-import { useAccount, useProvider, useSigner } from "wagmi";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useAccount, useSigner } from "wagmi";
 import { getOwnedCollections } from "../../provider/factory";
 import {
   CollectionDetails,
@@ -24,19 +18,20 @@ import {
 } from "../../provider/collection";
 import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
+import { NFTCollection, NFTCollection__factory } from "../../types/contracts";
 
 const Manager: NextPage = () => {
-  const provider = useProvider();
+  const { data: signer } = useSigner();
   const { data: account } = useAccount();
   const [collections, setCollections] = useState<string[]>([]);
-  const [activeCollection, setActiveCollection] = useState<string>("");
+  const [contract, setContract] = useState<NFTCollection>();
   const [collectionDetails, setCollectionDetails] =
     useState<CollectionDetails>();
   const [inputs, setInputs] = useState({
     baseURI: "",
     batchSupply: "",
     gifts: "",
-    presaleLive: "",
+    protectedSaleLive: "",
     price: "",
     saleLive: "",
     transferOwner: "",
@@ -45,26 +40,26 @@ const Manager: NextPage = () => {
   // Get owned collections
   useEffect(() => {
     const f = async () => {
-      if (!provider || !account?.address) return;
-      const c = await getOwnedCollections(provider, account.address);
+      if (!signer || !account?.address) return;
+      const c = await getOwnedCollections(signer, account.address);
       if (c) {
         setCollections(c);
-        setActiveCollection(c[0]);
+        setContract(NFTCollection__factory.connect(c[0], signer));
       }
     };
     f();
-  }, [provider, account?.address]);
+  }, [signer, account?.address]);
 
   // Get collection details for active collection
   useEffect(() => {
     const f = async () => {
-      if (activeCollection) {
-        const d = await getCollectionDetails(provider, activeCollection);
+      if (contract) {
+        const d = await getCollectionDetails(contract);
         if (d) setCollectionDetails(d);
       }
     };
     f();
-  }, [provider, activeCollection]);
+  }, [contract]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
     setInputs({ ...inputs, [e.target.name]: e.target.value });
@@ -89,7 +84,7 @@ const Manager: NextPage = () => {
           ))}
         </div>
       )}
-      {collectionDetails && (
+      {collectionDetails && contract && (
         <div>
           <h1>
             {collectionDetails.name} {collectionDetails.symbol}
@@ -103,7 +98,24 @@ const Manager: NextPage = () => {
             <div>
               Protected Sale Live: {collectionDetails.protectedSaleLive}
             </div>
-            <Button value="Toggle Sale" onClick={() => toggleSale()} />
+            <Input
+              value={inputs.saleLive}
+              name="saleLive"
+              onChange={handleChange}
+              placeholder="false"
+            />
+            <Input
+              value={inputs.protectedSaleLive}
+              name="protectedSaleLive"
+              onChange={handleChange}
+              placeholder="false"
+            />
+            <Button
+              value="Toggle Sale"
+              onClick={() =>
+                toggleSale(contract, inputs.saleLive, inputs.protectedSaleLive)
+              }
+            />
           </div>
           <div>
             <div>Current Price: {collectionDetails.price.toString()}</div>
@@ -113,7 +125,10 @@ const Manager: NextPage = () => {
               onChange={handleChange}
               placeholder="0.5"
             />
-            <Button value="Set Price" onClick={() => setPrice()} />
+            <Button
+              value="Set Price"
+              onClick={() => setPrice(contract, inputs.price)}
+            />
           </div>
           <div>
             <div>Current Batch Supply: {collectionDetails.batchSupply}</div>
@@ -123,7 +138,10 @@ const Manager: NextPage = () => {
               onChange={handleChange}
               placeholder="10000"
             />
-            <Button value="Set Batch Supply" onClick={() => setBatchSupply()} />
+            <Button
+              value="Set Batch Supply"
+              onClick={() => setBatchSupply(contract, inputs.batchSupply)}
+            />
           </div>
           <div>
             <p>Current: {collectionDetails.baseURI}</p>
@@ -133,7 +151,10 @@ const Manager: NextPage = () => {
               onChange={handleChange}
               placeholder="ipfs://abcdefghijklmnopqrstuvwxyz/"
             />
-            <Button value="Set Base URI" onClick={() => setBaseURI()} />
+            <Button
+              value="Set Base URI"
+              onClick={() => setBaseURI(contract, inputs.baseURI)}
+            />
           </div>
           <div>
             <Input
@@ -143,7 +164,10 @@ const Manager: NextPage = () => {
               placeholder="0x12345567890,0x12345567890"
             />
             <div>Total Gifted: {collectionDetails.giftedAmount}</div>
-            <Button value="Send Gifts" onClick={() => gift()} />
+            <Button
+              value="Send Gifts"
+              onClick={() => gift(contract, inputs.gifts)}
+            />
           </div>
           <div>
             <Input
@@ -154,11 +178,14 @@ const Manager: NextPage = () => {
             />
             <Button
               value="Transfer ownership"
-              onClick={() => transferOwner()}
+              onClick={() => transferOwner(contract, inputs.transferOwner)}
             />
           </div>
-          <Button value="Renounce ownership" onClick={() => renounceOwner()} />
-          <Button value="Withdraw funds" onClick={() => withdraw()} />
+          <Button
+            value="Renounce ownership"
+            onClick={() => renounceOwner(contract)}
+          />
+          <Button value="Withdraw funds" onClick={() => withdraw(contract)} />
         </div>
       )}
     </>
