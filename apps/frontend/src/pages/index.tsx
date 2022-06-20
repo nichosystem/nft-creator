@@ -9,13 +9,15 @@ import {
   PuzzleIcon,
 } from "@heroicons/react/outline";
 import Footer from "../components/Footer";
+import Logo from "../components/Logo";
 
 const Hero = () => {
   return (
     <div className="relative bg-slate-900 overflow-hidden">
-      <div className="relative pt-32 sm:pb-32">
+      <div className="relative pt-24 sm:pb-32">
         <main className="mt-16 mx-auto max-w-7xl px-4 sm:mt-24">
           <div className="text-center">
+            <Logo />
             <h1 className="text-4xl tracking-tight font-extrabold text-slate-100 sm:text-5xl md:text-6xl">
               <span className="block leading-snug">No-Code Tools for </span>{" "}
               <span className="block text-sky-400">NFT Creators</span>
@@ -28,7 +30,7 @@ const Hero = () => {
             <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
               <div className="rounded-md shadow">
                 <Link href="/dapp" passHref>
-                  <button className="mt-2 font-thin tracking-widest uppercase flex-shrink-0 px-4 py-2 border border-transparent text-xl rounded-md shadow-sm text-white bg-sky-500 hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
+                  <button className="mt-2 font-extralight tracking-widest uppercase flex-shrink-0 px-4 py-2 border border-transparent text-xl rounded-md shadow-sm text-white bg-sky-500 hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
                     Enter dApp
                   </button>
                 </Link>
@@ -101,7 +103,7 @@ const Features = () => {
                 <div className="flow-root rounded-lg bg-gray-50 px-6 pb-8">
                   <div className="-mt-6">
                     <div>
-                      <span className="inline-flex items-center justify-center rounded-md bg-sky-600 p-3 shadow-lg">
+                      <span className="inline-flex items-center justify-center rounded-md bg-sky-500 p-3 shadow-lg">
                         <feature.icon
                           className="h-6 w-6 text-white"
                           aria-hidden="true"
