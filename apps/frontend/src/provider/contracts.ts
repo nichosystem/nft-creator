@@ -36,7 +36,7 @@ const CONTRACT_ADDRS: ContractAddrs = {
     nftFactory: "",
   },
   goerli: {
-    nftFactory: "",
+    nftFactory: "0x4f17e8e976b809408D4aa3485BFF9326dF8AB505",
   },
   polygon: {
     nftFactory: "",

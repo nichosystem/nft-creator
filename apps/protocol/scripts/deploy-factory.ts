@@ -1,45 +1,37 @@
-import { ethers } from "hardhat";
+import { ethers, hardhatArguments } from "hardhat";
 
 async function main() {
+  if (!hardhatArguments.network) throw new Error("Please pass --network");
+  const network = hardhatArguments.network;
+
   // Get signer
   const [deployer] = await ethers.getSigners();
-  const network = await ethers.provider.getNetwork();
-  console.log(
-    "Deploying with account",
-    deployer.address,
-    "on network",
-    network.chainId
-  );
+  console.log("Deploying with account", deployer.address, "on ", network);
 
-  // Deploy
-  const NFTFactory_factory = await ethers.getContractFactory("NFTFactory");
-  const deployedContract = await NFTFactory_factory.deploy();
-  console.log("NFTFactory deployed to:", deployedContract.address);
-
-  // Initialize contract starting params
-  const price = 0;
-  const royalty = 0;
-  const signer = await deployer.getAddress();
-  const nftFactory = NFTFactory_factory.attach(deployedContract.address);
   try {
-    const tx = await nftFactory.updateFactory(price, royalty, signer);
-    await tx.wait();
-    console.log(
-      `Updated NFTFactory with ${price} price, ${royalty} royalter, ${signer} signer`
-    );
-  } catch (e) {
-    console.log("Failed to update NFTFactory");
-    console.log(e);
-  }
+    // Deploy
+    const NFTFactory_factory = await ethers.getContractFactory("NFTFactory");
+    const deployedContract = await NFTFactory_factory.deploy();
+    console.log("NFTFactory deployed to:", deployedContract.address);
 
-  // Deploy a collection
-  try {
-    const tx = await nftFactory.ownerDeploy("MetaMask", "MM", signer, 200, 20);
-    await tx.wait();
-    console.log(`Deployed new NFT collection`);
+    // Initialize contract starting params
+    // const price = 0;
+    // const royalty = 0;
+    // const signer = await deployer.getAddress();
+    // const nftFactory = NFTFactory_factory.attach(deployedContract.address);
+    // const updateTx = await nftFactory.updateFactory(price, royalty, signer);
+    // await updateTx.wait();
+    // console.log(
+    //   `Updated NFTFactory with ${price} price, ${royalty} royalter, ${signer} signer`
+    // );
+
+    // Deploy a collection
+    // const tx = await nftFactory.ownerDeploy("MetaMask", "MM", signer, 200, 20);
+    // await tx.wait();
+    // console.log(`Deployed new NFT collection`);
   } catch (e) {
-    console.log("Failed to deploy a collection");
     console.log(e);
+    return;
   }
 }
 
