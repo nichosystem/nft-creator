@@ -44,7 +44,7 @@ export default function Footer() {
         </div>
         <div className="mt-8 md:mt-0 md:order-1">
           <p className="text-center text-base text-slate-400 font-thin">
-            &copy; {new Date().getFullYear()} Anima, LLC.
+            &copy; {new Date().getFullYear()} Anima Guild
           </p>
         </div>
       </div>

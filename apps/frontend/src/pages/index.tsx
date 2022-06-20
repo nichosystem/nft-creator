@@ -13,80 +13,6 @@ import Footer from "../components/Footer";
 const Hero = () => {
   return (
     <div className="relative bg-slate-900 overflow-hidden">
-      {/* SVGs */}
-      <div
-        className="hidden sm:block sm:absolute sm:inset-y-0 sm:h-full sm:w-full"
-        aria-hidden="true"
-      >
-        <div className="relative h-full max-w-7xl mx-auto">
-          <svg
-            className="absolute right-full transform translate-y-1/4 translate-x-1/4 lg:translate-x-1/2"
-            width={404}
-            height={784}
-            fill="none"
-            viewBox="0 0 404 784"
-          >
-            <defs>
-              <pattern
-                id="f210dbf6-a58d-4871-961e-36d5016a0f49"
-                x={0}
-                y={0}
-                width={20}
-                height={20}
-                patternUnits="userSpaceOnUse"
-              >
-                <rect
-                  x={0}
-                  y={0}
-                  width={4}
-                  height={4}
-                  className="text-gray-900"
-                  fill="currentColor"
-                />
-              </pattern>
-            </defs>
-            <rect
-              width={404}
-              height={784}
-              fill="url(#f210dbf6-a58d-4871-961e-36d5016a0f49)"
-            />
-          </svg>
-          <svg
-            className="absolute left-full transform -translate-y-3/4 -translate-x-1/4 md:-translate-y-1/2 lg:-translate-x-1/2"
-            width={404}
-            height={784}
-            fill="none"
-            viewBox="0 0 404 784"
-          >
-            <defs>
-              <pattern
-                id="5d0dd344-b041-4d26-bec4-8d33ea57ec9b"
-                x={0}
-                y={0}
-                width={20}
-                height={20}
-                patternUnits="userSpaceOnUse"
-              >
-                <rect
-                  x={0}
-                  y={0}
-                  width={4}
-                  height={4}
-                  className="text-gray-900"
-                  fill="currentColor"
-                />
-              </pattern>
-            </defs>
-            <rect
-              width={404}
-              height={784}
-              fill="url(#5d0dd344-b041-4d26-bec4-8d33ea57ec9b)"
-            />
-          </svg>
-        </div>
-      </div>
-
-      {/* Hero */}
       <div className="relative pt-32 sm:pb-32">
         <main className="mt-16 mx-auto max-w-7xl px-4 sm:mt-24">
           <div className="text-center">
@@ -163,10 +89,10 @@ const Features = () => {
         <p className="mt-2 text-3xl font-extrabold tracking-tight text-slate-100 sm:text-4xl">
           Everything you need to create an NFT collection
         </p>
-        <p className="mx-auto mt-5 max-w-prose text-xl text-slate-300">
-          Phasellus lorem quam molestie id quisque diam aenean nulla in.
-          Accumsan in quis quis nunc, ullamcorper malesuada. Eleifend
-          condimentum id viverra nulla.
+        <p className="mx-auto mt-5 max-w-prose text-xl text-slate-400">
+          A tool for every need you have as an NFT creator, including smart
+          contracts, art generation, and a custom minting dApp – all without
+          writing a single line of code.
         </p>
         <div className="mt-12">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -175,7 +101,7 @@ const Features = () => {
                 <div className="flow-root rounded-lg bg-gray-50 px-6 pb-8">
                   <div className="-mt-6">
                     <div>
-                      <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-3 shadow-lg">
+                      <span className="inline-flex items-center justify-center rounded-md bg-sky-600 p-3 shadow-lg">
                         <feature.icon
                           className="h-6 w-6 text-white"
                           aria-hidden="true"
