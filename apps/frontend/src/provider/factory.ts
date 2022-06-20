@@ -11,14 +11,13 @@ export const deploy = async (
   const factory = await CONTRACTS.nftFactory.connect(signer);
   if (!factory) return;
   try {
-    const tx = await factory.deploy(
+    return await factory.deploy(
       await signer.getAddress(),
       name,
       symbol,
       maxSupply,
       txLimit
     );
-    return await tx.wait();
   } catch (e) {
     console.log("ERROR: Factory deploy failed");
     console.log(e);

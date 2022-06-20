@@ -9,6 +9,7 @@ import {
   darkTheme,
   lightTheme,
 } from "@rainbow-me/rainbowkit";
+import { ToastContainer } from "react-toastify";
 import { createClient, chain, configureChains, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
@@ -17,12 +18,7 @@ import { useEffect } from "react";
 import { NextPageWithLayout } from "../types/types";
 
 // wagmi
-const selectChains = [
-  chain.mainnet,
-  chain.goerli,
-  chain.polygon,
-  chain.polygonMumbai,
-];
+const selectChains = [chain.mainnet, chain.polygon, chain.goerli];
 if (process.env.NEXT_PUBLIC_ENV === "development")
   selectChains.push(chain.localhost);
 const { provider, chains } = configureChains(selectChains, [
@@ -79,6 +75,7 @@ function App({
             darkMode: darkTheme(),
           }}
         >
+          <ToastContainer theme="dark" />
           <PageLayout>
             <Component {...pageProps} />
           </PageLayout>

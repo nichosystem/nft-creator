@@ -20,6 +20,7 @@ import Input from "../../components/input/Input";
 import { NFTCollection, NFTCollection__factory } from "../../types/contracts";
 import SelectMenu, { SelectItem } from "../../components/SelectMenu";
 import { CollectionDetails, Status } from "../../types/collections";
+import { handleTransaction } from "../../utils/handle-transaction";
 
 const Manager: NextPage = () => {
   const { data: signer } = useSigner();
@@ -150,8 +151,11 @@ const Manager: NextPage = () => {
                                 checked={
                                   collectionDetails.status == Status.Closed
                                 }
-                                onChange={() =>
-                                  setStatus(contract, Status.Closed)
+                                onChange={async () =>
+                                  handleTransaction(
+                                    await setStatus(contract, Status.Closed),
+                                    "Closing Sales"
+                                  )
                                 }
                               />
                               <label
@@ -170,8 +174,11 @@ const Manager: NextPage = () => {
                                 checked={
                                   collectionDetails.status == Status.Protected
                                 }
-                                onChange={() =>
-                                  setStatus(contract, Status.Protected)
+                                onChange={async () =>
+                                  handleTransaction(
+                                    await setStatus(contract, Status.Protected),
+                                    "Opening Protected Minting"
+                                  )
                                 }
                               />
                               <label
@@ -190,8 +197,11 @@ const Manager: NextPage = () => {
                                 checked={
                                   collectionDetails.status == Status.Public
                                 }
-                                onChange={() =>
-                                  setStatus(contract, Status.Public)
+                                onChange={async () =>
+                                  handleTransaction(
+                                    await setStatus(contract, Status.Public),
+                                    "Opening Public Minting"
+                                  )
                                 }
                               />
                               <label
@@ -225,7 +235,12 @@ const Manager: NextPage = () => {
                         <div className="flex">
                           <Button
                             value="Update"
-                            onClick={() => setPrice(contract, inputs.price)}
+                            onClick={async () =>
+                              handleTransaction(
+                                await setPrice(contract, inputs.price),
+                                "Updating Mint Price"
+                              )
+                            }
                             className="ml-4"
                           />
                         </div>
@@ -250,8 +265,14 @@ const Manager: NextPage = () => {
                         />
                         <Button
                           value="Update"
-                          onClick={() =>
-                            setBatchSupply(contract, inputs.batchSupply)
+                          onClick={async () =>
+                            handleTransaction(
+                              await setBatchSupply(
+                                contract,
+                                inputs.batchSupply
+                              ),
+                              "Updating Batch Supply Limit"
+                            )
                           }
                           className="ml-4"
                         />
@@ -285,7 +306,12 @@ const Manager: NextPage = () => {
                         />
                         <Button
                           value="Update"
-                          onClick={() => setBaseURI(contract, inputs.baseURI)}
+                          onClick={async () =>
+                            handleTransaction(
+                              await setBaseURI(contract, inputs.baseURI),
+                              "Updating Metadata Base URI"
+                            )
+                          }
                           className="ml-4"
                         />
                       </div>
@@ -333,7 +359,12 @@ const Manager: NextPage = () => {
                       </p>
                       <Button
                         value="Send Gifts"
-                        onClick={() => gift(contract, inputs.gifts)}
+                        onClick={async () =>
+                          handleTransaction(
+                            await gift(contract, inputs.gifts),
+                            "Sending Gifts"
+                          )
+                        }
                         className="mt-2"
                       />
                     </div>
@@ -360,7 +391,12 @@ const Manager: NextPage = () => {
                       </p>
                       <Button
                         value="Withdraw"
-                        onClick={() => withdraw(contract)}
+                        onClick={async () =>
+                          handleTransaction(
+                            await withdraw(contract),
+                            "Withdrawing Funds"
+                          )
+                        }
                         className="mt-2"
                       />
                     </div>
@@ -384,8 +420,14 @@ const Manager: NextPage = () => {
                         />
                         <Button
                           value="Transfer"
-                          onClick={() =>
-                            transferOwner(contract, inputs.transferOwner)
+                          onClick={async () =>
+                            handleTransaction(
+                              await transferOwner(
+                                contract,
+                                inputs.transferOwner
+                              ),
+                              "Transferring Ownership"
+                            )
                           }
                           className="ml-4"
                         />
@@ -404,7 +446,12 @@ const Manager: NextPage = () => {
                       </p>
                       <Button
                         value="Renounce"
-                        onClick={() => renounceOwner(contract)}
+                        onClick={async () =>
+                          handleTransaction(
+                            await renounceOwner(contract),
+                            "Renouncing Ownership"
+                          )
+                        }
                         className="bg-rose-600 hover:bg-rose-700 mt-2"
                       />
                     </div>

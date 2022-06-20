@@ -27,7 +27,6 @@ enum Networks {
   mainnet = "mainnet",
   goerli = "goerli",
   polygon = "polygon",
-  mumbai = "mumbai",
   localhost = "localhost",
 }
 
@@ -40,9 +39,6 @@ const CONTRACT_ADDRS: ContractAddrs = {
     nftFactory: "",
   },
   polygon: {
-    nftFactory: "",
-  },
-  mumbai: {
     nftFactory: "",
   },
   localhost: {
@@ -68,8 +64,6 @@ export const getNetwork = async (signerOrProvider: Signer | Provider) => {
       return Networks.goerli;
     case 137:
       return Networks.polygon;
-    case 80001:
-      return Networks.mumbai;
     default:
       return Networks.localhost;
   }

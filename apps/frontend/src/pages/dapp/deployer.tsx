@@ -8,12 +8,9 @@ import Input from "../../components/input/Input";
 import CONTRACT_CODE from "../../assets/contract-code";
 import { deploy } from "../../provider/factory";
 import { ExternalLinkIcon } from "@heroicons/react/outline";
+import { handleTransaction } from "../../utils/handle-transaction";
 
 const Deployer: NextPage = () => {
-  const [name, setName] = useState("");
-  const [symbol, setSymbol] = useState("");
-  const [maxSupply, setMaxSupply] = useState(0);
-  const [txLimit, setTxLimit] = useState(0);
   const { data: signer } = useSigner();
   const [inputs, setInputs] = useState({
     name: "",
@@ -22,10 +19,17 @@ const Deployer: NextPage = () => {
     txLimit: "",
   });
 
-  const sendDeployTx = () => {
+  const sendDeployTx = async () => {
     if (!signer) return;
-    console.log("Prompting deploy tx");
-    deploy(signer, name, symbol, maxSupply, txLimit);
+    const tx = await deploy(
+      signer,
+      inputs.name,
+      inputs.symbol,
+      Number(inputs.maxSupply),
+      Number(inputs.txLimit)
+    );
+    if (!tx) return;
+    handleTransaction(tx, "Deploying NFT Contract");
   };
 
   const handleChange = (
