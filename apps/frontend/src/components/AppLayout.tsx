@@ -11,6 +11,7 @@ import {
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import Footer from "./Footer";
 
 const sidebarNavigation = [
   { name: "Manager", href: "/dapp", icon: HomeIcon },
@@ -182,6 +183,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
