@@ -8,17 +8,21 @@ import {
   CameraIcon,
   CodeIcon,
   XIcon,
+  CogIcon,
+  PuzzleIcon,
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Footer from "./Footer";
 
 const sidebarNavigation = [
-  { name: "Manager", href: "/dapp", icon: HomeIcon },
-  { name: "Deployer", href: "/dapp/deployer", icon: CodeIcon },
+  { name: "Home", href: "/", icon: HomeIcon },
+  { name: "Deploy", href: "/dapp/deployer", icon: CodeIcon },
+  { name: "Manage", href: "/dapp/manager", icon: CogIcon },
+  { name: "Metadata", href: "/dapp/metadata", icon: PuzzleIcon },
+  { name: "Generate", href: "/dapp/generator", icon: BeakerIcon },
+  { name: "Minting App", href: "/dapp/minting", icon: TemplateIcon },
   { name: "Snapshot", href: "/dapp/snapshot", icon: CameraIcon },
-  // { name: "Minting App", href: "/dapp/minting", icon: TemplateIcon },
-  // { name: "Generator", href: "/dapp/generator", icon: BeakerIcon },
 ];
 
 function classNames(...classes: (string | boolean)[]) {

@@ -9,3 +9,4 @@ cache
 artifacts
 
 .next
+.DS_Store

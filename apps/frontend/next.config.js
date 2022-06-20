@@ -1,8 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  images: {
-    domains: [],
+  async redirects() {
+    return [
+      {
+        source: "/dapp",
+        destination: "/dapp/deployer",
+        permanent: false,
+      },
+    ];
   },
 };
 
