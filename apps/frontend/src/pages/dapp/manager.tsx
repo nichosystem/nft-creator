@@ -467,5 +467,3 @@ const Manager: NextPage = () => {
 };
 
 export default Manager;
-
-// TODO: add to whitelist, remove from whitelist, public mint, protected mint

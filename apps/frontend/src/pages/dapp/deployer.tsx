@@ -82,7 +82,7 @@ const Deployer: NextPage = () => {
               </div>
               <div className="sm:col-span-3">
                 <label
-                  htmlFor="phone-number"
+                  htmlFor="maxSupply"
                   className="block text-base font-medium text-slate-100 mb-1"
                 >
                   Max Supply
@@ -96,7 +96,7 @@ const Deployer: NextPage = () => {
               </div>
               <div className="sm:col-span-3">
                 <label
-                  htmlFor="phone-number"
+                  htmlFor="txLimit"
                   className="block text-base font-medium text-slate-100 mb-1"
                 >
                   Max Mint per Transaction
