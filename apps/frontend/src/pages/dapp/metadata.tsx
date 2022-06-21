@@ -25,24 +25,34 @@ const ContentEditable = ({
   value,
   setValue,
   forwardedRef,
+  className,
 }: {
   value: string;
   setValue: (value: string) => void;
   forwardedRef?: ForwardedRef<HTMLSpanElement>;
+  className?: string;
 }) => {
   return (
     <span
       contentEditable={true}
       suppressContentEditableWarning={true}
-      className="block w-min px-1 pt-1 border-b-2 border-transparent focus:border-b-gray-200 box-content bg-white group-hover:bg-gray-50 focus:!bg-gray-100 focus:outline-none"
+      className={`block w-min px-1 pt-1 border-b-2 border-transparent focus:border-b-gray-200 box-content group-hover:bg-gray-50 focus:!bg-gray-100 focus:outline-none ${className}`}
       ref={forwardedRef}
       onBlur={(e) => setValue(e.target.innerText)}
+      onKeyDown={(e: React.KeyboardEvent<HTMLSpanElement>) => {
+        // Keyboard shortcuts to finish editing
+        if (e.key == "Enter" || e.key == "Tab" || e.key == "Escape") {
+          e.preventDefault();
+          e.currentTarget.blur();
+        }
+      }}
       onFocus={(e) => {
         // Move cursor to end of text
         const selection = window.getSelection();
         if (!selection) return;
         const range = selection.getRangeAt(0);
         range.setStart(e.target, 1);
+        range.setEnd(e.target, 1);
         selection.removeAllRanges();
         selection.addRange(range);
       }}
@@ -56,14 +66,21 @@ const WrappedContentEditable = React.forwardRef(
     {
       value,
       setValue,
+      className,
     }: {
       value: string;
       setValue: (value: string) => void;
+      className?: string;
     },
     ref: ForwardedRef<HTMLSpanElement | null>
   ) => {
     return (
-      <ContentEditable value={value} setValue={setValue} forwardedRef={ref} />
+      <ContentEditable
+        value={value}
+        setValue={setValue}
+        className={className}
+        forwardedRef={ref}
+      />
     );
   }
 );
@@ -174,6 +191,7 @@ const Attribute = ({
 const Trait = ({
   trait,
   removeTrait,
+  updateTraitName,
   addAttribute,
   removeAttribute,
   updateAttributeName,
@@ -181,6 +199,7 @@ const Trait = ({
 }: {
   trait: Trait;
   removeTrait: (trait: Trait) => void;
+  updateTraitName: (trait: Trait, name: string) => void;
   addAttribute: (trait: Trait) => void;
   removeAttribute: (trait: Trait, attribute: Attribute) => void;
   updateAttributeName: (
@@ -194,6 +213,8 @@ const Trait = ({
     weight: number
   ) => void;
 }) => {
+  const nameRef = useRef<HTMLSpanElement | null>(null);
+
   const getWeights = (trait: Trait) => {
     return trait.attributes.reduce((sum, cur) => sum + cur.weight, 0);
   };
@@ -205,7 +226,23 @@ const Trait = ({
           scope="colgroup"
           className="bg-gray-50 px-4 py-2 text-left text-sm font-semibold text-gray-900 sm:px-6"
         >
-          {trait.name}
+          <div className="flex items-center">
+            <WrappedContentEditable
+              value={trait.name}
+              setValue={(value) => updateTraitName(trait, value)}
+              ref={nameRef}
+            />
+            <div className="relative pl-1 h-4">
+              <div className="absolute hidden group-hover:inline-block cursor-pointer">
+                <PencilIcon
+                  className="h-4"
+                  onClick={() => {
+                    if (nameRef.current) nameRef.current.focus();
+                  }}
+                />
+              </div>
+            </div>
+          </div>
         </th>
         <th
           colSpan={3}
@@ -290,6 +327,16 @@ const Metadata: NextPage = () => {
           ...trait.attributes,
           { name: "New Attribute", weight: 0, dependency: "", exclusion: "" },
         ],
+      },
+    ]);
+  };
+
+  const updateTraitName = (trait: Trait, name: string) => {
+    setTraits([
+      ...traits.filter((t) => t !== trait),
+      {
+        ...trait,
+        name,
       },
     ]);
   };
@@ -398,6 +445,7 @@ const Metadata: NextPage = () => {
                           key={`${trait.name}-${i}`}
                           trait={trait}
                           removeTrait={removeTrait}
+                          updateTraitName={updateTraitName}
                           addAttribute={addAttribute}
                           removeAttribute={removeAttribute}
                           updateAttributeName={updateAttributeName}
