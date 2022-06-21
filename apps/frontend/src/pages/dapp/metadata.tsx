@@ -2,11 +2,12 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
   PencilIcon,
+  PlusCircleIcon,
   TrashIcon,
 } from "@heroicons/react/outline";
 import type { NextPage } from "next";
 import Head from "next/head";
-import React, { ForwardedRef, useRef, useState } from "react";
+import React, { ForwardedRef, ReactNode, useRef, useState } from "react";
 import Button from "../../components/button/Button";
 
 type Attribute = {
@@ -19,6 +20,25 @@ type Attribute = {
 type Trait = {
   name: string;
   attributes: Attribute[];
+};
+
+const SmallButton = ({
+  children,
+  onClick,
+  className,
+}: {
+  children: ReactNode;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  className?: string;
+}) => {
+  return (
+    <button
+      className={`inline-flex items-center px-2 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 ${className}`}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
 };
 
 const ContentEditable = ({
@@ -61,6 +81,7 @@ const ContentEditable = ({
     </span>
   );
 };
+
 const WrappedContentEditable = React.forwardRef(
   (
     {
@@ -176,12 +197,9 @@ const Attribute = ({
           {/* Maintain width while icon is not visible */}
         </div>
         <div className="hidden group-hover:block">
-          <button
-            className="text-gray-700"
-            onClick={() => removeAttribute(trait, attribute)}
-          >
-            <TrashIcon className="pl-2 h-4 m-0 text-gray-700 hover:text-red-800" />
-          </button>
+          <SmallButton onClick={() => removeAttribute(trait, attribute)}>
+            <TrashIcon className="h-4 hover:text-red-800" />
+          </SmallButton>
         </div>
       </td>
     </tr>
@@ -214,13 +232,13 @@ const Trait = ({
   ) => void;
 }) => {
   const nameRef = useRef<HTMLSpanElement | null>(null);
-
   const getWeights = (trait: Trait) => {
     return trait.attributes.reduce((sum, cur) => sum + cur.weight, 0);
   };
 
   return (
     <>
+      {/* Trait heaeder */}
       <tr className="border-t border-gray-200 group">
         <th
           scope="colgroup"
@@ -245,21 +263,29 @@ const Trait = ({
           </div>
         </th>
         <th
-          colSpan={3}
+          colSpan={2}
           scope="colgroup"
           className="bg-gray-50 px-3 py-2 text-left text-sm font-semibold text-gray-900"
         >
           {getWeights(trait)}
         </th>
         <th
+          colSpan={2}
           scope="colgroup"
           className="pl-3 pr-4 sm:pr-6 py-2 text-right bg-gray-50 text-sm font-semibold text-gray-900"
         >
-          <button className="" onClick={() => removeTrait(trait)}>
-            <TrashIcon className="hidden group-hover:block h-4 text-gray-700 hover:text-red-800" />
-          </button>
+          <SmallButton
+            className="mr-1 hidden group-hover:inline-flex"
+            onClick={() => removeTrait(trait)}
+          >
+            <TrashIcon className="h-4 hover:text-red-800" />
+          </SmallButton>
+          <SmallButton onClick={() => addAttribute(trait)}>
+            <PlusCircleIcon className="h-4" />
+          </SmallButton>
         </th>
       </tr>
+      {/* Attributes */}
       {trait.attributes
         .sort((a, b) => b.weight - a.weight)
         .map((attribute, j) => (
@@ -308,8 +334,10 @@ const Metadata: NextPage = () => {
     setTraits([
       ...traits,
       {
-        name: "New Trait",
-        attributes: [],
+        name: `Trait ${traits.length + 1}`,
+        attributes: [
+          { name: `Attribute 1`, weight: 1, dependency: "", exclusion: "" },
+        ],
       },
     ]);
   };
@@ -325,7 +353,12 @@ const Metadata: NextPage = () => {
         ...trait,
         attributes: [
           ...trait.attributes,
-          { name: "New Attribute", weight: 0, dependency: "", exclusion: "" },
+          {
+            name: `Attribute ${trait.attributes.length + 1}`,
+            weight: 1,
+            dependency: "",
+            exclusion: "",
+          },
         ],
       },
     ]);
