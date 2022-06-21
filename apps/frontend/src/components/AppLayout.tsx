@@ -181,9 +181,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
           {/* Main content */}
           <div className="flex-1 flex items-stretch">
-            <main className="flex-1 overflow-y-auto text-gray-100">
-              {children}
-            </main>
+            <main className="flex-1 text-gray-100 pb-10">{children}</main>
           </div>
         </div>
       </div>
