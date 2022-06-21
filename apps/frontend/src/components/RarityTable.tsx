@@ -18,16 +18,19 @@ import { Trait, Attribute } from "../types/metadata";
 const SmallButton = ({
   children,
   onClick,
+  tooltip,
   className,
 }: {
   children: ReactNode;
   onClick: React.MouseEventHandler<HTMLButtonElement>;
   className?: string;
+  tooltip?: string;
 }) => {
   return (
     <button
       className={`inline-flex items-center px-2 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 ${className}`}
       onClick={onClick}
+      title={tooltip}
     >
       {children}
     </button>
@@ -190,7 +193,10 @@ const Attribute = ({
           {/* Maintain width while icon is not visible */}
         </div>
         <div className="hidden group-hover:block">
-          <SmallButton onClick={() => removeAttribute(trait, attribute)}>
+          <SmallButton
+            onClick={() => removeAttribute(trait, attribute)}
+            tooltip="Delete Attribute"
+          >
             <TrashIcon className="h-4 hover:text-red-800" />
           </SmallButton>
         </div>
@@ -258,7 +264,7 @@ const Trait = ({
         <th
           colSpan={2}
           scope="colgroup"
-          className="bg-gray-50 px-3 py-2 text-left text-sm font-semibold text-gray-900"
+          className="bg-gray-50 px-4 py-2 text-left text-sm font-semibold text-gray-900"
         >
           {getWeights(trait)}
         </th>
@@ -270,10 +276,14 @@ const Trait = ({
           <SmallButton
             className="mr-1 hidden group-hover:inline-flex"
             onClick={() => removeTrait(trait)}
+            tooltip="Delete Trait"
           >
             <TrashIcon className="h-4 hover:text-red-800" />
           </SmallButton>
-          <SmallButton onClick={() => addAttribute(trait)}>
+          <SmallButton
+            onClick={() => addAttribute(trait)}
+            tooltip="Add Attribute"
+          >
             <PlusCircleIcon className="h-4" />
           </SmallButton>
         </th>
