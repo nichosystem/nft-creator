@@ -5,9 +5,10 @@ import Button from "../../components/button/Button";
 import Input from "../../components/input/Input";
 import RarityTable from "../../components/RarityTable";
 import { Trait } from "../../types/metadata";
+import { generateMetadata } from "../../utils/generate-metadata";
 
 const Metadata: NextPage = () => {
-  const [supply, setSupply] = useState(100);
+  const [supply, setSupply] = useState(10);
   const [traits, setTraits] = useState<Trait[]>([
     {
       name: "Background",
@@ -34,6 +35,11 @@ const Metadata: NextPage = () => {
     },
   ]);
 
+  const generate = () => {
+    const g = generateMetadata(traits, supply, false);
+    console.log(g);
+  };
+
   return (
     <>
       <Head>
@@ -44,7 +50,7 @@ const Metadata: NextPage = () => {
       <RarityTable traits={traits} setTraits={setTraits} />
 
       <div className="flex flex-col items-center mx-auto max-w-lg mt-24">
-        <label className="mb-1">Total Supply</label>
+        <label className="mb-1 text-xl">Total Supply</label>
         <Input
           placeholder="Total Supply"
           type="number"
@@ -56,7 +62,7 @@ const Metadata: NextPage = () => {
         />
         <Button
           value="Generate"
-          onClick={() => console.log("metadata generated")}
+          onClick={() => generate()}
           className="uppercase font-bold text-4xl mt-2"
         />
       </div>
