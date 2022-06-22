@@ -133,7 +133,7 @@ const Deployer: NextPage = () => {
                 </a>
               </div>
             </div>
-            <Code content={CONTRACT_CODE} />
+            <Code language="solidity" content={CONTRACT_CODE} />
           </div>
         </div>
       </div>

@@ -233,7 +233,7 @@ const Trait = ({
     weight: number
   ) => void;
 }) => {
-  const [hideAttributes, setHideAttributes] = useState(true);
+  const [hideAttributes, setHideAttributes] = useState(false);
   const nameRef = useRef<HTMLSpanElement | null>(null);
   const getWeights = (trait: Trait) => {
     return trait.attributes.reduce((sum, cur) => sum + cur.weight, 0);
@@ -289,13 +289,20 @@ const Trait = ({
         >
           <SmallButton
             className="mr-1 hidden group-hover:inline-flex"
-            onClick={() => removeTrait(trait)}
+            onClick={(e) => {
+              e.stopPropagation();
+              removeTrait(trait);
+            }}
             tooltip="Delete Trait"
           >
             <TrashIcon className="h-4 hover:text-red-800" />
           </SmallButton>
           <SmallButton
-            onClick={() => addAttribute(trait)}
+            onClick={(e) => {
+              e.stopPropagation();
+              addAttribute(trait);
+              setHideAttributes(false);
+            }}
             tooltip="Add Attribute"
           >
             <PlusCircleIcon className="h-4" />
@@ -417,7 +424,7 @@ const RarityTable = ({
   };
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8">
+    <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
       <h1 className="text-xl font-semibold text-slate-100">Rarity Table</h1>
       <p className="mt-2 text-sm text-slate-300">
         A list of all the traits, attributes, and rarities for each possible

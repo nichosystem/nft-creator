@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import React, { useState } from "react";
 import Button from "../../components/button/Button";
+import Code from "../../components/Code";
 import Input from "../../components/input/Input";
 import RarityTable from "../../components/RarityTable";
 import { Trait } from "../../types/metadata";
@@ -35,10 +36,16 @@ const Metadata: NextPage = () => {
       ],
     },
   ]);
+  const [metadata, setMetadata] = useState<any[]>([]);
 
   const generate = () => {
-    const g = generateMetadata(traits, supply, isUnique);
-    console.log(g);
+    if (
+      isUnique &&
+      traits.reduce((prod, trait) => prod * trait.attributes.length, 1) < supply
+    )
+      return;
+    const data = generateMetadata(traits, supply, isUnique);
+    setMetadata(data);
   };
 
   return (
@@ -61,7 +68,7 @@ const Metadata: NextPage = () => {
             setSupply(Number(e.target.value))
           }
         />
-        <fieldset className="mt-2">
+        <fieldset className="mt-2 flex flex-col items-center">
           <div className="relative flex items-center">
             <div className="flex items-center h-5">
               <input
@@ -73,17 +80,22 @@ const Metadata: NextPage = () => {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setIsUnique(!isUnique)
                 }
+                title="Prevent duplicate metadata from being generated."
               />
             </div>
             <div className="ml-3 text-sm">
               <label htmlFor="comments" className="font-medium text-slate-100">
                 Prevent Duplicates
               </label>
-              {/* <p className="text-slate-300">
-                Prevent duplicate metadata from being generated.
-              </p> */}
             </div>
           </div>
+          {traits.reduce((prod, trait) => prod * trait.attributes.length, 1) <
+            supply &&
+            isUnique && (
+              <p className="text-rose-500 text-sm">
+                Insufficient traits to generate unique metadata
+              </p>
+            )}
         </fieldset>
         <Button
           value="Generate"
@@ -91,6 +103,22 @@ const Metadata: NextPage = () => {
           className="uppercase font-bold text-4xl mt-2"
         />
       </div>
+
+      {metadata.length > 0 && (
+        <div className="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
+          <div className="mt-10 text-sm border-t-2 border-slate-200">
+            <div className="mt-10 mb-6">
+              <h2 className="text-xl font-medium text-slate-100">
+                All Metadata
+              </h2>
+              <div className="mt-1 text-sm text-slate-500">
+                The JSON for all token metadata that was generated.
+              </div>
+            </div>
+            <Code language="json" content={JSON.stringify(metadata, null, 4)} />
+          </div>
+        </div>
+      )}
     </>
   );
 };

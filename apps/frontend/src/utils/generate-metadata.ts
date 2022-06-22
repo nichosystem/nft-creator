@@ -33,7 +33,7 @@ export const generateMetadata = (
 ): any[] => {
   const random = seedrandom(seed || "hello world");
   // Array of [supply] attributes
-  var metadata: object[] = [];
+  var metadata: any[] = [];
   // Array of corresponding metadata[i] attributes stringified and hashed
   var hashes: string[] = [];
 
@@ -68,8 +68,13 @@ export const generateMetadata = (
     return {
       name: `Token #${i + 1}`,
       id: i + 1,
-      image_url: `../images/${i + 1}`,
-      ...attributes,
+      image_url: `ipfs://placeholder/${i + 1}`,
+      attributes: Object.keys(attributes).map((trait) => {
+        return {
+          trait_type: trait,
+          value: attributes[trait],
+        };
+      }),
     };
   });
 };
