@@ -9,6 +9,7 @@ import { generateMetadata } from "../../utils/generate-metadata";
 
 const Metadata: NextPage = () => {
   const [supply, setSupply] = useState(10);
+  const [isUnique, setIsUnique] = useState(false);
   const [traits, setTraits] = useState<Trait[]>([
     {
       name: "Background",
@@ -36,7 +37,7 @@ const Metadata: NextPage = () => {
   ]);
 
   const generate = () => {
-    const g = generateMetadata(traits, supply, false);
+    const g = generateMetadata(traits, supply, isUnique);
     console.log(g);
   };
 
@@ -60,6 +61,30 @@ const Metadata: NextPage = () => {
             setSupply(Number(e.target.value))
           }
         />
+        <fieldset className="mt-2">
+          <div className="relative flex items-center">
+            <div className="flex items-center h-5">
+              <input
+                id="comments"
+                name="comments"
+                type="checkbox"
+                className="focus:ring-sky-500 h-4 w-4 text-sky-500 border-gray-300 rounded"
+                checked={isUnique}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setIsUnique(!isUnique)
+                }
+              />
+            </div>
+            <div className="ml-3 text-sm">
+              <label htmlFor="comments" className="font-medium text-slate-100">
+                Prevent Duplicates
+              </label>
+              {/* <p className="text-slate-300">
+                Prevent duplicate metadata from being generated.
+              </p> */}
+            </div>
+          </div>
+        </fieldset>
         <Button
           value="Generate"
           onClick={() => generate()}

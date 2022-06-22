@@ -5,9 +5,11 @@ import React, {
   ReactNode,
   SetStateAction,
   useRef,
+  useState,
 } from "react";
 import {
   ChevronDownIcon,
+  ChevronRightIcon,
   ChevronUpIcon,
   PencilIcon,
   PlusCircleIcon,
@@ -72,6 +74,7 @@ const ContentEditable = ({
         selection.removeAllRanges();
         selection.addRange(range);
       }}
+      onClick={(e) => e.stopPropagation()}
     >
       {value}
     </span>
@@ -230,6 +233,7 @@ const Trait = ({
     weight: number
   ) => void;
 }) => {
+  const [hideAttributes, setHideAttributes] = useState(true);
   const nameRef = useRef<HTMLSpanElement | null>(null);
   const getWeights = (trait: Trait) => {
     return trait.attributes.reduce((sum, cur) => sum + cur.weight, 0);
@@ -238,22 +242,32 @@ const Trait = ({
   return (
     <>
       {/* Trait header */}
-      <tr className="border-t border-gray-200 group">
+      <tr
+        className="border-t bg-gray-50 hover:bg-gray-100 border-gray-200 group cursor-pointer"
+        onClick={() => setHideAttributes(!hideAttributes)}
+      >
         <th
           scope="colgroup"
-          className="bg-gray-50 px-4 py-2 text-left text-sm font-semibold text-gray-900 sm:px-6"
+          className="px-4 py-2 text-left text-sm font-semibold text-gray-900 sm:px-6"
         >
-          <div className="flex items-center">
+          <div className="flex items-center relative">
+            <ChevronDownIcon
+              className={`absolute h-4 text-gray-800 mt-1 -ml-4 transition duration-150 ${
+                hideAttributes ? "-rotate-90" : ""
+              }`}
+            />
             <WrappedContentEditable
               value={trait.name}
               setValue={(value) => updateTraitName(trait, value)}
               ref={nameRef}
+              className="group-hover:bg-gray-100"
             />
             <div className="relative pl-1 h-4">
               <div className="absolute hidden group-hover:inline-block cursor-pointer">
                 <PencilIcon
-                  className="h-4"
-                  onClick={() => {
+                  className="h-4 z-10"
+                  onClick={(e) => {
+                    e.stopPropagation();
                     if (nameRef.current) nameRef.current.focus();
                   }}
                 />
@@ -264,14 +278,14 @@ const Trait = ({
         <th
           colSpan={2}
           scope="colgroup"
-          className="bg-gray-50 px-4 py-2 text-left text-sm font-semibold text-gray-900"
+          className="px-4 py-2 text-left text-sm font-semibold text-gray-900"
         >
           {getWeights(trait)}
         </th>
         <th
           colSpan={2}
           scope="colgroup"
-          className="pl-3 pr-4 sm:pr-6 py-2 text-right bg-gray-50 text-sm font-semibold text-gray-900"
+          className="pl-3 pr-4 sm:pr-6 py-2 text-right text-sm font-semibold text-gray-900"
         >
           <SmallButton
             className="mr-1 hidden group-hover:inline-flex"
@@ -289,19 +303,20 @@ const Trait = ({
         </th>
       </tr>
       {/* Attributes */}
-      {trait.attributes
-        .sort((a, b) => b.weight - a.weight)
-        .map((attribute, j) => (
-          <Attribute
-            key={`${trait.name}-${attribute.name}-${j}`}
-            attribute={attribute}
-            trait={trait}
-            updateAttributeName={updateAttributeName}
-            updateAttributeWeight={updateAttributeWeight}
-            getWeights={getWeights}
-            removeAttribute={removeAttribute}
-          />
-        ))}
+      {!hideAttributes &&
+        trait.attributes
+          .sort((a, b) => b.weight - a.weight)
+          .map((attribute, j) => (
+            <Attribute
+              key={`${trait.name}-${attribute.name}-${j}`}
+              attribute={attribute}
+              trait={trait}
+              updateAttributeName={updateAttributeName}
+              updateAttributeWeight={updateAttributeWeight}
+              getWeights={getWeights}
+              removeAttribute={removeAttribute}
+            />
+          ))}
     </>
   );
 };
