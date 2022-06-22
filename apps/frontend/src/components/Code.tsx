@@ -2,6 +2,7 @@ import type {} from "highlight.js";
 import hljs from "highlight.js";
 // @ts-ignore
 import hljsDefineSolidity from "highlightjs-solidity";
+import CopyButton from "./button/CopyButton";
 hljsDefineSolidity(hljs);
 
 const Code = ({
@@ -16,7 +17,10 @@ const Code = ({
     : hljs.highlightAuto(content);
 
   return (
-    <pre>
+    <pre className="relative">
+      <div className="absolute right-0 mr-4 mt-1">
+        <CopyButton content={content} />
+      </div>
       <code
         className="hljs rounded-lg max-h-screen"
         dangerouslySetInnerHTML={{

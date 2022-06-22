@@ -9,35 +9,13 @@ import React, {
 } from "react";
 import {
   ChevronDownIcon,
-  ChevronRightIcon,
   ChevronUpIcon,
   PencilIcon,
   PlusCircleIcon,
   TrashIcon,
 } from "@heroicons/react/outline";
 import { Trait, Attribute } from "../types/metadata";
-
-const SmallButton = ({
-  children,
-  onClick,
-  tooltip,
-  className,
-}: {
-  children: ReactNode;
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
-  className?: string;
-  tooltip?: string;
-}) => {
-  return (
-    <button
-      className={`inline-flex items-center px-2 py-1 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 ${className}`}
-      onClick={onClick}
-      title={tooltip}
-    >
-      {children}
-    </button>
-  );
-};
+import SmallButton from "./button/SmallButton";
 
 const ContentEditable = ({
   value,
