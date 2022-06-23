@@ -36,7 +36,7 @@ const connectors = connectorsForWallets([
     wallets: [
       wallet.metaMask({ chains }),
       wallet.walletConnect({ chains }),
-      wallet.coinbase({ appName: "NFT Tools dApp", chains }),
+      wallet.coinbase({ appName: "NFT Creator dApp", chains }),
       wallet.rainbow({ chains }),
       ...(needsInjectedWalletFallback ? [wallet.injected({ chains })] : []),
     ],
@@ -62,7 +62,7 @@ function App({
   return (
     <>
       <Head>
-        <title>NFT Tools</title>
+        <title>NFT Creator</title>
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

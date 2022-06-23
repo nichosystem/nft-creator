@@ -5,7 +5,7 @@ const Minter: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Minter - NFT Tools</title>
+        <title>Minter - NFT Creator</title>
         <meta name="description" content="" />
       </Head>
       <div className="flex justify-center items-center flex-col h-full">

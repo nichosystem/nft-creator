@@ -5,7 +5,7 @@ const Generator: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Generator - NFT Tools</title>
+        <title>Generator - NFT Creator</title>
         <meta name="description" content="" />
       </Head>
 

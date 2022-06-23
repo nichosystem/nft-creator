@@ -78,7 +78,7 @@ const Manager: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Manager - NFT Tools</title>
+        <title>Manager - NFT Creator</title>
         <meta name="description" content="" />
       </Head>
 

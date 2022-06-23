@@ -51,7 +51,7 @@ const Metadata: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Metadata Builder - NFT Tools</title>
+        <title>Metadata Builder - NFT Creator</title>
         <meta name="description" content="" />
       </Head>
 

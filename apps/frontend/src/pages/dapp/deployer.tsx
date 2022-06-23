@@ -39,7 +39,7 @@ const Deployer: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Deployer - NFT Tools</title>
+        <title>Deployer - NFT Creator</title>
         <meta name="description" content="" />
       </Head>
       <div className="flex-1 xl:overflow-y-auto">

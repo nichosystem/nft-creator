@@ -275,7 +275,7 @@ const Snapshot: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Snapshot - NFT Tools</title>
+        <title>Snapshot - NFT Creator</title>
         <meta name="description" content="" />
       </Head>
       <Prompt
