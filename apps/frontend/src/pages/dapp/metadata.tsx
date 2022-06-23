@@ -11,7 +11,6 @@ import { generateMetadata } from "../../utils/generate-metadata";
 const Metadata: NextPage = () => {
   const [supply, setSupply] = useState(10);
   const [isUnique, setIsUnique] = useState(false);
-  const [isCopied, setIsCopied] = useState(true);
   const [traits, setTraits] = useState<Trait[]>([
     {
       name: "Background",
