@@ -55,7 +55,7 @@ function App({
   Component: NextPageWithLayout;
 }) {
   useEffect(() => {
-    document.querySelector("body")?.classList.add("dark:bg-slate-900");
+    document.querySelector("body")?.classList.add("bg-slate-900");
   });
 
   const PageLayout = Component.Layout ?? AppLayout;
