@@ -111,7 +111,10 @@ const Deployer: NextPage = () => {
             </div>
             <Button
               value="Deploy"
-              onClick={() => sendDeployTx()}
+              onClick={(e) => {
+                e.preventDefault();
+                sendDeployTx();
+              }}
               className="w-full"
             />
           </form>
