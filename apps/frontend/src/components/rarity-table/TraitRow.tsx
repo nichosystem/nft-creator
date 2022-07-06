@@ -1,5 +1,6 @@
 import { ChevronDownIcon, PencilIcon } from "@heroicons/react/outline";
 import { PuzzleIcon } from "@heroicons/react/solid";
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { Attribute, Trait } from "../../types/metadata";
 import Button from "../button/Button";
@@ -82,14 +83,20 @@ const TraitRow = ({
           </div>
           <div className="mt-4 flex-shrink-0 sm:mt-0 sm:ml-5">
             <div className="flex overflow-hidden -space-x-1">
-              {/* {trait.attributes.map((attribute) => (
+              {trait.attributes.map((attribute, i) => {
+                return (
+                  attribute.imageUrl && (
                     <img
-                      key={applicant.email}
-                      className="inline-block h-6 w-6 rounded-full ring-2 ring-white"
-                      src={applicant.imageUrl}
-                      alt={applicant.name}
+                      key={i}
+                      className="h-6 w-6 inline-block rounded-full ring-2 ring-white"
+                      height="24px"
+                      width="24px"
+                      src={attribute.imageUrl}
+                      alt=""
                     />
-                  ))} */}
+                  )
+                );
+              })}
             </div>
           </div>
         </div>
