@@ -116,32 +116,14 @@ const Metadata: NextPage = () => {
 
                 {/* Content */}
                 {activeTab === 0 ? (
-                  <RarityTable traits={traits} setTraits={setTraits} />
+                  <>
+                    <RarityTable traits={traits} setTraits={setTraits} />
+                    <GenerateForm traits={traits} generate={generate} />
+                  </>
                 ) : activeTab === 1 ? (
-                  <Gallery
-                    traits={traits}
-                    generate={generate}
-                    images={images}
-                  />
+                  <Gallery images={images} />
                 ) : activeTab === 2 ? (
-                  metadataJSON.length > 0 && (
-                    <div className="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
-                      <div className="mt-10 text-sm border-t-2 border-slate-200">
-                        <div className="mt-10 mb-6">
-                          <h2 className="text-xl font-medium text-slate-100">
-                            All Metadata
-                          </h2>
-                          <div className="mt-1 text-sm text-slate-500">
-                            The JSON for all token metadata that was generated.
-                          </div>
-                        </div>
-                        <Code
-                          language="json"
-                          content={JSON.stringify(metadataJSON, null, 4)}
-                        />
-                      </div>
-                    </div>
-                  )
+                  <MetadataUploader metadataJSON={metadataJSON} />
                 ) : null}
               </div>
             </main>
@@ -154,18 +136,97 @@ const Metadata: NextPage = () => {
 
 export default Metadata;
 
-const Gallery = ({
+const GenerateForm = ({
   traits,
   generate,
-  images,
 }: {
   traits: Trait[];
   generate: (isUnique: boolean, supply: number) => void;
-  images: HTMLCanvasElement[];
 }) => {
   const [supply, setSupply] = useState(10);
   const [isUnique, setIsUnique] = useState(false);
 
+  return (
+    <div className="flex flex-col items-center mx-auto max-w-lg mt-24">
+      <label className="mb-1 text-xl">Total Supply</label>
+      <Input
+        placeholder="Total Supply"
+        type="number"
+        name="supply"
+        value={`${supply}`}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setSupply(Number(e.target.value))
+        }
+      />
+      <label className="mb-1 text-xl">Seed</label>
+      <Input
+        placeholder="Seed"
+        type="number"
+        name="supply"
+        value={`${supply}`}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setSupply(Number(e.target.value))
+        }
+      />
+      <label className="mb-1 text-xl">Height</label>
+      <Input
+        placeholder="Seed"
+        type="number"
+        name="supply"
+        value={`${supply}`}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setSupply(Number(e.target.value))
+        }
+      />
+      <label className="mb-1 text-xl">Width</label>
+      <Input
+        placeholder="Seed"
+        type="number"
+        name="supply"
+        value={`${supply}`}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setSupply(Number(e.target.value))
+        }
+      />
+      <fieldset className="mt-2 flex flex-col items-center">
+        <div className="relative flex items-center">
+          <div className="flex items-center h-5">
+            <input
+              id="comments"
+              name="comments"
+              type="checkbox"
+              className="focus:ring-sky-500 h-4 w-4 text-sky-500 border-gray-300 rounded"
+              checked={isUnique}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setIsUnique(!isUnique)
+              }
+              title="Prevent duplicate metadata from being generated."
+            />
+          </div>
+          <div className="ml-3 text-sm">
+            <label htmlFor="comments" className="font-medium text-slate-100">
+              Prevent Duplicates
+            </label>
+          </div>
+        </div>
+        {traits.reduce((prod, trait) => prod * trait.attributes.length, 1) <
+          supply &&
+          isUnique && (
+            <p className="text-rose-500 text-sm">
+              Insufficient traits to generate unique metadata
+            </p>
+          )}
+      </fieldset>
+      <Button
+        value="Generate"
+        onClick={() => generate(isUnique, supply)}
+        className="uppercase font-bold text-4xl mt-2"
+      />
+    </div>
+  );
+};
+
+const Gallery = ({ images }: { images: HTMLCanvasElement[] }) => {
   const files = [
     {
       name: "IMG_4985.HEIC",
@@ -178,84 +239,6 @@ const Gallery = ({
 
   return (
     <>
-      {/* Form to begin generation */}
-      <div className="flex flex-col items-center mx-auto max-w-lg mt-24">
-        <label className="mb-1 text-xl">Total Supply</label>
-        <Input
-          placeholder="Total Supply"
-          type="number"
-          name="supply"
-          value={`${supply}`}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setSupply(Number(e.target.value))
-          }
-        />
-        <label className="mb-1 text-xl">Seed</label>
-        <Input
-          placeholder="Seed"
-          type="number"
-          name="supply"
-          value={`${supply}`}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setSupply(Number(e.target.value))
-          }
-        />
-        <label className="mb-1 text-xl">Height</label>
-        <Input
-          placeholder="Seed"
-          type="number"
-          name="supply"
-          value={`${supply}`}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setSupply(Number(e.target.value))
-          }
-        />
-        <label className="mb-1 text-xl">Width</label>
-        <Input
-          placeholder="Seed"
-          type="number"
-          name="supply"
-          value={`${supply}`}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setSupply(Number(e.target.value))
-          }
-        />
-        <fieldset className="mt-2 flex flex-col items-center">
-          <div className="relative flex items-center">
-            <div className="flex items-center h-5">
-              <input
-                id="comments"
-                name="comments"
-                type="checkbox"
-                className="focus:ring-sky-500 h-4 w-4 text-sky-500 border-gray-300 rounded"
-                checked={isUnique}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setIsUnique(!isUnique)
-                }
-                title="Prevent duplicate metadata from being generated."
-              />
-            </div>
-            <div className="ml-3 text-sm">
-              <label htmlFor="comments" className="font-medium text-slate-100">
-                Prevent Duplicates
-              </label>
-            </div>
-          </div>
-          {traits.reduce((prod, trait) => prod * trait.attributes.length, 1) <
-            supply &&
-            isUnique && (
-              <p className="text-rose-500 text-sm">
-                Insufficient traits to generate unique metadata
-              </p>
-            )}
-        </fieldset>
-        <Button
-          value="Generate"
-          onClick={() => generate(isUnique, supply)}
-          className="uppercase font-bold text-4xl mt-2"
-        />
-      </div>
-
       {images.length > 0 && (
         <div className="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
           <div className="mt-10 text-sm border-t-2 border-slate-200">
@@ -375,9 +358,9 @@ const Sidebar = () => {
                 className="py-3 flex justify-between text-sm font-medium"
               >
                 <dt className="text-gray-400">{key}</dt>
-                <dd className="text-gray-100">
+                {/* <dd className="text-gray-100">
                   {currentFile.information[key]}
-                </dd>
+                </dd> */}
               </div>
             ))}
           </dl>
@@ -398,5 +381,34 @@ const Sidebar = () => {
         </div>
       </div>
     </aside>
+  );
+};
+
+const MetadataUploader = ({
+  metadataJSON,
+}: {
+  metadataJSON: MetadataToken[];
+}) => {
+  return (
+    <>
+      {metadataJSON.length > 0 && (
+        <div className="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
+          <div className="mt-10 text-sm border-t-2 border-slate-200">
+            <div className="mt-10 mb-6">
+              <h2 className="text-xl font-medium text-slate-100">
+                All Metadata
+              </h2>
+              <div className="mt-1 text-sm text-slate-500">
+                The JSON for all token metadata that was generated.
+              </div>
+            </div>
+            <Code
+              language="json"
+              content={JSON.stringify(metadataJSON, null, 4)}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
