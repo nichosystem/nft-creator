@@ -88,7 +88,7 @@ const TraitRow = ({
                   attribute.imageUrl && (
                     <img
                       key={i}
-                      className="h-6 w-6 inline-block rounded-full ring-2 ring-white"
+                      className="h-6 w-6 inline-block rounded-full ring-2 ring-white bg-gray-50"
                       height="24px"
                       width="24px"
                       src={attribute.imageUrl}

@@ -1,7 +1,12 @@
 import chooser from "random-seed-weighted-chooser";
 import SparkMD5 from "spark-md5";
 import seedrandom from "seedrandom";
-import { Attribute, Trait } from "../types/metadata";
+import {
+  Attribute,
+  MetadataToken,
+  MetadataTrait,
+  Trait,
+} from "../types/metadata";
 
 // Choose only from the passed array
 const chooseFromList = (
@@ -30,7 +35,7 @@ export const generateMetadata = (
   supply: number,
   unique: boolean,
   seed?: string
-): any[] => {
+): MetadataToken[] => {
   const random = seedrandom(seed || "hello world");
   // Array of [supply] attributes
   var metadata: any[] = [];
@@ -64,12 +69,12 @@ export const generateMetadata = (
     SparkMD5.hash(JSON.stringify(metadata))
   );
 
-  return metadata.map((attributes, i) => {
+  return metadata.map((attributes, i): MetadataToken => {
     return {
       name: `Token #${i + 1}`,
       id: i + 1,
       image_url: `ipfs://placeholder/${i + 1}`,
-      attributes: Object.keys(attributes).map((trait) => {
+      attributes: Object.keys(attributes).map((trait): MetadataTrait => {
         return {
           trait_type: trait,
           value: attributes[trait],

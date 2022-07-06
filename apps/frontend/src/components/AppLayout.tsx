@@ -19,7 +19,6 @@ const sidebarNavigation = [
   { name: "Home", href: "/", icon: HomeIcon },
   { name: "Deploy", href: "/dapp/deployer", icon: CodeIcon },
   { name: "Manage", href: "/dapp/manager", icon: CogIcon },
-  { name: "Metadata", href: "/dapp/metadata", icon: PuzzleIcon },
   { name: "Generate", href: "/dapp/generator", icon: BeakerIcon },
   { name: "Minting App", href: "/dapp/minting", icon: TemplateIcon },
   { name: "Snapshot", href: "/dapp/snapshot", icon: CameraIcon },
