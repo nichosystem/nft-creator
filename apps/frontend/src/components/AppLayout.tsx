@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   TemplateIcon,
@@ -9,16 +9,16 @@ import {
   CodeIcon,
   XIcon,
   CogIcon,
-  PuzzleIcon,
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Footer from "./Footer";
+import { getOwnedCollections } from "../provider/factory";
+import { useAccount, useProvider } from "wagmi";
 
 const sidebarNavigation = [
   { name: "Home", href: "/", icon: HomeIcon },
   { name: "Deploy", href: "/dapp/deployer", icon: CodeIcon },
-  { name: "Manage", href: "/dapp/manager", icon: CogIcon },
   { name: "Generate", href: "/dapp/generator", icon: BeakerIcon },
   { name: "Minting App", href: "/dapp/minting", icon: TemplateIcon },
   { name: "Snapshot", href: "/dapp/snapshot", icon: CameraIcon },
@@ -31,6 +31,24 @@ function classNames(...classes: (string | boolean)[]) {
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
+  const provider = useProvider();
+  const { data: account } = useAccount();
+
+  // Display manager if the user has deployed a collection
+  useEffect(() => {
+    const f = async () => {
+      if (!provider || !account?.address) return;
+      const c = await getOwnedCollections(provider, account.address);
+      if (c) {
+        sidebarNavigation.splice(2, 0, {
+          name: "Manage",
+          href: "/dapp/manager",
+          icon: CogIcon,
+        });
+      }
+    };
+    f();
+  }, [provider, account?.address]);
 
   return (
     <>
