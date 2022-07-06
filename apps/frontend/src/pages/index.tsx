@@ -29,7 +29,7 @@ const Hero = () => {
             </p>
             <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
               <div className="rounded-md shadow">
-                <Link href="/dapp" passHref>
+                <Link href="/deployer" passHref>
                   <button className="mt-2 font-extralight tracking-widest uppercase flex-shrink-0 px-4 py-2 border border-transparent text-xl rounded-md shadow-sm text-white bg-sky-500 hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
                     Enter dApp
                   </button>
@@ -139,7 +139,7 @@ const CTA = () => {
         </h2>
         <div className="mt-4 flex justify-center">
           <div className="inline-flex rounded-md shadow">
-            <Link href="/dapp" passHref>
+            <Link href="/deployer" passHref>
               <button className="mt-2 font-semibold italic tracking-widest flex-shrink-0 px-4 py-2 border border-transparent text-xl rounded-md shadow-sm text-white bg-sky-500 hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
                 WAGMI MFERS
               </button>

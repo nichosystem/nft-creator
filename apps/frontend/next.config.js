@@ -5,7 +5,7 @@ const nextConfig = {
     return [
       {
         source: "/dapp",
-        destination: "/dapp/deployer",
+        destination: "/deployer",
         permanent: false,
       },
     ];

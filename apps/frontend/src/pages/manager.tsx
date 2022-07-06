@@ -3,7 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useAccount, useProvider, useSigner } from "wagmi";
-import { getOwnedCollections } from "../../provider/factory";
+import { getOwnedCollections } from "../provider/factory";
 import {
   getCollectionDetails,
   gift,
@@ -14,13 +14,13 @@ import {
   setStatus,
   transferOwner,
   withdraw,
-} from "../../provider/collection";
-import Button from "../../components/button/Button";
-import Input from "../../components/input/Input";
-import { NFTCollection, NFTCollection__factory } from "../../types/contracts";
-import SelectMenu, { SelectItem } from "../../components/SelectMenu";
-import { CollectionDetails, Status } from "../../types/collections";
-import { handleTransaction } from "../../utils/handle-transaction";
+} from "../provider/collection";
+import Button from "../components/button/Button";
+import Input from "../components/input/Input";
+import { NFTCollection, NFTCollection__factory } from "../types/contracts";
+import SelectMenu, { SelectItem } from "../components/SelectMenu";
+import { CollectionDetails, Status } from "../types/collections";
+import { handleTransaction } from "../utils/handle-transaction";
 
 const Manager: NextPage = () => {
   const { data: signer } = useSigner();

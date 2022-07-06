@@ -2,13 +2,13 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { ChangeEvent, useState } from "react";
 import { useSigner } from "wagmi";
-import Button from "../../components/button/Button";
-import Code from "../../components/Code";
-import Input from "../../components/input/Input";
-import CONTRACT_CODE from "../../assets/contract-code";
-import { deploy } from "../../provider/factory";
+import Button from "../components/button/Button";
+import Code from "../components/Code";
+import Input from "../components/input/Input";
+import CONTRACT_CODE from "../assets/contract-code";
+import { deploy } from "../provider/factory";
 import { ExternalLinkIcon } from "@heroicons/react/outline";
-import { handleTransaction } from "../../utils/handle-transaction";
+import { handleTransaction } from "../utils/handle-transaction";
 
 const Deployer: NextPage = () => {
   const { data: signer } = useSigner();

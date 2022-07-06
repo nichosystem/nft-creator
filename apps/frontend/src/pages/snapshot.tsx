@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Input from "../../components/input/Input";
+import Input from "../components/input/Input";
 import {
   ChangeEvent,
   Dispatch,
@@ -12,7 +12,7 @@ import {
 } from "react";
 import { erc721ABI, useProvider } from "wagmi";
 import { ethers } from "ethers";
-import Button from "../../components/button/Button";
+import Button from "../components/button/Button";
 
 function Prompt({
   collection,

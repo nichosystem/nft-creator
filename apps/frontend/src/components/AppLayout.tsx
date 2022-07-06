@@ -18,10 +18,10 @@ import { useAccount, useProvider } from "wagmi";
 
 const sidebarNavigation = [
   { name: "Home", href: "/", icon: HomeIcon },
-  { name: "Deploy", href: "/dapp/deployer", icon: CodeIcon },
-  { name: "Generate", href: "/dapp/generator", icon: BeakerIcon },
-  { name: "Minting App", href: "/dapp/minting", icon: TemplateIcon },
-  { name: "Snapshot", href: "/dapp/snapshot", icon: CameraIcon },
+  { name: "Deployer", href: "/deployer", icon: CodeIcon },
+  { name: "Generator", href: "/generator", icon: BeakerIcon },
+  { name: "Minter", href: "/minting", icon: TemplateIcon },
+  { name: "Snapshot", href: "/snapshot", icon: CameraIcon },
 ];
 
 function classNames(...classes: (string | boolean)[]) {
@@ -41,8 +41,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       const c = await getOwnedCollections(provider, account.address);
       if (c) {
         sidebarNavigation.splice(2, 0, {
-          name: "Manage",
-          href: "/dapp/manager",
+          name: "Manager",
+          href: "/manager",
           icon: CogIcon,
         });
       }

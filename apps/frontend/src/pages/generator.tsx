@@ -1,13 +1,13 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import React, { useState } from "react";
-import Button from "../../components/button/Button";
-import Code from "../../components/Code";
-import Input from "../../components/input/Input";
-import RarityTable from "../../components/rarity-table/RarityTable";
-import { MetadataToken, Trait } from "../../types/metadata";
-import { generateArt } from "../../utils/generate-art";
-import { generateMetadata } from "../../utils/generate-metadata";
+import Button from "../components/button/Button";
+import Code from "../components/Code";
+import Input from "../components/input/Input";
+import RarityTable from "../components/rarity-table/RarityTable";
+import { MetadataToken, Trait } from "../types/metadata";
+import { generateArt } from "../utils/generate-art";
+import { generateMetadata } from "../utils/generate-metadata";
 
 import { HeartIcon } from "@heroicons/react/outline";
 import {
