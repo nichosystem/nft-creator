@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Button from "../../components/button/Button";
 import Code from "../../components/Code";
 import Input from "../../components/input/Input";
-import RarityTable from "../../components/RarityTable";
+import RarityTable from "../../components/rarity-table/RarityTable";
 import { Trait } from "../../types/metadata";
 import { generateMetadata } from "../../utils/generate-metadata";
 

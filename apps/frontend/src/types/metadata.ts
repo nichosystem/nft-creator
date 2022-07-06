@@ -3,6 +3,8 @@ export type Attribute = {
   weight: number;
   dependency: string;
   exclusion: string;
+  imageUrl?: string;
+  imageName?: string;
 };
 
 export type Trait = {
