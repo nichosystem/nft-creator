@@ -20,7 +20,7 @@ const sidebarNavigation = [
   { name: "Home", href: "/", icon: HomeIcon },
   { name: "Deployer", href: "/deployer", icon: CodeIcon },
   { name: "Generator", href: "/generator", icon: BeakerIcon },
-  { name: "Minter", href: "/minting", icon: TemplateIcon },
+  { name: "Minter", href: "/minter", icon: TemplateIcon },
   { name: "Snapshot", href: "/snapshot", icon: CameraIcon },
 ];
 
@@ -40,7 +40,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       if (!provider || !account?.address) return;
       const c = await getOwnedCollections(provider, account.address);
       if (c) {
-        sidebarNavigation.splice(2, 0, {
+        sidebarNavigation.splice(1, 0, {
           name: "Manager",
           href: "/manager",
           icon: CogIcon,
