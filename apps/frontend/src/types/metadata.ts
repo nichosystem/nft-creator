@@ -5,6 +5,7 @@ export type Attribute = {
   exclusion?: string;
   imageUrl?: string;
   imageName?: string;
+  layer?: number;
 };
 
 export type Trait = {

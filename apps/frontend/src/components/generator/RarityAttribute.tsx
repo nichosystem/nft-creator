@@ -13,7 +13,7 @@ import { Attribute, Trait } from "../../types/metadata";
 import SmallButton from "../button/SmallButton";
 import WrappedContentEditable, { ContentEditable } from "../ContentEditable";
 
-const AttributeRow = ({
+const RarityRow = ({
   trait,
   attribute,
   getWeights,
@@ -168,4 +168,4 @@ const AttributeRow = ({
   );
 };
 
-export default AttributeRow;
+export default RarityRow;

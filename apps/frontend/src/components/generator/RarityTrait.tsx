@@ -1,13 +1,12 @@
 import { ChevronDownIcon, PencilIcon } from "@heroicons/react/outline";
 import { PuzzleIcon } from "@heroicons/react/solid";
-import Image from "next/image";
 import { useRef, useState } from "react";
 import { Attribute, Trait } from "../../types/metadata";
 import Button from "../button/Button";
 import WrappedContentEditable from "../ContentEditable";
-import AttributeRow from "./AttributeRow";
+import RarityRow from "./RarityAttribute";
 
-const TraitRow = ({
+const RarityTrait = ({
   trait,
   removeTrait,
   updateTraitName,
@@ -118,7 +117,7 @@ const TraitRow = ({
               {trait.attributes
                 .sort((a, b) => b.weight - a.weight)
                 .map((attribute, j) => (
-                  <AttributeRow
+                  <RarityRow
                     key={`${trait.name}-${attribute.name}-${j}`}
                     attribute={attribute}
                     trait={trait}
@@ -154,4 +153,4 @@ const TraitRow = ({
   );
 };
 
-export default TraitRow;
+export default RarityTrait;

@@ -39,7 +39,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     const f = async () => {
       if (!provider || !account?.address) return;
       const c = await getOwnedCollections(provider, account.address);
-      if (c) {
+      if (c && !sidebarNavigation.some((n) => n.href === "/manager")) {
         sidebarNavigation.splice(1, 0, {
           name: "Manager",
           href: "/manager",

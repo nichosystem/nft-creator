@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { Trait, Attribute } from "../../types/metadata";
-import TraitRow from "./TraitRow";
+import RarityTrait from "./RarityTrait";
 
 const RarityTable = ({
   traits,
@@ -154,7 +154,7 @@ const RarityTable = ({
                     {traits
                       .sort((a, b) => a.name.localeCompare(b.name))
                       .map((trait, i) => (
-                        <TraitRow
+                        <RarityTrait
                           key={`${trait.name}-${i}`}
                           trait={trait}
                           removeTrait={removeTrait}
