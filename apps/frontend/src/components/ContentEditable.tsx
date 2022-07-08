@@ -30,10 +30,12 @@ export const ContentEditable = ({
         const selection = window.getSelection();
         if (!selection || selection.rangeCount == 0) return;
         const range = selection.getRangeAt(0);
-        range.setStart(e.target, 1);
-        range.setEnd(e.target, 1);
-        selection.removeAllRanges();
-        selection.addRange(range);
+        try {
+          range.setStart(e.target, 1);
+          range.setEnd(e.target, 1);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        } catch (e) {} // ignore DOMException: invalid selection
       }}
       onClick={(e) => e.stopPropagation()}
     >

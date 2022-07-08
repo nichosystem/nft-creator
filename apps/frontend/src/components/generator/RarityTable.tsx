@@ -67,12 +67,13 @@ const RarityTable = ({
           ...trait.attributes.filter((a) => a !== attribute),
           {
             ...attribute,
-            imageUrl: URL.createObjectURL(file),
+            imageSrc: URL.createObjectURL(file),
             imageName: file.name,
           },
         ],
       },
     ]);
+    return;
   };
 
   const updateAttributeName = (
@@ -152,7 +153,7 @@ const RarityTable = ({
                 <div className="bg-white shadow overflow-hidden">
                   <ul role="list" className="divide-y divide-gray-200">
                     {traits
-                      .sort((a, b) => a.name.localeCompare(b.name))
+                      .sort((a, b) => a.name?.localeCompare(b.name))
                       .map((trait, i) => (
                         <RarityTrait
                           key={`${trait.name}-${i}`}

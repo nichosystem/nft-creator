@@ -13,6 +13,7 @@ import {
   ViewListIcon,
 } from "@heroicons/react/solid";
 import Uploader from "../components/generator/Uploader";
+import { useLocalStorage } from "../hooks/use-local-storage";
 
 const tabs = ["Rarity Table", "Image Gallery", "IPFS Uploader"];
 const defaultTraits = [
@@ -52,11 +53,14 @@ const defaultTraits = [
   },
 ];
 
-const Metadata: NextPage = () => {
+const Generator: NextPage = () => {
   const [activeTab, setActiveTab] = useState(0);
-  const [traits, setTraits] = useState<Trait[]>(defaultTraits);
-  const [metadataJSON, setMetadataJSON] = useState<MetadataToken[]>([]);
-  const [images, setImages] = useState<HTMLCanvasElement[]>([]);
+  const [traits, setTraits] = useLocalStorage<Trait[]>("traits", defaultTraits);
+  const [metadataJSON, setMetadataJSON] = useLocalStorage<MetadataToken[]>(
+    "metadataJSON",
+    []
+  );
+  const [images, setImages] = useState<string[]>([]);
 
   const generate = (
     isUnique: boolean,
@@ -73,7 +77,8 @@ const Metadata: NextPage = () => {
     const metadata = generateMetadata(traits, supply, isUnique, seed);
     setMetadataJSON(metadata);
     const art = generateArt(metadata, traits, height, width);
-    setImages(art);
+    setImages(art.map((image) => image.toDataURL()));
+    setActiveTab(1);
   };
 
   return (
@@ -106,8 +111,8 @@ const Metadata: NextPage = () => {
                           className={`
                           ${
                             activeTab == i
-                              ? "border-sky-500 text-sky-600"
-                              : "border-transparent text-gray-300 hover:text-gray-400 hover:border-gray-300"
+                              ? "border-sky-500 text-sky-500"
+                              : "border-transparent text-gray-300 hover:text-gray-200 hover:border-gray-300"
                           } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
                           onClick={() => setActiveTab(i)}
                         >
@@ -115,25 +120,30 @@ const Metadata: NextPage = () => {
                         </button>
                       ))}
                     </nav>
-                    <div className="hidden ml-6 bg-gray-100 p-0.5 rounded-lg items-center sm:flex">
-                      <button
-                        type="button"
-                        className="p-1.5 rounded-md text-gray-400 hover:bg-white hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-500"
-                      >
-                        <ViewListIcon className="h-5 w-5" aria-hidden="true" />
-                        <span className="sr-only">Use list view</span>
-                      </button>
-                      <button
-                        type="button"
-                        className="ml-0.5 bg-white p-1.5 rounded-md shadow-sm text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-500"
-                      >
-                        <ViewGridIconSolid
-                          className="h-5 w-5"
-                          aria-hidden="true"
-                        />
-                        <span className="sr-only">Use grid view</span>
-                      </button>
-                    </div>
+                    {activeTab === 1 && (
+                      <div className="hidden ml-6 bg-gray-100 p-0.5 rounded-lg items-center sm:flex">
+                        <button
+                          type="button"
+                          className="p-1.5 rounded-md text-gray-400 hover:bg-white hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-500"
+                        >
+                          <ViewListIcon
+                            className="h-5 w-5"
+                            aria-hidden="true"
+                          />
+                          <span className="sr-only">Use list view</span>
+                        </button>
+                        <button
+                          type="button"
+                          className="ml-0.5 bg-white p-1.5 rounded-md shadow-sm text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-500"
+                        >
+                          <ViewGridIconSolid
+                            className="h-5 w-5"
+                            aria-hidden="true"
+                          />
+                          <span className="sr-only">Use grid view</span>
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -144,7 +154,7 @@ const Metadata: NextPage = () => {
                     <GenerateForm traits={traits} generate={generate} />
                   </>
                 ) : activeTab === 1 ? (
-                  <Gallery images={images} />
+                  <Gallery images={images} metadataJSON={metadataJSON} />
                 ) : activeTab === 2 ? (
                   <Uploader metadataJSON={metadataJSON} />
                 ) : null}
@@ -157,4 +167,4 @@ const Metadata: NextPage = () => {
   );
 };
 
-export default Metadata;
+export default Generator;

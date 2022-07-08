@@ -3,7 +3,7 @@ export type Attribute = {
   weight: number;
   dependency?: string;
   exclusion?: string;
-  imageUrl?: string;
+  imageSrc?: string;
   imageName?: string;
   layer?: number;
 };

@@ -40,7 +40,7 @@ const RarityTrait = ({
   const [hideAttributes, setHideAttributes] = useState(true);
   const nameRef = useRef<HTMLSpanElement | null>(null);
   const getWeights = (trait: Trait) => {
-    return trait.attributes.reduce((sum, cur) => sum + cur.weight, 0);
+    return trait.attributes?.reduce((sum, cur) => sum + cur.weight, 0);
   };
 
   return (
@@ -76,21 +76,21 @@ const RarityTrait = ({
                   className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
                   aria-hidden="true"
                 />
-                <p>{trait.attributes.length} attributes</p>
+                <p>{trait.attributes?.length} attributes</p>
               </div>
             </div>
           </div>
           <div className="mt-4 flex-shrink-0 sm:mt-0 sm:ml-5">
             <div className="flex overflow-hidden -space-x-1">
-              {trait.attributes.map((attribute, i) => {
+              {trait.attributes?.map((attribute, i) => {
                 return (
-                  attribute.imageUrl && (
+                  attribute.imageSrc && (
                     <img
                       key={i}
                       className="h-6 w-6 inline-block rounded-full ring-2 ring-white bg-gray-50"
                       height="24px"
                       width="24px"
-                      src={attribute.imageUrl}
+                      src={attribute.imageSrc}
                       alt=""
                     />
                   )
@@ -115,7 +115,7 @@ const RarityTrait = ({
               className="divide-y divide-gray-200 border-t border-gray-200"
             >
               {trait.attributes
-                .sort((a, b) => b.weight - a.weight)
+                ?.sort((a, b) => b.weight - a.weight)
                 .map((attribute, j) => (
                   <RarityRow
                     key={`${trait.name}-${attribute.name}-${j}`}
@@ -136,12 +136,12 @@ const RarityTrait = ({
           >
             <div className="flex justify-start space-x-4">
               <Button
-                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-100 bg-white hover:bg-gray-50"
                 value="Add Attribute"
                 onClick={() => addAttribute(trait)}
               />
               <Button
-                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-100 bg-white hover:bg-gray-50"
                 value="Delete Trait"
                 onClick={() => removeTrait(trait)}
               />

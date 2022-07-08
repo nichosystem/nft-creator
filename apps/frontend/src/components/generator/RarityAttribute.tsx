@@ -67,10 +67,10 @@ const RarityRow = ({
                 }}
                 className="hidden"
               />
-              {attribute.imageUrl ? (
+              {attribute.imageSrc ? (
                 <Image
                   className="rounded-lg"
-                  src={attribute.imageUrl}
+                  src={attribute.imageSrc}
                   height="48px"
                   width="48px"
                   alt=""
