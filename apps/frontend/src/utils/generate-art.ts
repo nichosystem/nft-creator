@@ -22,7 +22,7 @@ export const generateArt = (
       const attribute = trait.attributes.find(
         (attr) => attr.name == metadataTrait?.value
       );
-      if (attribute?.imageUrl) layers.push(attribute.imageUrl);
+      if (attribute?.imageSrc) layers.push(attribute.imageSrc);
     });
 
     // Generate the art by layering each image

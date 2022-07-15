@@ -45,7 +45,7 @@ const Hero = () => {
 
 const features = [
   {
-    name: "Deploy Smart Contract",
+    name: "Deploy Smart Contracts",
     description:
       "Click to deploy an ERC721 smart contract to your desired chain.",
     icon: CodeIcon,
@@ -69,7 +69,7 @@ const features = [
     icon: BeakerIcon,
   },
   {
-    name: "Create Minting App",
+    name: "Create Minting Apps",
     description:
       "Use a templated web app that lets users mint NFTs directly from your website.",
     icon: TemplateIcon,
