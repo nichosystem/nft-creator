@@ -1,7 +1,32 @@
+import { useState } from "react";
+import JSZip from "jszip";
+import { saveAs } from "file-saver";
 import { MetadataToken } from "../../types/metadata";
 import Code from "../Code";
 
 const Uploader = ({ metadataJSON }: { metadataJSON: MetadataToken[] }) => {
+  const [canvases, setCanvases] = useState<HTMLCanvasElement[]>([]);
+
+  const saveZip = async () => {
+    const zip = new JSZip();
+    const dir = zip.folder("images");
+    if (!dir) return;
+    const blobs = await Promise.all<Promise<Blob | null>[]>(
+      canvases.map(async (canvas): Promise<Blob | null> => {
+        return new Promise<Blob | null>((r) =>
+          canvas.toBlob((blob) => r(blob))
+        );
+      })
+    );
+    blobs.forEach((blob, index) => {
+      if (!blob) return;
+      dir.file(`${index}.png`, blob, { base64: true });
+    });
+    zip.generateAsync({ type: "blob" }).then((content) => {
+      saveAs(content, "images.zip");
+    });
+  };
+
   return (
     <>
       {metadataJSON.length > 0 && (
