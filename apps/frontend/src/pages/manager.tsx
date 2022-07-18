@@ -16,7 +16,7 @@ import {
   withdraw,
 } from "../provider/collection";
 import Button from "../components/button/Button";
-import Input from "../components/input/Input";
+import Input from "../components/Input";
 import { NFTCollection, NFTCollection__factory } from "../types/contracts";
 import SelectMenu, { SelectItem } from "../components/SelectMenu";
 import { CollectionDetails, Status } from "../types/collections";

@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { Trait } from "../../types/metadata";
 import Button from "../button/Button";
-import Input from "../input/Input";
+import Input from "../Input";
 
 enum Inputs {
   Supply = "supply",

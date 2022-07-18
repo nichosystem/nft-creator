@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from "react";
 import { useSigner } from "wagmi";
 import Button from "../components/button/Button";
 import Code from "../components/Code";
-import Input from "../components/input/Input";
+import Input from "../components/Input";
 import CONTRACT_CODE from "../assets/contract-code";
 import { deploy } from "../provider/factory";
 import { ExternalLinkIcon } from "@heroicons/react/outline";

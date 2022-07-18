@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Input from "../components/input/Input";
+import Input from "../components/Input";
 import {
   ChangeEvent,
   Dispatch,
