@@ -55,29 +55,30 @@ const defaultTraits = [
 
 const Generator: NextPage = () => {
   const [activeTab, setActiveTab] = useState(0);
+  const [height, setHeight] = useState(500);
+  const [width, setWidth] = useState(500);
   const [traits, setTraits] = useLocalStorage<Trait[]>("traits", defaultTraits);
   const [metadataJSON, setMetadataJSON] = useLocalStorage<MetadataToken[]>(
     "metadataJSON",
     []
   );
-  const [images, setImages] = useState<string[]>([]);
 
   const generate = (
     isUnique: boolean,
     supply: number,
     seed: string,
-    height: number,
-    width: number
+    h: number,
+    w: number
   ) => {
     if (
       isUnique &&
       traits.reduce((prod, trait) => prod * trait.attributes.length, 1) < supply
     )
       return;
+    setHeight(h);
+    setWidth(w);
     const metadata = generateMetadata(traits, supply, isUnique, seed);
     setMetadataJSON(metadata);
-    const art = generateArt(metadata, traits, height, width);
-    setImages(art.map((image) => image.toDataURL()));
     setActiveTab(1);
   };
 
@@ -154,7 +155,12 @@ const Generator: NextPage = () => {
                     <GenerateForm traits={traits} generate={generate} />
                   </>
                 ) : activeTab === 1 ? (
-                  <Gallery images={images} metadataJSON={metadataJSON} />
+                  <Gallery
+                    metadata={metadataJSON}
+                    traits={traits}
+                    height={height}
+                    width={width}
+                  />
                 ) : activeTab === 2 ? (
                   <Uploader metadataJSON={metadataJSON} />
                 ) : null}

@@ -1,17 +1,15 @@
 import { MetadataToken, Trait } from "../types/metadata";
 
-export const generateArt = (
+export const generateArt = async (
   metadata: MetadataToken[],
   traits: Trait[],
   height: number,
   width: number
-): HTMLCanvasElement[] => {
+): Promise<HTMLCanvasElement[]> => {
   const images: HTMLCanvasElement[] = [];
   // Loop through all metadata that was generated
   for (let i = 0; i < metadata.length; i++) {
-    const token = metadata[i];
     const layers: string[] = [];
-
     // Get each attribute's image in the correct layer order
     traits.forEach((trait) => {
       // Get the token's attribute for this trait
@@ -31,11 +29,14 @@ export const generateArt = (
     canvas.width = width;
     const ctx = canvas.getContext("2d");
     if (!ctx) throw new Error("Could not get canvas context");
-    layers.forEach((image) => {
-      const img = document.createElement("img");
-      img.src = image;
+    const img = new Image();
+    for (const image of layers) {
+      await new Promise((resolve) => {
+        img.onload = resolve;
+        img.src = image;
+      });
       ctx.drawImage(img, 0, 0, width, height);
-    });
+    }
     images.push(canvas);
   }
   return images;
