@@ -3,7 +3,6 @@ import Head from "next/head";
 import React, { useState } from "react";
 import RarityTable from "../components/generator/RarityTable";
 import { MetadataToken, Trait } from "../types/metadata";
-import { generateArt } from "../utils/generate-art";
 import { generateMetadata } from "../utils/generate-metadata";
 import GenerateForm from "../components/generator/GenerateForm";
 import Gallery from "../components/generator/Gallery";
