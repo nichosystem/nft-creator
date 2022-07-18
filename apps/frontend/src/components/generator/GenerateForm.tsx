@@ -46,10 +46,10 @@ const formInputs: FormInput[] = [
 
 const GenerateForm = ({
   traits,
-  generate,
+  generateMetadata,
 }: {
   traits: Trait[];
-  generate: (
+  generateMetadata: (
     isUnique: boolean,
     supply: number,
     seed: string,
@@ -139,7 +139,7 @@ const GenerateForm = ({
           value="Generate"
           onClick={(e) => {
             e.preventDefault();
-            generate(
+            generateMetadata(
               isUnique,
               Number(inputs.supply),
               inputs.seed,

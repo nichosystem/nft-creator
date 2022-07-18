@@ -152,7 +152,7 @@ const Generator: NextPage = () => {
                 {activeTab === 0 ? (
                   <>
                     <RarityTable traits={traits} setTraits={setTraits} />
-                    <GenerateForm traits={traits} generate={generate} />
+                    <GenerateForm traits={traits} generateMetadata={generate} />
                   </>
                 ) : activeTab === 1 ? (
                   <Gallery
@@ -162,7 +162,12 @@ const Generator: NextPage = () => {
                     width={width}
                   />
                 ) : activeTab === 2 ? (
-                  <Uploader metadataJSON={metadataJSON} />
+                  <Uploader
+                    metadataJSON={metadataJSON}
+                    traits={traits}
+                    height={height}
+                    width={width}
+                  />
                 ) : null}
               </div>
             </main>
