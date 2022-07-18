@@ -128,7 +128,7 @@ const Deployer: NextPage = () => {
                 <a
                   target="_blank"
                   rel="noreferrer"
-                  href="https://github.com/nichosystem/nft-tools/blob/master/apps/protocol/contracts/NFTCollection.sol"
+                  href="https://github.com/nichosystem/nft-creator/blob/master/apps/protocol/contracts/NFTCollection.sol"
                   className="underline hover:no-underline"
                 >
                   Github

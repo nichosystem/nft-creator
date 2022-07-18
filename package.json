@@ -1,15 +1,15 @@
 {
-  "name": "nft-tools",
+  "name": "nft-creator",
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AnimaGuild/nft-tools.git"
+    "url": "git+https://github.com/nichosystem/nft-creator.git"
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AnimaGuild/nft-tools/issues"
+    "url": "https://github.com/nichosystem/nft-creator/issues"
   },
-  "homepage": "https://github.com/AnimaGuild/nft-tools#readme",
+  "homepage": "https://github.com/nichosystem/nft-creator#readme",
   "private": true,
   "workspaces": [
     "apps/*"
