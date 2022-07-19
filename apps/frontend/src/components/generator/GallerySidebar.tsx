@@ -46,13 +46,13 @@ const GallerySidebar = ({
                     {(image.length / Math.pow(1024, 2)).toFixed(2)} MB
                   </p>
                 </div>
-                <button
+                {/* <button
                   type="button"
                   className="ml-4 bg-slate-900 rounded-full h-8 w-8 flex items-center justify-center text-gray-400 hover:bg-slate-800 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-500"
                 >
                   <HeartIcon className="h-6 w-6" aria-hidden="true" />
                   <span className="sr-only">Favorite</span>
-                </button>
+                </button> */}
               </div>
             </div>
             <div>
@@ -77,12 +77,12 @@ const GallerySidebar = ({
               >
                 Download
               </a>
-              <button
+              {/* <button
                 type="button"
                 className="flex-1 ml-3 bg-slate-900 py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-200 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500"
               >
                 Update
-              </button>
+              </button> */}
             </div>
           </div>
         )}

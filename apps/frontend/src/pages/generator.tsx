@@ -163,6 +163,7 @@ const Generator: NextPage = () => {
                 ) : activeTab === 2 ? (
                   <Uploader
                     metadataJSON={metadataJSON}
+                    setMetadataJSON={setMetadataJSON}
                     traits={traits}
                     height={height}
                     width={width}

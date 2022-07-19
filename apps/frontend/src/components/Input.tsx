@@ -22,7 +22,7 @@ export default function Input({
       <input
         type={type ? type : "text"}
         name={name}
-        className="text-gray-800 focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-2 sm:text-sm border-gray-300 rounded-md"
+        className="text-gray-800 focus:ring-sky-500 focus:border-sky-500 block w-full pl-2 sm:text-sm border-gray-300 rounded-md"
         placeholder={placeholder}
         onChange={onChange}
         value={value}
