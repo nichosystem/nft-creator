@@ -1,6 +1,6 @@
-export default function Icon() {
+export function Logomark(props: any) {
   return (
-    <svg version="1.1" viewBox="0 0 700 600" className="h-28 mx-auto">
+    <svg version="1.1" viewBox="0 0 700 600" className="h-9">
       <g>
         <path
           className="fill-sky-400"
@@ -9,5 +9,16 @@ export default function Icon() {
         />
       </g>
     </svg>
+  );
+}
+
+export function Logo() {
+  return (
+    <div className="flex h-9 items-center">
+      <Logomark />
+      <p className="hidden font-display text-xl text-slate-900 dark:text-white lg:block">
+        NFT Creator
+      </p>
+    </div>
   );
 }

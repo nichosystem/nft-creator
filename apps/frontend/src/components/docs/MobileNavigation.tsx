@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Dialog } from "@headlessui/react";
 
-import { Logomark } from "@/components/docs/Logo";
+import { Logomark } from "@/components/Logo";
 import { Navigation } from "@/components/docs/Navigation";
 
 function MenuIcon(props: any) {
@@ -36,7 +36,7 @@ function CloseIcon(props: any) {
   );
 }
 
-export function MobileNavigation({ navigation }: any) {
+export function MobileNavigation() {
   let router = useRouter();
   let [isOpen, setIsOpen] = useState(false);
 
@@ -85,7 +85,7 @@ export function MobileNavigation({ navigation }: any) {
               <Logomark className="ml-6 h-9 w-9" />
             </Link>
           </div>
-          <Navigation className="mt-5 px-1" />
+          <Navigation />
         </Dialog.Panel>
       </Dialog>
     </>

@@ -1,5 +1,5 @@
 ---
-title: CacheAdvance.revert()
+title: Architecture guide
 description: Quidem magni aut exercitationem maxime rerum eos.
 ---
 

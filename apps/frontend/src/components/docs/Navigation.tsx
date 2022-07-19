@@ -5,61 +5,55 @@ import clsx from "clsx";
 const navigation = [
   {
     title: "Introduction",
-    links: [
-      { title: "Getting started", href: "/" },
-      { title: "Installation", href: "/docs/installation" },
-    ],
+    links: [{ title: "Getting started", href: "/docs" }],
   },
   {
-    title: "Core concepts",
+    title: "Core tools",
     links: [
-      { title: "Understanding caching", href: "/docs/understanding-caching" },
+      { title: "Deployer", href: "/docs/deployer" },
       {
-        title: "Predicting user behavior",
-        href: "/docs/predicting-user-behavior",
+        title: "Manager",
+        href: "/docs/manager",
       },
-      { title: "Basics of time-travel", href: "/docs/basics-of-time-travel" },
+      { title: "Generator", href: "/docs/generator" },
       {
-        title: "Introduction to string theory",
-        href: "/docs/introduction-to-string-theory",
+        title: "Minter",
+        href: "/docs/minter",
       },
-      { title: "The butterfly effect", href: "/docs/the-butterfly-effect" },
+      { title: "Snapshot", href: "/docs/snapshot" },
     ],
   },
   {
     title: "Advanced guides",
     links: [
-      { title: "Writing plugins", href: "/docs/writing-plugins" },
-      { title: "Neuralink integration", href: "/docs/neuralink-integration" },
-      { title: "Temporal paradoxes", href: "/docs/temporal-paradoxes" },
-      { title: "Testing", href: "/docs/testing" },
-      { title: "Compile-time caching", href: "/docs/compile-time-caching" },
+      { title: "Deploying smart contracts", href: "/docs/coming-soon" },
+      { title: "Generating NFT art", href: "/docs/coming-soon" },
+      { title: "Managing collections", href: "/docs/coming-soon" },
+      { title: "Uploading to IPFS", href: "/docs/coming-soon" },
       {
-        title: "Predictive data generation",
-        href: "/docs/predictive-data-generation",
+        title: "Airdropping rewards",
+        href: "/docs/coming-soon",
       },
     ],
   },
   {
-    title: "API reference",
+    title: "Technical reference",
     links: [
-      { title: "CacheAdvance.predict()", href: "/docs/cacheadvance-predict" },
-      { title: "CacheAdvance.flush()", href: "/docs/cacheadvance-flush" },
-      { title: "CacheAdvance.revert()", href: "/docs/cacheadvance-revert" },
-      { title: "CacheAdvance.regret()", href: "/docs/cacheadvance-regret" },
+      { title: "Contracts", href: "/docs/contracts" },
+      { title: "NFT Factory", href: "/docs/coming-soon" },
+      { title: "NFT Collection", href: "/docs/coming-soon" },
     ],
   },
   {
-    title: "Contributing",
+    title: "Resources",
     links: [
-      { title: "How to contribute", href: "/docs/how-to-contribute" },
-      { title: "Architecture guide", href: "/docs/architecture-guide" },
-      { title: "Design principles", href: "/docs/design-principles" },
+      { title: "Links", href: "/docs/coming-soon" },
+      { title: "How to contribute", href: "/docs/coming-soon" },
     ],
   },
 ];
 
-export function Navigation({ className }: { className?: string }) {
+export function Navigation() {
   let router = useRouter();
 
   return (
