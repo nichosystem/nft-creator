@@ -1,5 +1,4 @@
 import {
-  ChevronRightIcon,
   CubeTransparentIcon,
   PencilIcon,
   ScaleIcon,
@@ -8,10 +7,12 @@ import {
 } from "@heroicons/react/outline";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import Image from "next/image";
-import { useRef, useState } from "react";
-import { Attribute, Trait } from "../../types/metadata";
-import SmallButton from "../button/SmallButton";
-import WrappedContentEditable, { ContentEditable } from "../ContentEditable";
+import { useRef } from "react";
+import { Attribute, Trait } from "@/types/metadata";
+import SmallButton from "@/components/button/SmallButton";
+import WrappedContentEditable, {
+  ContentEditable,
+} from "@/components/generator/ContentEditable";
 
 const RarityRow = ({
   trait,
@@ -48,15 +49,15 @@ const RarityRow = ({
   return (
     <div className="block bg-white hover:bg-gray-50">
       <div className="flex items-center px-4 py-4 sm:px-6">
-        <div className="min-w-0 flex-1 flex items-center">
+        <div className="flex min-w-0 flex-1 items-center">
           {/* Image and image uploader */}
           <div className="flex-shrink-0">
             <div
-              className="h-12 w-12 rounded-xl border-2 border-gray-600 flex justify-center items-center group relative"
+              className="group relative flex h-12 w-12 items-center justify-center rounded-xl border-2 border-gray-600"
               onClick={() => fileInput.current?.click()}
             >
-              <div className="hidden group-hover:block absolute z-10 rounded-lg bg-black bg-opacity-50 w-full h-full">
-                <UploadIcon className="h-8 w-8 text-gray-100 mx-auto translate-y-1/4" />
+              <div className="absolute z-10 hidden h-full w-full rounded-lg bg-black bg-opacity-50 group-hover:block">
+                <UploadIcon className="mx-auto h-8 w-8 translate-y-1/4 text-gray-100" />
               </div>
               <input
                 type="file"
@@ -80,7 +81,7 @@ const RarityRow = ({
               )}
             </div>
           </div>
-          <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4 group">
+          <div className="group min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
             {/* Attribute name and image filename */}
             <div>
               <div className="flex items-center">
@@ -92,8 +93,8 @@ const RarityRow = ({
                   ref={nameRef}
                   className="text-sky-500 group-hover:bg-gray-100"
                 />
-                <div className="relative pl-1 h-4">
-                  <div className="absolute hidden group-hover:inline-block cursor-pointer">
+                <div className="relative h-4 pl-1">
+                  <div className="absolute hidden cursor-pointer group-hover:inline-block">
                     <PencilIcon
                       className="h-4 text-gray-500"
                       onClick={() => {
@@ -111,7 +112,7 @@ const RarityRow = ({
             <div>
               <div className="flex items-center text-sm text-gray-500">
                 <ScaleIcon
-                  className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                  className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                   aria-hidden="true"
                 />
                 <ContentEditable
@@ -121,8 +122,8 @@ const RarityRow = ({
                   }
                   className="group-hover:bg-gray-100"
                 />
-                <div className="relative pl-1 h-4 -translate-y-1/2 mb-[0.75px]">
-                  <div className="absolute hidden group-hover:flex flex-col">
+                <div className="relative mb-[0.75px] h-4 -translate-y-1/2 pl-1">
+                  <div className="absolute hidden flex-col group-hover:flex">
                     <button
                       onClick={() =>
                         updateAttributeWeight(
@@ -132,7 +133,7 @@ const RarityRow = ({
                         )
                       }
                     >
-                      <ChevronUpIcon className="h-4 -m-1 mt-1" />
+                      <ChevronUpIcon className="-m-1 mt-1 h-4" />
                     </button>
                     <button
                       onClick={() =>
@@ -143,7 +144,7 @@ const RarityRow = ({
                         )
                       }
                     >
-                      <ChevronDownIcon className="h-4 -m-1 mt-[0.5px]" />
+                      <ChevronDownIcon className="-m-1 mt-[0.5px] h-4" />
                     </button>
                   </div>
                 </div>

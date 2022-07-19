@@ -1,10 +1,10 @@
 import { ChevronDownIcon, PencilIcon } from "@heroicons/react/outline";
 import { PuzzleIcon } from "@heroicons/react/solid";
 import { useRef, useState } from "react";
-import { Attribute, Trait } from "../../types/metadata";
-import Button from "../button/Button";
-import WrappedContentEditable from "../ContentEditable";
-import RarityRow from "./RarityAttribute";
+import { Attribute, Trait } from "@/types/metadata";
+import Button from "@/components/button/Button";
+import WrappedContentEditable from "@/components/generator/ContentEditable";
+import RarityRow from "@/components/generator/RarityAttribute";
 
 const RarityTrait = ({
   trait,
@@ -44,24 +44,24 @@ const RarityTrait = ({
   };
 
   return (
-    <li className="block hover:bg-gray-50 cursor-pointer">
+    <li className="block cursor-pointer hover:bg-gray-50">
       <div
-        className="px-4 py-4 flex items-center sm:px-6"
+        className="flex items-center px-4 py-4 sm:px-6"
         onClick={() => setHideAttributes(!hideAttributes)}
       >
         <div className="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
           <div className="group">
-            <div className="flex items-center relative">
+            <div className="relative flex items-center">
               <WrappedContentEditable
                 value={trait.name}
                 setValue={(value) => updateTraitName(trait, value)}
                 ref={nameRef}
-                className="group-hover:bg-gray-100 text-sky-500 font-semibold"
+                className="font-semibold text-sky-500 group-hover:bg-gray-100"
               />
-              <div className="relative pl-1 h-4">
-                <div className="absolute hidden group-hover:inline-block cursor-pointer">
+              <div className="relative h-4 pl-1">
+                <div className="absolute hidden cursor-pointer group-hover:inline-block">
                   <PencilIcon
-                    className="h-4 z-10 text-gray-500"
+                    className="z-10 h-4 text-gray-500"
                     onClick={(e) => {
                       e.stopPropagation();
                       if (nameRef.current) nameRef.current.focus();
@@ -73,7 +73,7 @@ const RarityTrait = ({
             <div className="mt-2 flex">
               <div className="flex items-center text-sm text-gray-500">
                 <PuzzleIcon
-                  className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
+                  className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                   aria-hidden="true"
                 />
                 <p>{trait.attributes?.length} attributes</p>
@@ -81,13 +81,13 @@ const RarityTrait = ({
             </div>
           </div>
           <div className="mt-4 flex-shrink-0 sm:mt-0 sm:ml-5">
-            <div className="flex overflow-hidden -space-x-1">
+            <div className="flex -space-x-1 overflow-hidden">
               {trait.attributes?.map((attribute, i) => {
                 return (
                   attribute.imageSrc && (
                     <img
                       key={i}
-                      className="h-6 w-6 inline-block rounded-full ring-2 ring-white bg-gray-50"
+                      className="inline-block h-6 w-6 rounded-full bg-gray-50 ring-2 ring-white"
                       height="24px"
                       width="24px"
                       src={attribute.imageSrc}
@@ -109,7 +109,7 @@ const RarityTrait = ({
       </div>
       {!hideAttributes && (
         <>
-          <div className="bg-white shadow overflow-hidden sm:rounded-md">
+          <div className="overflow-hidden bg-white shadow sm:rounded-md">
             <ul
               role="list"
               className="divide-y divide-gray-200 border-t border-gray-200"
@@ -131,17 +131,17 @@ const RarityTrait = ({
             </ul>
           </div>
           <nav
-            className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
+            className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6"
             aria-label="Pagination"
           >
             <div className="flex justify-start space-x-4">
               <Button
-                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-100 bg-white hover:bg-gray-50"
+                className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-100 hover:bg-gray-50"
                 value="Add Attribute"
                 onClick={() => addAttribute(trait)}
               />
               <Button
-                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-100 bg-white hover:bg-gray-50"
+                className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-100 hover:bg-gray-50"
                 value="Delete Trait"
                 onClick={() => removeTrait(trait)}
               />

@@ -176,7 +176,7 @@ export function Layout({
 
   let pageTitle =
     pageProps.markdoc?.frontmatter.pageTitle ||
-    `${pageProps.markdoc?.frontmatter.title} - Docs`;
+    `${pageProps.markdoc?.frontmatter.title} - NFT Creator Docs`;
 
   let description = pageProps.markdoc?.frontmatter.description;
 

@@ -1,4 +1,4 @@
-import { Fence } from "@/components/docs/Fence";
+import Code from "@/components/Code";
 
 const nodes = {
   document: {
@@ -14,7 +14,7 @@ const nodes = {
     render: (props: any) => <th {...props} />,
   },
   fence: {
-    render: Fence,
+    render: Code,
     attributes: {
       language: {
         type: String,

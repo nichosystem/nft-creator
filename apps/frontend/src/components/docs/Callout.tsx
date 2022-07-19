@@ -2,7 +2,7 @@ import clsx from "clsx";
 
 import { Icon } from "@/components/Icon";
 
-const styles: any = {
+const styles = {
   note: {
     container:
       "bg-sky-50 dark:bg-slate-800/60 dark:ring-1 dark:ring-slate-300/10",
@@ -17,7 +17,7 @@ const styles: any = {
   },
 };
 
-const icons: any = {
+const icons = {
   note: (props: any) => <Icon icon="lightbulb" {...props} />,
   warning: (props: any) => <Icon icon="warning" color="amber" {...props} />,
 };
@@ -27,11 +27,11 @@ export function Callout({
   title,
   children,
 }: {
-  type: string;
+  type: "note" | "warning";
   title: string;
   children: React.ReactNode;
 }) {
-  let IconComponent = icons[type];
+  const IconComponent = icons[type];
 
   return (
     <div className={clsx("my-8 flex rounded-3xl p-6", styles[type].container)}>

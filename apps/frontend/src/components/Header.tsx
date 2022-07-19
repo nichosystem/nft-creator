@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Logo, Logomark } from "./Logo";
-import { MobileNavigation } from "./docs/MobileNavigation";
-import { Search } from "./docs/Search";
-import { ThemeSelector } from "./docs/ThemeSelector";
+import { Logo } from "@/components/Logo";
+import { MobileNavigation } from "@/components/docs/MobileNavigation";
+import { Search } from "@/components/docs/Search";
+import { ThemeSelector } from "@/components/docs/ThemeSelector";
 
 function GitHubIcon(props: any) {
   return (
@@ -52,7 +52,11 @@ export function Header() {
       </div>
       <div className="relative flex basis-0 justify-end gap-6 sm:gap-8 md:flex-grow">
         <ThemeSelector className="relative z-10" />
-        <Link href="https://github.com" passHref aria-label="GitHub">
+        <Link
+          href="https://github.com/nichosystem/nft-creator"
+          passHref
+          aria-label="GitHub"
+        >
           <GitHubIcon className="h-6 w-6 fill-slate-400 hover:fill-slate-500 dark:hover:fill-slate-300" />
         </Link>
       </div>

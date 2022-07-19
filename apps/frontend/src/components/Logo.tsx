@@ -1,4 +1,4 @@
-export function Logomark(props: any) {
+export function Logomark() {
   return (
     <svg version="1.1" viewBox="0 0 700 600" className="h-9">
       <g>

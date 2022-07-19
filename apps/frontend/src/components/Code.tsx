@@ -7,19 +7,22 @@ hljsDefineSolidity(hljs);
 
 const Code = ({
   content,
+  children,
   language,
 }: {
-  content: string;
+  content?: string;
+  children?: string;
   language?: string;
 }) => {
+  const code = content || children || "";
   const highlighted = language
-    ? hljs.highlight(content, { language })
-    : hljs.highlightAuto(content);
+    ? hljs.highlight(code, { language })
+    : hljs.highlightAuto(code);
 
   return (
     <pre className="relative">
       <div className="absolute right-0 mr-4 mt-1">
-        <CopyButton content={content} />
+        <CopyButton content={code} />
       </div>
       <code
         className="hljs max-h-screen rounded-lg"

@@ -13,11 +13,11 @@ import {
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import Footer from "./Footer";
-import { getOwnedCollections } from "../provider/factory";
 import { useAccount, useProvider } from "wagmi";
-import { Layout } from "@/components/docs/Layout";
 import { MarkdocNextJsPageProps } from "@markdoc/next.js";
+import Footer from "@/components/Footer";
+import { getOwnedCollections } from "@/provider/factory";
+import { Layout } from "@/components/docs/Layout";
 
 const sidebarNavigation = [
   { name: "Home", href: "/", icon: HomeIcon },
