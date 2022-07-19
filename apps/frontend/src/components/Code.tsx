@@ -2,7 +2,7 @@ import type {} from "highlight.js";
 import hljs from "highlight.js";
 // @ts-ignore
 import hljsDefineSolidity from "highlightjs-solidity";
-import CopyButton from "./button/CopyButton";
+import CopyButton from "@/components/button/CopyButton";
 hljsDefineSolidity(hljs);
 
 const Code = ({
@@ -22,7 +22,7 @@ const Code = ({
         <CopyButton content={content} />
       </div>
       <code
-        className="hljs rounded-lg max-h-screen"
+        className="hljs max-h-screen rounded-lg"
         dangerouslySetInnerHTML={{
           __html: highlighted.value,
         }}

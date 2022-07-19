@@ -8,29 +8,29 @@ import {
   TemplateIcon,
   PuzzleIcon,
 } from "@heroicons/react/outline";
-import Footer from "../components/Footer";
-import Logo from "../components/Logo";
+import Footer from "@/components/Footer";
+import Logo from "@/components/Logo";
 
 const Hero = () => {
   return (
-    <div className="relative bg-slate-900 overflow-hidden">
+    <div className="relative overflow-hidden bg-slate-900">
       <div className="relative pt-24 sm:pb-32">
-        <main className="mt-16 mx-auto max-w-7xl px-4 sm:mt-24">
+        <main className="mx-auto mt-16 max-w-7xl px-4 sm:mt-24">
           <div className="text-center">
             <Logo />
-            <h1 className="text-4xl tracking-tight font-extrabold text-slate-100 sm:text-5xl md:text-6xl">
+            <h1 className="text-4xl font-extrabold tracking-tight text-slate-100 sm:text-5xl md:text-6xl">
               <span className="block leading-snug">No-Code Tools for </span>{" "}
               <span className="block text-sky-400">NFT Creators</span>
             </h1>
-            <p className="mt-3 max-w-md mx-auto text-base text-slate-200 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+            <p className="mx-auto mt-3 max-w-md text-base text-slate-200 sm:text-lg md:mt-5 md:max-w-3xl md:text-xl">
               Create an NFT collection in minutes. Generate art, deploy smart
               contracts, and manage on-chain operations all through one simple
               interface.
             </p>
-            <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
+            <div className="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
               <div className="rounded-md shadow">
                 <Link href="/deployer" passHref>
-                  <button className="mt-2 font-extralight tracking-widest uppercase flex-shrink-0 px-4 py-2 border border-transparent text-xl rounded-md shadow-sm text-white bg-sky-500 hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
+                  <button className="mt-2 flex-shrink-0 rounded-md border border-transparent bg-sky-500 px-4 py-2 text-xl font-extralight uppercase tracking-widest text-white shadow-sm hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">
                     Enter dApp
                   </button>
                 </Link>
@@ -130,7 +130,7 @@ const Features = () => {
 const CTA = () => {
   return (
     <div className="bg-slate-900">
-      <div className="max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+      <div className="mx-auto max-w-7xl py-12 px-4 text-center sm:px-6 lg:py-16 lg:px-8">
         <h2 className="text-3xl tracking-normal text-slate-100 sm:text-4xl">
           <span className="block">Ready for the best part?</span>
           <span className="block font-extrabold">
@@ -140,7 +140,7 @@ const CTA = () => {
         <div className="mt-4 flex justify-center">
           <div className="inline-flex rounded-md shadow">
             <Link href="/deployer" passHref>
-              <button className="mt-2 font-semibold italic tracking-widest flex-shrink-0 px-4 py-2 border border-transparent text-xl rounded-md shadow-sm text-white bg-sky-500 hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
+              <button className="mt-2 flex-shrink-0 rounded-md border border-transparent bg-sky-500 px-4 py-2 text-xl font-semibold italic tracking-widest text-white shadow-sm hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">
                 WAGMI MFERS
               </button>
             </Link>

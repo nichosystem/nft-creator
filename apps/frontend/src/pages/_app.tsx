@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import AppLayout from "../components/AppLayout";
+import LayoutApp from "../components/LayoutApp";
 import Head from "next/head";
 import "@rainbow-me/rainbowkit/styles.css";
 import {
@@ -11,11 +11,11 @@ import {
 } from "@rainbow-me/rainbowkit";
 import { ToastContainer } from "react-toastify";
 import { createClient, chain, configureChains, WagmiConfig } from "wagmi";
+import { MarkdocNextJsPageProps } from "@markdoc/next.js";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
-import "../styles/globals.css";
-import { useEffect } from "react";
 import { NextPageWithLayout } from "../types/types";
+import "@/styles/tailwind.css";
 
 // wagmi
 const selectChains = [chain.mainnet, chain.polygon, chain.goerli];
@@ -53,12 +53,9 @@ function App({
   pageProps,
 }: AppProps & {
   Component: NextPageWithLayout;
+  pageProps: MarkdocNextJsPageProps;
 }) {
-  useEffect(() => {
-    document.querySelector("body")?.classList.add("bg-slate-900");
-  });
-
-  const PageLayout = Component.Layout ?? AppLayout;
+  const PageLayout = Component.Layout ?? LayoutApp;
   return (
     <>
       <Head>
@@ -76,7 +73,7 @@ function App({
           }}
         >
           <ToastContainer theme="dark" />
-          <PageLayout>
+          <PageLayout pageProps={pageProps}>
             <Component {...pageProps} />
           </PageLayout>
         </RainbowKitProvider>

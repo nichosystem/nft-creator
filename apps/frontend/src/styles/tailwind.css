@@ -1,0 +1,7 @@
+@import "tailwindcss/base";
+@import "./fonts.css";
+@import "./docsearch.css";
+@import "highlight.js/styles/atom-one-dark.css";
+@import "react-toastify/dist/ReactToastify.css";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
