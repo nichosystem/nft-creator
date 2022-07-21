@@ -9,7 +9,6 @@ import {
   CodeIcon,
   XIcon,
   CogIcon,
-  BookOpenIcon,
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
 import { useAccount, useProvider } from "wagmi";
@@ -20,12 +19,11 @@ import { Layout } from "@/components/docs/Layout";
 import { Header } from "./Header";
 
 const sidebarNavigation = [
-  { name: "Home", href: "/", icon: HomeIcon },
+  { name: "Manager", href: "/manager", icon: HomeIcon },
   { name: "Deployer", href: "/deployer", icon: CodeIcon },
   { name: "Generator", href: "/generator", icon: BeakerIcon },
   { name: "Minter", href: "/minter", icon: TemplateIcon },
   { name: "Snapshot", href: "/snapshot", icon: CameraIcon },
-  { name: "Docs", href: "/docs", icon: BookOpenIcon },
 ];
 
 function classNames(...classes: (string | boolean)[]) {

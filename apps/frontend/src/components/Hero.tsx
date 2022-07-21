@@ -30,7 +30,7 @@ export function Hero() {
                 operations all through one simple interface.
               </p>
               <div className="mt-8 flex gap-4 md:justify-center">
-                <Button href="/deployer">Enter dApp</Button>
+                <Button href="/dapp">Enter dApp</Button>
                 <Button href="/docs" variant="secondary">
                   Learn more
                 </Button>

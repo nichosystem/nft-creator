@@ -46,7 +46,7 @@ export function Header() {
       </div>
       <div className="relative flex basis-0 items-center justify-end gap-6 sm:gap-8 md:flex-grow">
         <>
-          <Link href="/deployer" passHref aria-label="Docs">
+          <Link href="/dapp" passHref aria-label="Docs">
             <a className="text-sm font-semibold hover:text-sky-500 dark:text-gray-100">
               Dapp
             </a>

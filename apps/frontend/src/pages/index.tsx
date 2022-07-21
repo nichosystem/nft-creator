@@ -107,7 +107,7 @@ const Home: NextPageWithLayout = () => {
         </h2>
         <div className="mt-4 flex justify-center">
           <div className="inline-flex rounded-md shadow">
-            <Link href="/deployer" passHref>
+            <Link href="/dapp" passHref>
               <button className="mt-2 flex-shrink-0 rounded-md border border-transparent bg-sky-500 px-4 py-2 text-xl font-semibold italic tracking-widest text-white shadow-sm hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">
                 WAGMI MFERS
               </button>
