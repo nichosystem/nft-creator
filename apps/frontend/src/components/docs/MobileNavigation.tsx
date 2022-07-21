@@ -82,7 +82,7 @@ export function MobileNavigation() {
               <CloseIcon className="h-6 w-6 stroke-slate-500" />
             </button>
             <Link href="/" passHref aria-label="Home page">
-              <Logomark className="ml-6 h-9 w-9" />
+              <Logomark />
             </Link>
           </div>
           <Navigation />
