@@ -1,3 +1,5 @@
+import { ThemeSelector } from "@/components/docs/ThemeSelector";
+
 const navigation = [
   {
     name: "Twitter",
@@ -25,8 +27,8 @@ const navigation = [
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 border-t border-slate-700 max-w-6xl mx-auto">
-      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
+    <footer className="mx-auto max-w-6xl border-t border-slate-700">
+      <div className="mx-auto max-w-7xl py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
         <div className="flex justify-center space-x-6 md:order-2">
           {navigation.map((item) => (
             <a
@@ -40,9 +42,10 @@ export default function Footer() {
               <item.icon className="h-6 w-6" aria-hidden="true" />
             </a>
           ))}
+          <ThemeSelector className="relative z-10" />
         </div>
-        <div className="mt-8 md:mt-0 md:order-1">
-          <p className="text-center text-base text-slate-400 font-thin">
+        <div className="mt-8 md:order-1 md:mt-0">
+          <p className="text-center text-base font-light text-slate-800 dark:text-slate-400">
             &copy; {new Date().getFullYear()} NFT Creator
           </p>
         </div>

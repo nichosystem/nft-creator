@@ -12,12 +12,12 @@ import {
   BookOpenIcon,
 } from "@heroicons/react/outline";
 import { useRouter } from "next/router";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount, useProvider } from "wagmi";
 import { MarkdocNextJsPageProps } from "@markdoc/next.js";
 import Footer from "@/components/Footer";
 import { getOwnedCollections } from "@/provider/factory";
 import { Layout } from "@/components/docs/Layout";
+import { Header } from "./Header";
 
 const sidebarNavigation = [
   { name: "Home", href: "/", icon: HomeIcon },
@@ -68,9 +68,10 @@ export default function LayoutApp({
   // Return normal layout for all other pages
   return (
     <>
+      <Header />
       <div className="flex h-full min-h-screen">
         {/* Narrow sidebar */}
-        <div className="fixed hidden h-screen w-28 overflow-y-auto bg-slate-900 md:block">
+        <div className="fixed hidden h-screen w-28 overflow-y-auto md:block">
           <div className="flex w-full flex-col items-center py-6">
             <div className="flex flex-shrink-0 items-center"></div>
             <div className="mt-6 w-full flex-1 space-y-1 px-2">
@@ -208,9 +209,6 @@ export default function LayoutApp({
             <span className="sr-only">Open sidebar</span>
             <MenuAlt2Icon className="h-6 w-6" aria-hidden="true" />
           </button>
-          <div className="absolute top-5 right-5">
-            <ConnectButton />
-          </div>
 
           {/* Main content */}
           <div className="flex flex-1 items-stretch">

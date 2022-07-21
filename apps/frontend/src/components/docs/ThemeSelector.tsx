@@ -72,12 +72,10 @@ export function ThemeSelector(props: any) {
         className="flex h-6 w-6 items-center justify-center rounded-lg shadow-md shadow-black/5 ring-1 ring-black/5 dark:bg-slate-700 dark:ring-inset dark:ring-white/5"
         aria-label={selectedTheme?.name}
       >
-        <LightIcon className="[[data-theme=light]_&]:block hidden h-4 w-4 fill-sky-400" />
-        <DarkIcon className="[[data-theme=dark]_&]:block hidden h-4 w-4 fill-sky-400" />
-        <LightIcon className="[:not(.dark)[data-theme=system]_&]:block hidden h-4 w-4 fill-slate-400" />
-        <DarkIcon className="[.dark[data-theme=system]_&]:block hidden h-4 w-4 fill-slate-400" />
+        <LightIcon className="block h-4 w-4 fill-slate-400 dark:hidden" />
+        <DarkIcon className="hidden h-4 w-4 fill-slate-400 dark:block" />
       </Listbox.Button>
-      <Listbox.Options className="absolute top-full left-1/2 mt-3 w-36 -translate-x-1/2 space-y-1 rounded-xl bg-white p-3 text-sm font-medium shadow-md shadow-black/5 ring-1 ring-black/5 dark:bg-slate-800 dark:ring-white/5">
+      <Listbox.Options className="absolute bottom-full left-1/2 mb-3 w-36 -translate-x-1/2 space-y-1 rounded-xl bg-white p-3 text-sm font-medium shadow-md shadow-black/5 ring-1 ring-black/5 dark:bg-slate-800 dark:ring-white/5">
         {themes.map((theme) => (
           <Listbox.Option
             key={theme.value}
