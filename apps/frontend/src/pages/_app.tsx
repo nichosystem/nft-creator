@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import LayoutApp from "../components/LayoutApp";
+import Layout from "@/components/Layout";
 import Head from "next/head";
 import "@rainbow-me/rainbowkit/styles.css";
 import {
@@ -55,7 +55,7 @@ function App({
   Component: NextPageWithLayout;
   pageProps: MarkdocNextJsPageProps;
 }) {
-  const PageLayout = Component.Layout ?? LayoutApp;
+  const PageLayout = Component.Layout ?? Layout;
   return (
     <>
       <Head>

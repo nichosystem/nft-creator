@@ -11,7 +11,6 @@ import {
 import Footer from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import { Header } from "@/components/Header";
-import { QuickLink, QuickLinks } from "@/components/docs/QuickLinks";
 
 const features = [
   {

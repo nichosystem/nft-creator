@@ -59,6 +59,7 @@ export function Header() {
           <ConnectButton
             showBalance={false}
             chainStatus="icon"
+            accountStatus="address"
             label="Connect"
           />
         </>

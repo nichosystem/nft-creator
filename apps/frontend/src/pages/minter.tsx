@@ -8,9 +8,9 @@ const Minter: NextPage = () => {
         <title>Minter - NFT Creator</title>
         <meta name="description" content="" />
       </Head>
-      <div className="flex justify-center items-center flex-col h-full">
+      <div className="flex h-full flex-col items-center justify-center text-center">
         <p className="text-lg text-sky-500">Minting Web App</p>
-        <h1 className="text-6xl font-extrabold">Coming Soon</h1>
+        <h1 className="mb-48 text-6xl font-extrabold">Coming Soon</h1>
       </div>
     </>
   );

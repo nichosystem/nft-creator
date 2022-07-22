@@ -2,13 +2,13 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { ChangeEvent, useState } from "react";
 import { useSigner } from "wagmi";
-import Button from "../components/button/Button";
-import Code from "../components/Code";
-import Input from "../components/Input";
-import CONTRACT_CODE from "../assets/contract-code";
-import { deploy } from "../provider/factory";
+import Button from "@/components/button/Button";
+import Code from "@/components/Code";
+import Input from "@/components/Input";
+import CONTRACT_CODE from "@/assets/contract-code";
+import { deploy } from "@/provider/factory";
 import { ExternalLinkIcon } from "@heroicons/react/outline";
-import { handleTransaction } from "../utils/handle-transaction";
+import { handleTransaction } from "@/utils/handle-transaction";
 
 const Deployer: NextPage = () => {
   const { data: signer } = useSigner();
@@ -43,19 +43,19 @@ const Deployer: NextPage = () => {
         <meta name="description" content="" />
       </Head>
       <div className="flex-1 xl:overflow-y-auto">
-        <div className="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
+        <div className="mx-auto max-w-3xl px-4 pt-5 pb-12 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-extrabold text-slate-100">
             NFT Contract Deployer
           </h1>
           <p className="mt-1 text-sm text-slate-500">
             Deploy an ERC721 contract in seconds.
           </p>
-          <form className="space-y-8 divide-y divide-y-slate-200">
-            <div className="pt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6">
+          <form className="divide-y-slate-200 space-y-8 divide-y">
+            <div className="grid grid-cols-1 gap-y-6 pt-4 sm:grid-cols-6 sm:gap-x-6">
               <div className="sm:col-span-3">
                 <label
                   htmlFor="name"
-                  className="block text-base font-medium text-slate-100 mb-1"
+                  className="mb-1 block text-base font-medium text-slate-100"
                 >
                   Name
                 </label>
@@ -69,7 +69,7 @@ const Deployer: NextPage = () => {
               <div className="sm:col-span-3">
                 <label
                   htmlFor="symbol"
-                  className="block text-base font-medium text-slate-100 mb-1"
+                  className="mb-1 block text-base font-medium text-slate-100"
                 >
                   Symbol
                 </label>
@@ -83,7 +83,7 @@ const Deployer: NextPage = () => {
               <div className="sm:col-span-3">
                 <label
                   htmlFor="maxSupply"
-                  className="block text-base font-medium text-slate-100 mb-1"
+                  className="mb-1 block text-base font-medium text-slate-100"
                 >
                   Max Supply
                 </label>
@@ -97,7 +97,7 @@ const Deployer: NextPage = () => {
               <div className="sm:col-span-3">
                 <label
                   htmlFor="txLimit"
-                  className="block text-base font-medium text-slate-100 mb-1"
+                  className="mb-1 block text-base font-medium text-slate-100"
                 >
                   Max Mint per Transaction
                 </label>
@@ -118,7 +118,7 @@ const Deployer: NextPage = () => {
               className="w-full"
             />
           </form>
-          <div className="mt-10 text-sm border-t-2 border-slate-200">
+          <div className="mt-10 border-t-2 border-slate-200 text-sm">
             <div className="mt-10 mb-6">
               <h2 className="text-xl font-medium text-slate-100">
                 Contract Code (Read-Only)
@@ -132,7 +132,7 @@ const Deployer: NextPage = () => {
                   className="underline hover:no-underline"
                 >
                   Github
-                  <ExternalLinkIcon className="ml-1 mb-1 h-5 inline-block" />
+                  <ExternalLinkIcon className="ml-1 mb-1 inline-block h-5" />
                 </a>
               </div>
             </div>

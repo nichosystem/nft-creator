@@ -99,7 +99,7 @@ function collectHeadings(nodes: any, slugify = slugifyWithCounter()): any[] {
   return sections;
 }
 
-export function Layout({
+export function LayoutDocs({
   pageProps,
   children,
 }: {

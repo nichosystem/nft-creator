@@ -3,7 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useAccount, useProvider, useSigner } from "wagmi";
-import { getOwnedCollections } from "../provider/factory";
+import { getOwnedCollections } from "@/provider/factory";
 import {
   getCollectionDetails,
   gift,
@@ -14,13 +14,13 @@ import {
   setStatus,
   transferOwner,
   withdraw,
-} from "../provider/collection";
-import Button from "../components/button/Button";
-import Input from "../components/Input";
-import { NFTCollection, NFTCollection__factory } from "../types/contracts";
-import SelectMenu, { SelectItem } from "../components/SelectMenu";
-import { CollectionDetails, Status } from "../types/collections";
-import { handleTransaction } from "../utils/handle-transaction";
+} from "@/provider/collection";
+import Button from "@/components/button/Button";
+import Input from "@/components/Input";
+import { NFTCollection, NFTCollection__factory } from "@/types/contracts";
+import SelectMenu, { SelectItem } from "@/components/SelectMenu";
+import { CollectionDetails, Status } from "@/types/collections";
+import { handleTransaction } from "@/utils/handle-transaction";
 
 const Manager: NextPage = () => {
   const { data: signer } = useSigner();
@@ -84,8 +84,8 @@ const Manager: NextPage = () => {
 
       <>
         <div className="flex-1 xl:overflow-y-auto">
-          <div className="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
-            <h1 className="text-3xl font-extrabold text-slate-100 pb-6">
+          <div className="mx-auto max-w-3xl px-4 pt-5 pb-10 sm:px-6 lg:px-8">
+            <h1 className="pb-6 text-3xl font-extrabold text-slate-100">
               NFT Collection Manager
             </h1>
 
@@ -95,7 +95,7 @@ const Manager: NextPage = () => {
                   No Collections Found
                 </h2>
                 <Link href="/dapp/deployer" passHref>
-                  <button className="mt-2 flex-shrink-0 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-sky-500 hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500">
+                  <button className="mt-2 flex-shrink-0 rounded-md border border-transparent bg-sky-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">
                     Go To Deployer
                   </button>
                 </Link>
@@ -111,7 +111,7 @@ const Manager: NextPage = () => {
                   setSelected={setSelectedCollection}
                 />
 
-                <form className="mt-6 space-y-8 divide-y divide-y-slate-200 border-t-2 border-gray-200 pt-6">
+                <form className="divide-y-slate-200 mt-6 space-y-8 divide-y border-t-2 border-gray-200 pt-6">
                   <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6">
                     <div className="sm:col-span-6">
                       <div className="flex w-full justify-between">
@@ -147,7 +147,7 @@ const Manager: NextPage = () => {
                                 id="closed"
                                 name="status"
                                 type="radio"
-                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-slate-300"
+                                className="h-4 w-4 border-slate-300 text-indigo-600 focus:ring-indigo-500"
                                 checked={
                                   collectionDetails.status == Status.Closed
                                 }
@@ -170,7 +170,7 @@ const Manager: NextPage = () => {
                                 id="protected"
                                 name="status"
                                 type="radio"
-                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-slate-300"
+                                className="h-4 w-4 border-slate-300 text-indigo-600 focus:ring-indigo-500"
                                 checked={
                                   collectionDetails.status == Status.Protected
                                 }
@@ -193,7 +193,7 @@ const Manager: NextPage = () => {
                                 id="public"
                                 name="status"
                                 type="radio"
-                                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-slate-300"
+                                className="h-4 w-4 border-slate-300 text-indigo-600 focus:ring-indigo-500"
                                 checked={
                                   collectionDetails.status == Status.Public
                                 }
@@ -322,7 +322,7 @@ const Manager: NextPage = () => {
                     </div>
                   </div>
 
-                  <div className="pt-8 grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6">
+                  <div className="grid grid-cols-1 gap-y-6 pt-8 sm:grid-cols-6 sm:gap-x-6">
                     <div className="sm:col-span-6">
                       <h2 className="text-xl font-medium text-slate-100">
                         Minting &amp; Whitelist
@@ -349,7 +349,7 @@ const Manager: NextPage = () => {
                           name="gifts"
                           onChange={handleChange}
                           rows={4}
-                          className="block w-full border border-slate-300 rounded-md shadow-sm sm:text-sm focus:ring-blue-500 focus:border-blue-500 text-slate-900"
+                          className="block w-full rounded-md border border-slate-300 text-slate-900 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                           placeholder="0xf39Fd6e51aad88F6F4ce6aB8827279c92266, 0xf39Fd6e51aad88F6F4ce6aB8827279c92266"
                         />
                       </div>
@@ -370,7 +370,7 @@ const Manager: NextPage = () => {
                     </div>
                   </div>
 
-                  <div className="pt-8 grid grid-cols-1 gap-y-6 sm:grid-cols-6 sm:gap-x-6">
+                  <div className="grid grid-cols-1 gap-y-6 pt-8 sm:grid-cols-6 sm:gap-x-6">
                     <div className="sm:col-span-6">
                       <h2 className="text-xl font-medium text-slate-100">
                         Owner Functions
@@ -452,7 +452,7 @@ const Manager: NextPage = () => {
                             "Renouncing Ownership"
                           )
                         }
-                        className="bg-rose-600 hover:bg-rose-700 mt-2"
+                        className="mt-2 bg-rose-600 hover:bg-rose-700"
                       />
                     </div>
                   </div>

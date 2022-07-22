@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import React, { useState } from "react";
-import RarityTable from "../components/generator/RarityTable";
-import { MetadataToken, Trait } from "../types/metadata";
-import { generateMetadata } from "../utils/generate-metadata";
-import GenerateForm from "../components/generator/GenerateForm";
-import Gallery from "../components/generator/Gallery";
+import RarityTable from "@/components/generator/RarityTable";
+import { MetadataToken, Trait } from "@/types/metadata";
+import { generateMetadata } from "@/utils/generate-metadata";
+import GenerateForm from "@/components/generator/GenerateForm";
+import Gallery from "@/components/generator/Gallery";
 
 import {
   ViewGridIcon as ViewGridIconSolid,
@@ -88,11 +88,11 @@ const Generator: NextPage = () => {
         <meta name="description" content="" />
       </Head>
 
-      <div className="h-full flex">
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="flex-1 flex items-stretch overflow-hidden">
+      <div className="flex h-full">
+        <div className="flex flex-1 flex-col overflow-hidden">
+          <div className="flex flex-1 items-stretch overflow-hidden">
             <main className="flex-1 overflow-y-auto">
-              <div className="pt-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <h1 className="text-3xl font-extrabold text-slate-100">
                   NFT Art Generator
                 </h1>
@@ -101,7 +101,7 @@ const Generator: NextPage = () => {
                 <div className="mt-3 sm:mt-2">
                   <div className="flex items-center border-b border-gray-200">
                     <nav
-                      className="flex-1 -mb-px flex space-x-6 xl:space-x-8"
+                      className="-mb-px flex flex-1 space-x-6 xl:space-x-8"
                       aria-label="Tabs"
                     >
                       {tabs.map((tab, i) => (
@@ -112,8 +112,8 @@ const Generator: NextPage = () => {
                           ${
                             activeTab == i
                               ? "border-sky-500 text-sky-500"
-                              : "border-transparent text-gray-300 hover:text-gray-200 hover:border-gray-300"
-                          } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+                              : "border-transparent text-gray-300 hover:border-gray-300 hover:text-gray-200"
+                          } whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium`}
                           onClick={() => setActiveTab(i)}
                         >
                           {tab}
@@ -121,10 +121,10 @@ const Generator: NextPage = () => {
                       ))}
                     </nav>
                     {activeTab === 1 && (
-                      <div className="hidden ml-6 bg-gray-100 p-0.5 rounded-lg items-center sm:flex">
+                      <div className="ml-6 hidden items-center rounded-lg bg-gray-100 p-0.5 sm:flex">
                         <button
                           type="button"
-                          className="p-1.5 rounded-md text-gray-400 hover:bg-white hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-500"
+                          className="rounded-md p-1.5 text-gray-400 hover:bg-white hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-500"
                         >
                           <ViewListIcon
                             className="h-5 w-5"
@@ -134,7 +134,7 @@ const Generator: NextPage = () => {
                         </button>
                         <button
                           type="button"
-                          className="ml-0.5 bg-white p-1.5 rounded-md shadow-sm text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-500"
+                          className="ml-0.5 rounded-md bg-white p-1.5 text-gray-400 shadow-sm focus:outline-none focus:ring-2 focus:ring-inset focus:ring-sky-500"
                         >
                           <ViewGridIconSolid
                             className="h-5 w-5"
