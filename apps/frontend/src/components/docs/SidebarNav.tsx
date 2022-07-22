@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 
-const navigation = [
+export const navigation = [
   {
     title: "Introduction",
     links: [{ title: "Getting started", href: "/docs" }],
@@ -53,7 +53,7 @@ const navigation = [
   },
 ];
 
-export function Navigation() {
+export function SidebarNav() {
   let router = useRouter();
 
   return (

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Button } from "@/components/docs/Button";
+import { HeroButton } from "@/components/button/HeroButton";
 import { HeroBackground } from "@/components/HeroBackground";
 import blurCyanImage from "@/assets/images/blur-cyan.png";
 import blurIndigoImage from "@/assets/images/blur-indigo.png";
@@ -30,10 +30,10 @@ export function Hero() {
                 operations all through one simple interface.
               </p>
               <div className="mt-8 flex gap-4 md:justify-center">
-                <Button href="/dapp">Enter dApp</Button>
-                <Button href="/docs" variant="secondary">
+                <HeroButton href="/dapp">Enter dApp</HeroButton>
+                <HeroButton href="/docs" variant="secondary">
                   Learn more
-                </Button>
+                </HeroButton>
               </div>
             </div>
           </div>

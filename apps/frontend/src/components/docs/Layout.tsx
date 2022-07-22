@@ -2,70 +2,14 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import clsx from "clsx";
-import { Navigation } from "@/components/docs/Navigation";
+import { SidebarNav, navigation } from "@/components/docs/SidebarNav";
 import { Prose } from "@/components/docs/Prose";
 import { slugifyWithCounter } from "@sindresorhus/slugify";
 import Head from "next/head";
 import { Hero } from "../Hero";
 import { Header } from "../Header";
 import { MarkdocNextJsPageProps } from "@markdoc/next.js";
-
-const navigation = [
-  {
-    title: "Introduction",
-    links: [
-      { title: "Getting started", href: "/" },
-      { title: "Installation", href: "/docs/installation" },
-    ],
-  },
-  {
-    title: "Core concepts",
-    links: [
-      { title: "Understanding caching", href: "/docs/understanding-caching" },
-      {
-        title: "Predicting user behavior",
-        href: "/docs/predicting-user-behavior",
-      },
-      { title: "Basics of time-travel", href: "/docs/basics-of-time-travel" },
-      {
-        title: "Introduction to string theory",
-        href: "/docs/introduction-to-string-theory",
-      },
-      { title: "The butterfly effect", href: "/docs/the-butterfly-effect" },
-    ],
-  },
-  {
-    title: "Advanced guides",
-    links: [
-      { title: "Writing plugins", href: "/docs/writing-plugins" },
-      { title: "Neuralink integration", href: "/docs/neuralink-integration" },
-      { title: "Temporal paradoxes", href: "/docs/temporal-paradoxes" },
-      { title: "Testing", href: "/docs/testing" },
-      { title: "Compile-time caching", href: "/docs/compile-time-caching" },
-      {
-        title: "Predictive data generation",
-        href: "/docs/predictive-data-generation",
-      },
-    ],
-  },
-  {
-    title: "API reference",
-    links: [
-      { title: "CacheAdvance.predict()", href: "/docs/cacheadvance-predict" },
-      { title: "CacheAdvance.flush()", href: "/docs/cacheadvance-flush" },
-      { title: "CacheAdvance.revert()", href: "/docs/cacheadvance-revert" },
-      { title: "CacheAdvance.regret()", href: "/docs/cacheadvance-regret" },
-    ],
-  },
-  {
-    title: "Contributing",
-    links: [
-      { title: "How to contribute", href: "/docs/how-to-contribute" },
-      { title: "Architecture guide", href: "/docs/architecture-guide" },
-      { title: "Design principles", href: "/docs/design-principles" },
-    ],
-  },
-];
+import Footer from "../Footer";
 
 function useTableOfContents(tableOfContents: any) {
   let [currentSection, setCurrentSection] = useState(tableOfContents[0]?.id);
@@ -211,7 +155,7 @@ export function Layout({
           <div className="sticky top-[4.5rem] -ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-16 pl-0.5">
             <div className="absolute top-16 bottom-0 right-0 block h-12 w-px bg-gradient-to-t from-slate-800" />
             <div className="absolute top-28 bottom-0 right-0 block w-px bg-slate-800" />
-            <Navigation />
+            <SidebarNav />
           </div>
         </div>
         <div className="min-w-0 max-w-2xl flex-auto px-4 py-16 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16">
@@ -240,10 +184,10 @@ export function Layout({
                 </dt>
                 <dd className="mt-1">
                   <Link href={previousPage.href} passHref>
-                    <div className="text-base font-semibold text-slate-400 hover:text-slate-300">
+                    <a className="text-base font-semibold text-slate-400 hover:text-slate-300">
                       <span aria-hidden="true">&larr;</span>{" "}
                       {previousPage.title}
-                    </div>
+                    </a>
                   </Link>
                 </dd>
               </div>
@@ -255,9 +199,9 @@ export function Layout({
                 </dt>
                 <dd className="mt-1">
                   <Link href={nextPage.href} passHref>
-                    <div className="text-base font-semibold text-slate-400 hover:text-slate-300">
+                    <a className="text-base font-semibold text-slate-400 hover:text-slate-300">
                       {nextPage.title} <span aria-hidden="true">&rarr;</span>
-                    </div>
+                    </a>
                   </Link>
                 </dd>
               </div>
@@ -319,6 +263,9 @@ export function Layout({
             )}
           </nav>
         </div>
+      </div>
+      <div className="mt-24">
+        <Footer />
       </div>
     </>
   );
