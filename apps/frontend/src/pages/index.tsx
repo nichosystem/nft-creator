@@ -26,7 +26,7 @@ const features = [
     icon: CogIcon,
   },
   {
-    name: "Define Metadata",
+    name: "Build Metadata",
     description:
       "Create and upload your collection's metadata and art to IPFS for safe storage.",
     icon: PuzzleIcon,
@@ -38,7 +38,7 @@ const features = [
     icon: BeakerIcon,
   },
   {
-    name: "Create Minting Apps",
+    name: "Create Minting dApps",
     description:
       "Use a templated web app that lets users mint NFTs directly from your website.",
     icon: TemplateIcon,
