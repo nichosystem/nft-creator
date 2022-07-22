@@ -25,10 +25,10 @@ export function Header() {
   return (
     <header
       className={clsx(
-        "sticky top-0 z-50 flex flex-wrap items-center justify-between bg-white px-4 py-5 shadow-md shadow-slate-900/5 transition duration-500 dark:shadow-none sm:px-6 lg:px-8",
+        "sticky top-0 z-50 flex flex-wrap items-center justify-between bg-white px-4 py-5 shadow-none shadow-slate-900/5 transition duration-500 sm:px-6 lg:px-8",
         isScrolled
-          ? "dark:[@supports(backdrop-filter:blur(0))]:bg-slate-900/75 dark:bg-slate-900/95 dark:backdrop-blur"
-          : "dark:bg-transparent"
+          ? "[@supports(backdrop-filter:blur(0))]:bg-slate-900/75 bg-slate-900/95 backdrop-blur"
+          : "bg-transparent"
       )}
     >
       <div className="mr-6 flex lg:hidden">
@@ -47,12 +47,12 @@ export function Header() {
       <div className="relative flex basis-0 items-center justify-end gap-6 sm:gap-8 md:flex-grow">
         <>
           <Link href="/dapp" passHref aria-label="Docs">
-            <a className="text-sm font-semibold hover:text-sky-500 dark:text-gray-100">
+            <a className="text-sm font-semibold text-gray-100 hover:text-sky-500">
               Dapp
             </a>
           </Link>
           <Link href="/docs" passHref aria-label="Docs">
-            <a className="text-sm font-semibold hover:text-sky-500 dark:text-gray-100">
+            <a className="text-sm font-semibold text-gray-100 hover:text-sky-500">
               Docs
             </a>
           </Link>

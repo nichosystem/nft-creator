@@ -11,6 +11,7 @@ import {
 import Footer from "@/components/Footer";
 import { Hero } from "@/components/Hero";
 import { Header } from "@/components/Header";
+import { QuickLink, QuickLinks } from "@/components/docs/QuickLinks";
 
 const features = [
   {
@@ -59,7 +60,7 @@ const Home: NextPageWithLayout = () => {
       <div className="relative py-16 sm:py-24 lg:py-32">
         <div className="mx-auto max-w-md px-4 text-center sm:max-w-3xl sm:px-6 lg:max-w-7xl lg:px-8">
           <h2 className="text-base font-semibold uppercase tracking-wider text-sky-400">
-            Build faster
+            Launch faster
           </h2>
           <p className="mt-2 text-3xl font-extrabold tracking-tight text-slate-100 sm:text-4xl">
             Everything you need to create an NFT collection
@@ -71,24 +72,27 @@ const Home: NextPageWithLayout = () => {
           </p>
           <div className="mt-12">
             <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map((feature) => (
+              {features.map((feature, i) => (
                 <div key={feature.name} className="pt-6">
-                  <div className="flow-root rounded-lg bg-gray-50 px-6 pb-8">
-                    <div className="-mt-6">
-                      <div>
-                        <span className="inline-flex items-center justify-center rounded-md bg-sky-500 p-3 shadow-lg">
-                          <feature.icon
-                            className="h-6 w-6 text-white"
-                            aria-hidden="true"
-                          />
-                        </span>
+                  <div className="group relative flow-root rounded-lg border border-slate-800 px-6 pb-8">
+                    <div className="absolute -inset-px -z-10 rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,theme(colors.sky.50)),var(--quick-links-hover-bg,theme(colors.sky.50)))_padding-box,linear-gradient(to_top,theme(colors.indigo.400),theme(colors.cyan.400),theme(colors.sky.500))_border-box] [--quick-links-hover-bg:theme(colors.slate.800)] group-hover:opacity-100" />
+                    <div>
+                      <div className="-mt-6">
+                        <div>
+                          <span className="inline-flex items-center justify-center rounded-md bg-sky-500 p-3 shadow-lg">
+                            <feature.icon
+                              className="h-6 w-6 text-white"
+                              aria-hidden="true"
+                            />
+                          </span>
+                        </div>
+                        <h3 className="mt-6 font-display text-lg font-medium tracking-tight text-white">
+                          {feature.name}
+                        </h3>
+                        <p className="mt-4 text-base text-slate-400">
+                          {feature.description}
+                        </p>
                       </div>
-                      <h3 className="mt-8 text-lg font-medium tracking-tight text-gray-900">
-                        {feature.name}
-                      </h3>
-                      <p className="mt-5 text-base text-gray-500">
-                        {feature.description}
-                      </p>
                     </div>
                   </div>
                 </div>

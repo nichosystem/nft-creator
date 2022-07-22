@@ -77,22 +77,6 @@ export function Gradient({ color = "blue", ...props }) {
   );
 }
 
-export function LightMode({
-  className,
-  children,
-  ...props
-}: {
-  className?: string;
-  children: React.ReactNode;
-  [key: string]: any;
-}) {
-  return (
-    <g className={clsx("dark:hidden", className)} {...props}>
-      {children}
-    </g>
-  );
-}
-
 export function DarkMode({
   className,
   children,
@@ -103,7 +87,7 @@ export function DarkMode({
   [key: string]: any;
 }) {
   return (
-    <g className={clsx("hidden dark:inline", className)} {...props}>
+    <g className={className} {...props}>
       {children}
     </g>
   );

@@ -208,10 +208,9 @@ export function Layout({
       {isHomePage && <Hero />}
       <div className="max-w-8xl relative mx-auto flex justify-center sm:px-2 lg:px-8 xl:px-12">
         <div className="hidden lg:relative lg:block lg:flex-none">
-          <div className="absolute inset-y-0 right-0 w-[50vw] bg-slate-50 dark:hidden" />
           <div className="sticky top-[4.5rem] -ml-0.5 h-[calc(100vh-4.5rem)] overflow-y-auto py-16 pl-0.5">
-            <div className="absolute top-16 bottom-0 right-0 hidden h-12 w-px bg-gradient-to-t from-slate-800 dark:block" />
-            <div className="absolute top-28 bottom-0 right-0 hidden w-px bg-slate-800 dark:block" />
+            <div className="absolute top-16 bottom-0 right-0 block h-12 w-px bg-gradient-to-t from-slate-800" />
+            <div className="absolute top-28 bottom-0 right-0 block w-px bg-slate-800" />
             <Navigation />
           </div>
         </div>
@@ -225,7 +224,7 @@ export function Layout({
                   </p>
                 )}
                 {title && (
-                  <h1 className="font-display text-3xl tracking-tight text-slate-900 dark:text-white">
+                  <h1 className="font-display text-3xl tracking-tight text-white">
                     {title}
                   </h1>
                 )}
@@ -233,15 +232,15 @@ export function Layout({
             )}
             <Prose>{children}</Prose>
           </article>
-          <dl className="mt-12 flex border-t border-slate-200 pt-6 dark:border-slate-800">
+          <dl className="mt-12 flex border-t border-slate-800 pt-6">
             {previousPage && (
               <div>
-                <dt className="font-display text-sm font-medium text-slate-900 dark:text-white">
+                <dt className="font-display text-sm font-medium text-white">
                   Previous
                 </dt>
                 <dd className="mt-1">
                   <Link href={previousPage.href} passHref>
-                    <div className="text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300">
+                    <div className="text-base font-semibold text-slate-400 hover:text-slate-300">
                       <span aria-hidden="true">&larr;</span>{" "}
                       {previousPage.title}
                     </div>
@@ -251,12 +250,12 @@ export function Layout({
             )}
             {nextPage && (
               <div className="ml-auto text-right">
-                <dt className="font-display text-sm font-medium text-slate-900 dark:text-white">
+                <dt className="font-display text-sm font-medium text-white">
                   Next
                 </dt>
                 <dd className="mt-1">
                   <Link href={nextPage.href} passHref>
-                    <div className="text-base font-semibold text-slate-500 hover:text-slate-600 dark:text-slate-400 dark:hover:text-slate-300">
+                    <div className="text-base font-semibold text-slate-400 hover:text-slate-300">
                       {nextPage.title} <span aria-hidden="true">&rarr;</span>
                     </div>
                   </Link>
@@ -271,7 +270,7 @@ export function Layout({
               <>
                 <h2
                   id="on-this-page-title"
-                  className="font-display text-sm font-medium text-slate-900 dark:text-white"
+                  className="font-display text-sm font-medium text-white"
                 >
                   On this page
                 </h2>
@@ -284,7 +283,7 @@ export function Layout({
                             className={clsx(
                               isActive(section)
                                 ? "text-sky-500"
-                                : "font-normal text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300"
+                                : "font-normal text-slate-400 hover:text-slate-300"
                             )}
                           >
                             {section.title}
@@ -294,7 +293,7 @@ export function Layout({
                       {section.children.length > 0 && (
                         <ol
                           role="list"
-                          className="mt-2 space-y-3 pl-5 text-slate-500 dark:text-slate-400"
+                          className="mt-2 space-y-3 pl-5 text-slate-400"
                         >
                           {section.children.map((subSection: any) => (
                             <li key={subSection.id}>
@@ -303,7 +302,7 @@ export function Layout({
                                   className={
                                     isActive(subSection)
                                       ? "text-sky-500"
-                                      : "hover:text-slate-600 dark:hover:text-slate-300"
+                                      : "hover:text-slate-300"
                                   }
                                 >
                                   {subSection.title}

@@ -16,7 +16,7 @@ export function Logo() {
   return (
     <div className="flex h-9 items-center">
       <Logomark />
-      <p className="hidden font-display text-xl text-slate-900 dark:text-white lg:block">
+      <p className="hidden font-display text-xl text-white lg:block">
         NFT Creator
       </p>
     </div>

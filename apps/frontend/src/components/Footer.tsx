@@ -1,5 +1,3 @@
-import { ThemeSelector } from "@/components/docs/ThemeSelector";
-
 const navigation = [
   {
     name: "Twitter",
@@ -42,10 +40,9 @@ export default function Footer() {
               <item.icon className="h-6 w-6" aria-hidden="true" />
             </a>
           ))}
-          <ThemeSelector className="relative z-10" />
         </div>
         <div className="mt-8 md:order-1 md:mt-0">
-          <p className="text-center text-base font-light text-slate-800 dark:text-slate-400">
+          <p className="text-center text-base font-light text-slate-400">
             &copy; {new Date().getFullYear()} NFT Creator
           </p>
         </div>
