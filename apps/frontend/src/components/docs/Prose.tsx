@@ -15,7 +15,7 @@ export function Prose({
         className,
         "prose prose-invert prose-slate max-w-none text-slate-400",
         // headings
-        "prose-headings:scroll-mt-28 prose-headings:font-display prose-headings:font-normal lg:prose-headings:scroll-mt-[8.5rem]",
+        "prose-headings:scroll-mt-28 prose-headings:font-display prose-headings:font-normal prose-headings:text-slate-100 lg:prose-headings:scroll-mt-[8.5rem]",
         // lead
         "prose-lead:text-slate-400",
         // links

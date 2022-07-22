@@ -4,43 +4,49 @@ pageTitle: NFT Creator Docs
 description: Create an NFT collection in minutes. Generate art, deploy smart contracts, and manage on-chain operations all through one simple interface.
 ---
 
-Learn how to use NFT Creator to deploy your NFT project in minutes. {% .lead %}
+Learn how to use the NFT Creator tools to deploy your collection. {% .lead %}
 
 {% quick-links %}
 
-{% quick-link title="Deployer" icon="installation" href="/docs/deployer" description="Step-by-step guides to setting up your system and installing the library." /%}
+{% quick-link title="Deployer" icon="installation" href="/docs/deployer" description="Learn to easily deploy and modify a smart contract to fit your collection." /%}
 
-{% quick-link title="Minter" icon="presets" href="/docs/minter" description="Learn how the internals work and contribute." /%}
+{% quick-link title="Minter" icon="presets" href="/docs/minter" description="Learn how the minter works to create your own minting web app." /%}
 
-{% quick-link title="Snapshot" icon="plugins" href="/docs/snapshot" description="Extend the library with third-party plugins or write your own." /%}
+{% quick-link title="Snapshot" icon="plugins" href="/docs/snapshot" description="Take a snapshot of an existing collection to airdrop holders or create an allowlist." /%}
 
-{% quick-link title="Generator" icon="theming" href="/docs/generator" description="Learn to easily customize and modify your app's visual design to fit your brand." /%}
+{% quick-link title="Art Generator" icon="theming" href="/docs/generator" description="Step-by-step guide to creating a rarity table and generating art and metadata. " /%}
 
 {% /quick-links %}
 
-Possimus saepe veritatis sint nobis et quam eos. Architecto consequatur odit perferendis fuga eveniet possimus rerum cumque. Ea deleniti voluptatum deserunt voluptatibus ut non iste.
+NFT Creator has everything you need to deploy your own NFT project. Check out some of the quick links above to get started learning how to use the tools at your disposal.
 
 ---
 
 ## Quick start
 
-Sit commodi iste iure molestias qui amet voluptatem sed quaerat. Nostrum aut pariatur. Sint ipsa praesentium dolor error cumque velit tenetur.
+If you're looking to test drive the NFT Creator tools, the first thing you'll want to do is deploy your NFT's smart contract to a test network.
 
-### Deploying your NFT contract
+### Deploying an NFT smart contract
 
-Sit commodi iste iure molestias qui amet voluptatem sed quaerat. Nostrum aut pariatur. Sint ipsa praesentium dolor error cumque velit tenetur quaerat exercitationem. Consequatur et cum atque mollitia qui quia necessitatibus.
+Start by connecting your web3 wallet to the dApp. Once your wallet is connected, change the network to the Goerli testnet. Go to the [Alchemy Facuet](https://goerlifaucet.com) if you need some testnet ETH.
 
-Possimus saepe veritatis sint nobis et quam eos. Architecto consequatur odit perferendis fuga eveniet possimus rerum cumque. Ea deleniti voluptatum deserunt voluptatibus ut non iste. Provident nam asperiores vel laboriosam omnis ducimus enim nesciunt quaerat. Minus tempora cupiditate est quod.
+Once connected, go to the [Deployer](/deployer) and fill out the form.
 
-{% callout type="note" title="Oh no! Something bad happened!" %}
-This is what a disclaimer message looks like. You might want to include inline `code` in it. Or maybe you’ll want to include a [link](/) in it. I don’t think we should get too carried away with other scenarios like lists or tables — that would be silly.
+- Enter your collection's name and a symbol for the token. These will show up on some wallets and on etherscan.
+- Set the max supply to the absolute maximum amount of tokens that can be minted.
+- Lastly, set the max mint per transaction to limit how many tokens can be minted in a single transaction.
+
+Click deploy to submit your transaction. Once the transaction is completed, you'll have deployed your collection's smart contract.
+
+{% callout type="note" title="Which contract specification will I have?" %}
+You may have heard of other ERC specifications, like ERC20 (fungible) or ERC1155 (semi-fungible tokens). We currently only support ERC721 tokens, which should be a good fit for nearly all NFT collections.
 {% /callout %}
 
 ---
 
-## Basic usage
+## Next Steps
 
-Praesentium laudantium magni. Consequatur reiciendis aliquid nihil iusto ut in et. Quisquam ut et aliquid occaecati. Culpa veniam aut et voluptates amet perspiciatis. Qui exercitationem in qui. Vel qui dignissimos sit quae distinctio.
+Once you have a smart contract deployed, you may want to check out the Collection Manager or Art Generator to make your collection come to life.
 
 ### Your first collection
 
@@ -54,12 +60,12 @@ Atque eos laudantium. Optio odit aspernatur consequuntur corporis soluta quidem 
 
 ## Getting help
 
-If you run into any issues or want to arrange a custom deal, we'd love to chat. DM Nicho on Twitter.
+If you run into any issues, we'd love to chat. You can DM us on Twitter or open an issue on Github.
 
 ### Submit an issue
 
-Go to our [Github repository](https://github.com/nichosystem/nft-creator) to submit a new issue.
+Visit the [Github repository](https://github.com/nichosystem/nft-creator) to submit new issues.
 
 ### Join the community
 
-We'll setup a Discord at some point. For now, join us on [Twitter](https://twitter.com/nichosystem).
+Follow us on [Twitter](https://twitter.com/nichosystem).

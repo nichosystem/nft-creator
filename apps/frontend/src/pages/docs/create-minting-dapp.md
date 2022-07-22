@@ -1,5 +1,5 @@
 ---
-title: Architecture guide
+title: Creating NFT Minting dApp
 description: Quidem magni aut exercitationem maxime rerum eos.
 ---
 
@@ -18,12 +18,12 @@ Sit commodi iste iure molestias qui amet voluptatem sed quaerat. Nostrum aut par
 ```js
 /** @type {import('@tailwindlabs/lorem').ipsum} */
 export default {
-  lorem: 'ipsum',
-  dolor: ['sit', 'amet', 'consectetur'],
+  lorem: "ipsum",
+  dolor: ["sit", "amet", "consectetur"],
   adipiscing: {
     elit: true,
   },
-}
+};
 ```
 
 Possimus saepe veritatis sint nobis et quam eos. Architecto consequatur odit perferendis fuga eveniet possimus rerum cumque. Ea deleniti voluptatum deserunt voluptatibus ut non iste. Provident nam asperiores vel laboriosam omnis ducimus enim nesciunt quaerat. Minus tempora cupiditate est quod.

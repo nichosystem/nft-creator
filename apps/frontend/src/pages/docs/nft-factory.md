@@ -1,5 +1,5 @@
 ---
-title: Architecture guide
+title: NFTFactory Contract Reference
 description: Quidem magni aut exercitationem maxime rerum eos.
 ---
 

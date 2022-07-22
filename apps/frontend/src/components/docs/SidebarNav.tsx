@@ -8,47 +8,28 @@ export const navigation = [
     links: [{ title: "Getting started", href: "/docs" }],
   },
   {
-    title: "Core tools",
+    title: "Guides",
     links: [
-      { title: "Deployer", href: "/docs/deployer" },
       {
-        title: "Manager",
-        href: "/docs/manager",
+        title: "Deploying smart contracts",
+        href: "/docs/deploy-contract",
       },
-      { title: "Generator", href: "/docs/generator" },
+      { title: "Generating NFT art", href: "/docs/generate-art" },
+      { title: "Managing collections", href: "/docs/manage-collection" },
+      { title: "Uploading metadata", href: "/docs/upload-metadata" },
+      { title: "Creating a minting dApp", href: "/docs/create-minting-dapp" },
       {
-        title: "Minter",
-        href: "/docs/minter",
-      },
-      { title: "Snapshot", href: "/docs/snapshot" },
-    ],
-  },
-  {
-    title: "Advanced guides",
-    links: [
-      { title: "Deploying smart contracts", href: "/docs/coming-soon" },
-      { title: "Generating NFT art", href: "/docs/coming-soon" },
-      { title: "Managing collections", href: "/docs/coming-soon" },
-      { title: "Uploading to IPFS", href: "/docs/coming-soon" },
-      {
-        title: "Airdropping rewards",
-        href: "/docs/coming-soon",
+        title: "Sending airdrops",
+        href: "/docs/airdrops",
       },
     ],
   },
   {
     title: "Technical reference",
     links: [
-      { title: "Contracts", href: "/docs/contracts" },
-      { title: "NFT Factory", href: "/docs/coming-soon" },
-      { title: "NFT Collection", href: "/docs/coming-soon" },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
-      { title: "Links", href: "/docs/coming-soon" },
-      { title: "How to contribute", href: "/docs/coming-soon" },
+      { title: "Contract addresses", href: "/docs/contracts" },
+      { title: "NFTFactory", href: "/docs/nft-factory" },
+      { title: "NFTCollection", href: "/docs/nft-collection" },
     ],
   },
 ];

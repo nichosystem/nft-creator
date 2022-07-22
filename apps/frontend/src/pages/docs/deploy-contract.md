@@ -1,5 +1,5 @@
 ---
-title: Contract Addresses
+title: Deploying NFT Smart Contracts
 description: Quidem magni aut exercitationem maxime rerum eos.
 ---
 

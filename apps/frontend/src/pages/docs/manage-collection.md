@@ -1,5 +1,5 @@
 ---
-title: Contract Addresses
+title: Managing NFT Collections
 description: Quidem magni aut exercitationem maxime rerum eos.
 ---
 
