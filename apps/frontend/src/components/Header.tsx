@@ -42,7 +42,7 @@ export function Header() {
         </Link>
       </div>
       <div className="-my-5 mr-6 items-center sm:mr-8 md:mr-0">
-        <Search />
+        {router.pathname !== "/" && <Search />}
       </div>
       <div className="relative flex basis-0 items-center justify-end gap-6 sm:gap-8 md:flex-grow">
         <>

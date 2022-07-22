@@ -25,11 +25,11 @@ export const deploy = async (
 };
 
 export const getOwnedCollections = async (
-  signerOrProvider: Signer | ethers.providers.Provider,
+  provider: ethers.providers.Provider,
   address: string
 ) => {
   try {
-    const factory = await CONTRACTS.nftFactory.connect(signerOrProvider);
+    const factory = await CONTRACTS.nftFactory.connectReadOnly(provider);
     if (!factory) return;
     return await factory.getOwnedCollections(address);
   } catch (e) {

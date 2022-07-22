@@ -41,34 +41,37 @@ const Manager: NextPage = () => {
 
   // Get owned collections
   useEffect(() => {
-    const f = async () => {
+    (async () => {
       if (!signer || !account?.address) return;
-      const c = await getOwnedCollections(signer, account.address);
-      if (c) {
+      const c = await getOwnedCollections(provider, account.address);
+      if (c && c.length > 0) {
         // Get the name of each collection
-        const list = await Promise.all(
-          c.map(async (addr): Promise<SelectItem> => {
-            const collection = NFTCollection__factory.connect(addr, signer);
-            return { primary: await collection.name(), secondary: addr };
-          })
-        );
-        setCollections(list);
-        setSelectedCollection(list[0]);
-        setContract(NFTCollection__factory.connect(c[0], signer));
+        try {
+          const list = await Promise.all(
+            c.map(async (addr): Promise<SelectItem> => {
+              const collection = NFTCollection__factory.connect(addr, signer);
+              return { primary: await collection.name(), secondary: addr };
+            })
+          );
+          setCollections(list);
+          setSelectedCollection(list[0]);
+          setContract(NFTCollection__factory.connect(c[0], signer));
+        } catch (e) {
+          console.log("ERROR: map owned collections");
+          console.log(e);
+        }
       }
-    };
-    f();
-  }, [signer, account?.address]);
+    })();
+  }, [signer, account?.address, provider]);
 
   // Get collection details for active collection
   useEffect(() => {
-    const f = async () => {
+    (async () => {
       if (contract && provider) {
         const d = await getCollectionDetails(contract, provider);
         if (d) setCollectionDetails(d);
       }
-    };
-    f();
+    })();
   }, [provider, contract]);
 
   const handleChange = (

@@ -1,5 +1,5 @@
-import { Signer } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { ethers, Signer } from "ethers";
+import { Provider } from "@ethersproject/providers";
 import { NFTFactory__factory } from "../types/contracts";
 
 // INTERFACES
@@ -9,7 +9,11 @@ interface Factory<T> {
 
 export interface ContractDetails<T> {
   connect(
-    signerOrProvider: Signer | Provider,
+    signer: Signer,
+    network?: Networks | undefined
+  ): Promise<T | undefined>;
+  connectReadOnly(
+    provider: Provider,
     network?: Networks | undefined
   ): Promise<T | undefined>;
   getAddress(network: Networks): string;
@@ -51,11 +55,9 @@ export const CONTRACTS = {
   nftFactory: createContractDetails(Contracts.nftFactory, NFTFactory__factory),
 };
 
-export const getNetwork = async (signerOrProvider: Signer | Provider) => {
-  const network =
-    signerOrProvider instanceof Signer
-      ? await signerOrProvider.provider?.getNetwork()
-      : await signerOrProvider.getNetwork();
+export const getNetwork = async (
+  network: ethers.providers.Network | undefined
+) => {
   if (!network) return;
   switch (network.chainId) {
     case 1:
@@ -74,16 +76,27 @@ function createContractDetails<T>(
   factory: Factory<T>
 ): ContractDetails<T> {
   return {
-    connect: async (signerOrProvider, network?) => {
+    connect: async (signer, network?) => {
       try {
-        if (!network) network = await getNetwork(signerOrProvider);
-        if (!network) return;
-        return factory.connect(
-          CONTRACT_ADDRS[network][contract],
-          signerOrProvider
-        );
+        if (!network) {
+          network = await getNetwork(await signer.provider?.getNetwork());
+          if (!network) return;
+        }
+        return factory.connect(CONTRACT_ADDRS[network][contract], signer);
       } catch (e) {
         console.log("ERROR: connect");
+        console.log(e);
+      }
+    },
+    connectReadOnly: async (provider, network?) => {
+      try {
+        if (!network) {
+          network = await getNetwork(await provider.getNetwork());
+          if (!network) return;
+        }
+        return factory.connect(CONTRACT_ADDRS[network][contract], provider);
+      } catch (e) {
+        console.log("ERROR: connectReadOnly");
         console.log(e);
       }
     },

@@ -8,13 +8,13 @@ Learn how to use the NFT Creator tools to deploy your collection. {% .lead %}
 
 {% quick-links %}
 
-{% quick-link title="Deployer" icon="installation" href="/docs/deployer" description="Learn to easily deploy and modify a smart contract to fit your collection." /%}
+{% quick-link title="One-Click Contract Deploys" icon="installation" href="/docs/deploy-contract" description="Learn to easily deploy and modify a smart contract to fit your collection." /%}
 
-{% quick-link title="Minter" icon="presets" href="/docs/minter" description="Learn how the minter works to create your own minting web app." /%}
+{% quick-link title="Minting Web App" icon="presets" href="/docs/create-minting-dapp" description="Learn how the minter works to create your own minting web app." /%}
 
-{% quick-link title="Snapshot" icon="plugins" href="/docs/snapshot" description="Take a snapshot of an existing collection to airdrop holders or create an allowlist." /%}
+{% quick-link title="Snapshot & Airdrop" icon="plugins" href="/docs/airdrops" description="Take a snapshot of an existing collection to airdrop holders or create an allowlist." /%}
 
-{% quick-link title="Art Generator" icon="theming" href="/docs/generator" description="Step-by-step guide to creating a rarity table and generating art and metadata. " /%}
+{% quick-link title="Art Generator" icon="theming" href="/docs/generate-art" description="Step-by-step guide creating a rarity table to generate art and metadata. " /%}
 
 {% /quick-links %}
 
@@ -28,7 +28,7 @@ If you're looking to test drive the NFT Creator tools, the first thing you'll wa
 
 ### Deploying an NFT smart contract
 
-Start by connecting your web3 wallet to the dApp. Once your wallet is connected, change the network to the Goerli testnet. Go to the [Alchemy Facuet](https://goerlifaucet.com) if you need some testnet ETH.
+Start by connecting your web3 wallet to the dApp. Once your wallet is connected, change the network to the Goerli testnet. Go to the [Alchemy Faucet](https://goerlifaucet.com) if you need some testnet ETH.
 
 Once connected, go to the [Deployer](/deployer) and fill out the form.
 
@@ -48,13 +48,9 @@ You may have heard of other ERC specifications, like ERC20 (fungible) or ERC1155
 
 Once you have a smart contract deployed, you may want to check out the Collection Manager or Art Generator to make your collection come to life.
 
-### Your first collection
+In order to have art to show up for your NFTs, you'll need to create some metadata. You can use use the [Generator](/generator) to create metadata and generate your art. Then you can download the images and the individual metadata files to upload to an IPFS provider, such as [Pinata](https://pinata.cloud).
 
-Minima vel non iste debitis. Consequatur repudiandae et quod accusamus sit molestias consequatur aperiam. Et sequi ipsa eum voluptatibus ipsam. Et quisquam ut.
-
-Qui quae esse aspernatur fugit possimus. Quam sed molestiae temporibus. Eum perferendis dignissimos provident ea et. Et repudiandae quasi accusamus consequatur dolore nobis. Quia reiciendis necessitatibus a blanditiis iste quia. Ut quis et amet praesentium sapiente.
-
-Atque eos laudantium. Optio odit aspernatur consequuntur corporis soluta quidem sunt aut doloribus. Laudantium assumenda commodi.
+Once you have your metadata uploaded, you can use the [Manager](/manager) to set the base URI. This is how your NFT's metadata and image data is surfaced on marketplaces like Opensea. Read more about [managing your collection](/docs/manage-collection) to see everything the smart contract allows you to do.
 
 ---
 

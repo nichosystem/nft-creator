@@ -14,14 +14,11 @@ export const navigation = [
         title: "Deploying smart contracts",
         href: "/docs/deploy-contract",
       },
-      { title: "Generating NFT art", href: "/docs/generate-art" },
       { title: "Managing collections", href: "/docs/manage-collection" },
+      { title: "Generating NFT art", href: "/docs/generate-art" },
       { title: "Uploading metadata", href: "/docs/upload-metadata" },
+      { title: "Sending airdrops", href: "/docs/airdrops" },
       { title: "Creating a minting dApp", href: "/docs/create-minting-dapp" },
-      {
-        title: "Sending airdrops",
-        href: "/docs/airdrops",
-      },
     ],
   },
   {
