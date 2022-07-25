@@ -46,20 +46,22 @@ const Manager: NextPage = () => {
       const c = await getOwnedCollections(provider, account.address);
       if (c && c.length > 0) {
         // Get the name of each collection
-        try {
-          const list = await Promise.all(
-            c.map(async (addr): Promise<SelectItem> => {
-              const collection = NFTCollection__factory.connect(addr, signer);
-              return { primary: await collection.name(), secondary: addr };
-            })
-          );
-          setCollections(list);
-          setSelectedCollection(list[0]);
-          setContract(NFTCollection__factory.connect(c[0], signer));
-        } catch (e) {
-          console.log("ERROR: map owned collections");
-          console.log(e);
-        }
+        const list = await Promise.all(
+          c.map(async (addr): Promise<SelectItem> => {
+            try {
+              const collection = NFTCollection__factory.connect(addr, provider);
+              const name = await collection.name();
+              return { primary: name, secondary: addr };
+            } catch (e) {
+              console.log("ERROR: getCollectionName");
+              console.log(e);
+              return { primary: "Unnamed", secondary: addr };
+            }
+          })
+        );
+        setCollections(list);
+        setSelectedCollection(list[0]);
+        setContract(NFTCollection__factory.connect(c[0], signer));
       }
     })();
   }, [signer, account?.address, provider]);
@@ -97,7 +99,7 @@ const Manager: NextPage = () => {
                 <h2 className="text-xl font-medium text-slate-100">
                   No Collections Found
                 </h2>
-                <Link href="/dapp/deployer" passHref>
+                <Link href="/deployer" passHref>
                   <button className="mt-2 flex-shrink-0 rounded-md border border-transparent bg-sky-500 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2">
                     Go To Deployer
                   </button>

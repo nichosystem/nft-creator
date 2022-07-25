@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import { MarkdocNextJsPageProps } from "@markdoc/next.js";
 import { LayoutDocs } from "@/components/docs/LayoutDocs";
-import LayoutApp from "./dapp/LayoutDapp";
+import LayoutApp from "@/components/dapp/LayoutDapp";
 
 export default function Layout({
   children,
